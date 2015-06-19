@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package br.edu.ufra.appfiscalizacao;
+package br.edu.ufra.appfiscalizacao.interfaces;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import br.edu.ufra.appfiscalizacao.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -28,8 +30,8 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView mTxtTitle = (TextView) findViewById(R.id.txtTitle);
-        mTxtTitle.setText(getString(R.string.settings));
+        //TextView mTxtTitle = (TextView) findViewById(R.id.txtTitle);
+       // mTxtTitle.setText(getString(R.string.settings));
 
         ActionBar actionBar = getSupportActionBar();
 

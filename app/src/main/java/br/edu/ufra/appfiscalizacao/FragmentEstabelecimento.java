@@ -50,7 +50,7 @@ public class FragmentEstabelecimento extends Fragment  {
 
 
         listaPontosVistoriados();
-
+        listaPontosLicVencida();
 
 
         return rootView;

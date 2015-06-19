@@ -1,6 +1,5 @@
-package br.edu.ufra.appfiscalizacao;
+package br.edu.ufra.appfiscalizacao.interfaces;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +9,9 @@ import android.view.View;
 import android.widget.Toast;
 
 
+import br.edu.ufra.appfiscalizacao.FragmentEstabelecimento;
+import br.edu.ufra.appfiscalizacao.FragmentPrincipal;
+import br.edu.ufra.appfiscalizacao.R;
 import br.liveo.Model.HelpLiveo;
 import br.liveo.interfaces.OnItemClickListener;
 import br.liveo.interfaces.OnPrepareOptionsMenuLiveo;

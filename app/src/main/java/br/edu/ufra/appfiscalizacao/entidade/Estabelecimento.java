@@ -1,27 +1,33 @@
 package br.edu.ufra.appfiscalizacao.entidade;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 /**
  * Created by Rayan on 16/06/2015.
  */
+@DatabaseTable (tableName = "estabelecimento")
 public class Estabelecimento {
+    @DatabaseField (generatedId = true)
     private int id;
+    @DatabaseField
     private String nome;
+    @DatabaseField
     private int data_lic;
+    @DatabaseField
     private int data_venc;
+    @DatabaseField
     private String situacao;
 
 
     public Estabelecimento() {
     }
 
-    public Estabelecimento(int id, String nome, int data_lic, int data_venc, String situacao) {
-        this.id = id;
+    public Estabelecimento(String nome, String situacao , int data_venc) {
         this.nome = nome;
-        this.data_lic = data_lic;
-        this.data_venc = data_venc;
         this.situacao = situacao;
+        this.data_venc =  data_venc;
     }
-
 
     public int getId() {
         return id;

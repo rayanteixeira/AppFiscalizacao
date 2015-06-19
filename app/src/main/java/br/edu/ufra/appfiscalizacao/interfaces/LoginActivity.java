@@ -1,5 +1,6 @@
-package br.edu.ufra.appfiscalizacao;
+package br.edu.ufra.appfiscalizacao.interfaces;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -10,8 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import br.edu.ufra.appfiscalizacao.R;
 
-public class LoginActivity extends ActionBarActivity{
+
+public class LoginActivity extends Activity {
 
     String name = "devisa", password = "12345";
     String uName, uPassword;
