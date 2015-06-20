@@ -32,7 +32,7 @@
             android:layout_width="87dp"
             android:layout_height="87dp"
             android:id="@+id/photopoint"
-
+            android:src="@drawable/ic_launche2"
             />
     </RelativeLayout>
 </LinearLayout>

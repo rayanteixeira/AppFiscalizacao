@@ -8,14 +8,14 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable (tableName = "estabelecimento")
 public class Estabelecimento {
-    @DatabaseField (generatedId = true)
+    @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField
     private String nome;
     @DatabaseField
-    private int data_lic;
+    private String dataLic;
     @DatabaseField
-    private int data_venc;
+    private String dataVenc;
     @DatabaseField
     private String situacao;
 
@@ -23,10 +23,17 @@ public class Estabelecimento {
     public Estabelecimento() {
     }
 
-    public Estabelecimento(String nome, String situacao , int data_venc) {
+    public Estabelecimento(String nome, String situacao, String dataLic) {
         this.nome = nome;
         this.situacao = situacao;
-        this.data_venc =  data_venc;
+        this.dataLic = dataLic;
+    }
+
+    public Estabelecimento(String nome, String dataLic, String dataVenc, String situacao) {
+        this.nome = nome;
+        this.dataLic = dataLic;
+        this.dataVenc = dataVenc;
+        this.situacao = situacao;
     }
 
     public int getId() {
@@ -45,20 +52,20 @@ public class Estabelecimento {
         this.nome = nome;
     }
 
-    public int getData_lic() {
-        return data_lic;
+    public String getDataLic() {
+        return dataLic;
     }
 
-    public void setData_lic(int data_lic) {
-        this.data_lic = data_lic;
+    public void setDataLic(String dataLic) {
+        this.dataLic = dataLic;
     }
 
-    public int getData_venc() {
-        return data_venc;
+    public String getDataVenc() {
+        return dataVenc;
     }
 
-    public void setData_venc(int data_venc) {
-        this.data_venc = data_venc;
+    public void setDataVenc(String dataVenc) {
+        this.dataVenc = dataVenc;
     }
 
     public String getSituacao() {

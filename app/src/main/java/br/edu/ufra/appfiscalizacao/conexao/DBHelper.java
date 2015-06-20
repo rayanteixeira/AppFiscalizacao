@@ -34,32 +34,6 @@ public class DBHelper<E> extends OrmLiteSqliteOpenHelper {
     }
 
 
-    @Override
-    public void onCreate(SQLiteDatabase db, ConnectionSource src) {
-        try {
-            TableUtils.createTable(src, Estabelecimento.class);
-            realizarInserts(db);
-            Log.w("Create", "Banco criado com sucesso");
-        } catch (Exception e) {
-            Log.e("Create", "Erro ao criar banco craido" + e.getMessage().toString());
-        }
-
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
-
-        try{
-            db.execSQL(droptable);
-            Log.w("Update", "Banco atualizado com sucesso");
-        }catch (Exception e){
-            e.printStackTrace();
-            String erro = e.getMessage().toString();
-            Log.e("Update", "Erro ao atualizar banco " + erro );
-
-        }
-
-    }
 
     private List<StringBuilder> lerScript(String arquivo) {
         List<StringBuilder> resposta = new ArrayList<StringBuilder>();
@@ -97,6 +71,38 @@ public class DBHelper<E> extends OrmLiteSqliteOpenHelper {
         for (StringBuilder sb : inserts) {
             db.execSQL(sb.toString());
         }
+        Log.i("Inserts", "Inserts realizados " );
     }
 
+    @Override
+    public void onCreate(SQLiteDatabase db, ConnectionSource src) {
+        try {
+            TableUtils.createTable(src, Estabelecimento.class);
+            realizarInserts(db);
+            Log.w("Create", "Banco criado com sucesso");
+        } catch (Exception e) {
+            Log.e("Create", "Erro ao criar banco craido" + e.getMessage().toString());
+        }
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
+
+        try{
+            db.execSQL(droptable);
+            Log.w("Update", "Banco atualizado com sucesso");
+        }catch (Exception e){
+            e.printStackTrace();
+            String erro = e.getMessage().toString();
+            Log.e("Update", "Erro ao atualizar banco " + erro );
+
+        }
+
+    }
+
+    @Override
+    public void close() {
+        super.close();
+    }
 }
