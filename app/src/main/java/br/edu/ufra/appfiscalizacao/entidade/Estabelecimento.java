@@ -3,19 +3,17 @@ package br.edu.ufra.appfiscalizacao.entidade;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-/**
- * Created by Rayan on 16/06/2015.
- */
-@DatabaseTable (tableName = "estabelecimento")
+
+@DatabaseTable(tableName = "estabelecimento")
 public class Estabelecimento {
-    @DatabaseField(generatedId = true)
+    @DatabaseField (generatedId=true)
     private int id;
     @DatabaseField
     private String nome;
     @DatabaseField
-    private String dataLic;
+    private int dataLic;
     @DatabaseField
-    private String dataVenc;
+    private int dataVenc;
     @DatabaseField
     private String situacao;
 
@@ -23,18 +21,7 @@ public class Estabelecimento {
     public Estabelecimento() {
     }
 
-    public Estabelecimento(String nome, String situacao, String dataLic) {
-        this.nome = nome;
-        this.situacao = situacao;
-        this.dataLic = dataLic;
-    }
 
-    public Estabelecimento(String nome, String dataLic, String dataVenc, String situacao) {
-        this.nome = nome;
-        this.dataLic = dataLic;
-        this.dataVenc = dataVenc;
-        this.situacao = situacao;
-    }
 
     public int getId() {
         return id;
@@ -52,19 +39,19 @@ public class Estabelecimento {
         this.nome = nome;
     }
 
-    public String getDataLic() {
+    public int getDataLic() {
         return dataLic;
     }
 
-    public void setDataLic(String dataLic) {
+    public void setDataLic(int dataLic) {
         this.dataLic = dataLic;
     }
 
-    public String getDataVenc() {
+    public int getDataVenc() {
         return dataVenc;
     }
 
-    public void setDataVenc(String dataVenc) {
+    public void setDataVenc(int dataVenc) {
         this.dataVenc = dataVenc;
     }
 

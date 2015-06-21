@@ -8,14 +8,13 @@ import com.j256.ormlite.dao.DaoManager;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
-import br.edu.ufra.appfiscalizacao.conexao.DBHelper;
+import br.edu.ufra.appfiscalizacao.conexao.DataBaseHelper;
 
 /**
  * Created by bpmlab on 19/06/2015.
  */
-public class GenericDAO<E> extends DBHelper<E>{
+public class GenericDAO<E> extends DataBaseHelper<E> {
     protected Dao<E, Integer> dao;
     private Class<E> type;
 
@@ -36,7 +35,7 @@ public class GenericDAO<E> extends DBHelper<E>{
             Log.e("setDao", "Erro setDao" + e.getMessage().toString());
         }
     }
-    public List<E> getAll(){
+    public List<E> obterTodos(){
         try{
             List<E> result = dao.queryForAll();
             return result;
@@ -48,7 +47,7 @@ public class GenericDAO<E> extends DBHelper<E>{
     }
 
 
-    public E getId(int id){
+    public E obterId(int id){
         try {
             E obj = dao.queryForId(id);
             return obj;
@@ -59,7 +58,7 @@ public class GenericDAO<E> extends DBHelper<E>{
         }
     }
 
-    public boolean insert(E obj){
+    public boolean inserir(E obj){
         try{
             Log.w("Insert", "Sucesso ao inserir" + obj.getClass());
             return true;
@@ -70,7 +69,7 @@ public class GenericDAO<E> extends DBHelper<E>{
         }
     }
 
-    public boolean delete(E obj){
+    public boolean excluir(E obj){
         try{
             dao.delete(obj);
             Log.w("Delete", "Sucesso ao deletar" + obj.getClass());
@@ -82,7 +81,7 @@ public class GenericDAO<E> extends DBHelper<E>{
         }
     }
 
-    public boolean update(E obj){
+    public boolean atualizar(E obj){
         try {
             dao.update(obj);
             Log.w("update", "Sucesso ao atualizar" + obj.getClass());

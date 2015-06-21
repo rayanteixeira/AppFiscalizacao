@@ -11,6 +11,12 @@ import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
+import br.edu.ufra.appfiscalizacao.rn.EstabelecimentoRN;
+
 /**
  * Created by Rayan on 16/06/2015.
  */
@@ -19,8 +25,8 @@ public class FragmentEstabelecimento extends Fragment  {
 
     View rootView;
     private TextView textoselo;
-
-
+    EstabelecimentoRN rn;
+    List<String> pontos;
     public FragmentEstabelecimento() {
         // TODO Auto-generated constructor stub
     }
@@ -31,20 +37,32 @@ public class FragmentEstabelecimento extends Fragment  {
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_estabelecimento, container, false);
+        rn = new EstabelecimentoRN(getActivity());
 
-
+        TabHost.TabSpec descritor;
         TabHost abas = (TabHost) rootView.findViewById(R.id.tabhost);
         abas.setup();
 
-        TabHost.TabSpec descritor = abas.newTabSpec("aba1");
+        descritor = abas.newTabSpec("aba1");
+        descritor.setContent(R.id.semVistoria);
+        descritor.setIndicator("Sem Vistoria");
+        abas.addTab(descritor);
+
+        descritor = abas.newTabSpec("aba2");
+        descritor.setContent(R.id.emVistoria);
+        descritor.setIndicator("Em Vistoria");
+        abas.addTab(descritor);
+
+        descritor = abas.newTabSpec("aba3");
         descritor.setContent(R.id.vencidas);
         descritor.setIndicator("Vencidas");
         abas.addTab(descritor);
 
-        descritor = abas.newTabSpec("aba2");
-        descritor.setContent(R.id.detalhes);
-        descritor.setIndicator("Em Vistoria");
+        descritor = abas.newTabSpec("aba4");
+        descritor.setContent(R.id.regular);
+        descritor.setIndicator("Regular");
         abas.addTab(descritor);
+
 
 
         listaPontosVistoriados();
@@ -59,10 +77,14 @@ public class FragmentEstabelecimento extends Fragment  {
 }
 
     public  void listaPontosLicVencida(){
-
+        pontos = new ArrayList<String>();
+        for (Estabelecimento e: rn.obterTodos()){
+            if (e.getSituacao()=="vencida"){
+                pontos.add(e.getNome());
+            }
+        }
         ListView ponto_licVencida = (ListView) rootView.findViewById(R.id.list_pontos_licVencida);
 
-        String[]  pontos = {"Acai do Tia", "Casa do Acai", "Acai do Anderson", "Acai do bom", "Acai do Veloso", "Acai do Iaca" };
 
         ArrayAdapter<String> licVencidasAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(),android.R.layout.simple_list_item_1, pontos);
         ponto_licVencida.setAdapter(licVencidasAdapter);

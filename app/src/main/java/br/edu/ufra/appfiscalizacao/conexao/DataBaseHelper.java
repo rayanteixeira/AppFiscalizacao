@@ -18,27 +18,18 @@ import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 /**
  * Created by bpmlab on 19/06/2015.
  */
-public class DBHelper<E> extends OrmLiteSqliteOpenHelper {
+public class DataBaseHelper<E> extends OrmLiteSqliteOpenHelper {
 
 
-    private static String dbName = "devisa.db";
+    private static String databaseName = "devisa.bd";
     private static String droptable = "DROP TABLE estabelecimento";
-    private static int dbVersion = 1;
+    private static int databaseVersion = 1;
 
     private static Context cont;
-
-
-    public DBHelper(Context context) {
-        super(context, dbName, null, dbVersion);
-        cont = context;
-    }
-
-
 
     private List<StringBuilder> lerScript(String arquivo) {
         List<StringBuilder> resposta = new ArrayList<StringBuilder>();
         try {
-            //cont.getAssets().open(arquivo);
             InputStream is = cont.getAssets().open(arquivo);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String linha = null;
@@ -66,22 +57,27 @@ public class DBHelper<E> extends OrmLiteSqliteOpenHelper {
         }
         return resposta;
     }
+    public DataBaseHelper(Context context) {
+        super(context, databaseName, null, databaseVersion);
+        cont = context;
+        Log.e("Construtor", "Construtor");
+    }
     private void realizarInserts(SQLiteDatabase db) {
         List<StringBuilder> inserts = lerScript("inserts.sql");
         for (StringBuilder sb : inserts) {
             db.execSQL(sb.toString());
         }
-        Log.i("Inserts", "Inserts realizados " );
     }
 
     @Override
     public void onCreate(SQLiteDatabase db, ConnectionSource src) {
         try {
+            Log.e("Criando", "criando bd");
             TableUtils.createTable(src, Estabelecimento.class);
             realizarInserts(db);
-            Log.w("Create", "Banco criado com sucesso");
+            Log.e("Create", "Banco criado com sucesso");
         } catch (Exception e) {
-            Log.e("Create", "Erro ao criar banco craido" + e.getMessage().toString());
+            Log.e("Create", "Erro ao criar banco de dados" + e.getMessage().toString());
         }
 
     }
@@ -91,7 +87,7 @@ public class DBHelper<E> extends OrmLiteSqliteOpenHelper {
 
         try{
             db.execSQL(droptable);
-            Log.w("Update", "Banco atualizado com sucesso");
+            Log.e("Update", "Banco atualizado com sucesso");
         }catch (Exception e){
             e.printStackTrace();
             String erro = e.getMessage().toString();
@@ -101,8 +97,12 @@ public class DBHelper<E> extends OrmLiteSqliteOpenHelper {
 
     }
 
+
+
+
     @Override
     public void close() {
         super.close();
     }
+
 }

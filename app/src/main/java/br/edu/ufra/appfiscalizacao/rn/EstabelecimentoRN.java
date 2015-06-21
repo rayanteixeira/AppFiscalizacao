@@ -9,9 +9,10 @@ import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
  * Created by Rayan on 20/06/2015.
  */
 public class EstabelecimentoRN extends GenericRN<Estabelecimento> {
+    EstabelecimentoDAO dao;
 
-    public EstabelecimentoRN(Class<Estabelecimento> tipo, Context context) {
-        super(tipo, context);
+    public EstabelecimentoRN(Context context) {
+        super(Estabelecimento.class, context);
         dao = new EstabelecimentoDAO(context);
     }
 }
