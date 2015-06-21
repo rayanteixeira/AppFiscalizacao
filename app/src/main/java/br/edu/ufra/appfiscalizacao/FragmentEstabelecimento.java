@@ -26,7 +26,10 @@ public class FragmentEstabelecimento extends Fragment  {
     View rootView;
     private TextView textoselo;
     EstabelecimentoRN rn;
-    List<String> pontos;
+    List<String> pontosRegular;
+    List<String> pontosEmVistoria;
+    List<String> pontosSemVistoria;
+    List<String> pontosVencidos;
     public FragmentEstabelecimento() {
         // TODO Auto-generated constructor stub
     }
@@ -63,10 +66,12 @@ public class FragmentEstabelecimento extends Fragment  {
         descritor.setIndicator("Regular");
         abas.addTab(descritor);
 
+        definirSituacaoPonto();
 
-
-        listaPontosVistoriados();
-        listaPontosLicVencida();
+        listPontosRegular();
+        listPontosLicVencida();
+        listPontosEmVistoria();
+        listPontosSemVistoria();
 
 
         return rootView;
@@ -75,32 +80,64 @@ public class FragmentEstabelecimento extends Fragment  {
 
 
 }
+    public  void listPontosLicVencida(){
 
-    public  void listaPontosLicVencida(){
-        pontos = new ArrayList<String>();
-        for (Estabelecimento e: rn.obterTodos()){
-            if (e.getSituacao()=="vencida"){
-                pontos.add(e.getNome());
-            }
-        }
         ListView ponto_licVencida = (ListView) rootView.findViewById(R.id.list_pontos_licVencida);
 
 
-        ArrayAdapter<String> licVencidasAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(),android.R.layout.simple_list_item_1, pontos);
+        ArrayAdapter<String> licVencidasAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(),android.R.layout.simple_list_item_1, pontosVencidos);
         ponto_licVencida.setAdapter(licVencidasAdapter);
 
 
     }
 
 
-    public void listaPontosVistoriados(){
+    public void listPontosEmVistoria(){
         ListView ponto_emVistoria = (ListView) rootView.findViewById(R.id.list_pontos_emVistoria);
 
-        String[]  pontos = {"Acai do Mendara", "Acai do Heron", "Acai do GUGU","Acai do cowboy", "Acai du 9", "Acai pai degua", "Acai da 25", "Acai da tia" };
-
-        ArrayAdapter<String> ponto_emVistoriaAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(),android.R.layout.simple_list_item_1, pontos);
+        ArrayAdapter<String> ponto_emVistoriaAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(),android.R.layout.simple_list_item_1, pontosEmVistoria);
         ponto_emVistoria.setAdapter(ponto_emVistoriaAdapter);
 
+    }
+
+    public  void listPontosSemVistoria(){
+
+        ListView pontoSemVistoria = (ListView) rootView.findViewById(R.id.list_pontos_semVistoria);
+
+
+        ArrayAdapter<String> semVistoriaAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(),android.R.layout.simple_list_item_1, pontosSemVistoria);
+        pontoSemVistoria.setAdapter(semVistoriaAdapter);
+
+
+    }
+
+
+    public void listPontosRegular(){
+        ListView pontoRegular = (ListView) rootView.findViewById(R.id.list_pontos_regular);
+
+        ArrayAdapter<String> pontoRegularAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(),android.R.layout.simple_list_item_1, pontosRegular);
+        pontoRegular.setAdapter(pontoRegularAdapter);
+
+    }
+
+        public void definirSituacaoPonto(){
+        pontosEmVistoria = new ArrayList<String>();
+        pontosSemVistoria = new ArrayList<String>();
+        pontosRegular = new ArrayList<String>();
+        pontosVencidos = new ArrayList<String>();
+
+        for (Estabelecimento e: rn.obterTodos()){
+
+            if (e.getSituacao().equals("vencida")){
+                pontosVencidos.add(e.getNome());
+            } else if (e.getSituacao().equals("semVistoria")){
+                pontosSemVistoria.add(e.getNome());
+            } else if (e.getSituacao().equals("emVistoria")){
+             pontosEmVistoria.add(e.getNome());
+            } else if (e.getSituacao().equals("regular")){
+                pontosRegular.add(e.getNome());
+            }
+        }
     }
 
 }
