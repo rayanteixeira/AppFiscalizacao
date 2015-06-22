@@ -1,12 +1,14 @@
 package br.edu.ufra.appfiscalizacao;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.ufra.appfiscalizacao.activity.CadastroEstabelecimento;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 import br.edu.ufra.appfiscalizacao.rn.EstabelecimentoRN;
 
@@ -26,10 +29,13 @@ public class FragmentEstabelecimento extends Fragment  {
     View rootView;
     private TextView textoselo;
     EstabelecimentoRN rn;
+    Estabelecimento estabelecimento;
     List<String> pontosRegular;
     List<String> pontosEmVistoria;
     List<String> pontosSemVistoria;
     List<String> pontosVencidos;
+    private TabHost abas;
+    Button btNovo;
     public FragmentEstabelecimento() {
         // TODO Auto-generated constructor stub
     }
@@ -40,10 +46,11 @@ public class FragmentEstabelecimento extends Fragment  {
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_estabelecimento, container, false);
+        btNovo = (Button) rootView.findViewById(R.id.btnNovoPonto);
         rn = new EstabelecimentoRN(getActivity());
 
         TabHost.TabSpec descritor;
-        TabHost abas = (TabHost) rootView.findViewById(R.id.tabhost);
+       abas = (TabHost) rootView.findViewById(R.id.tabhost);
         abas.setup();
 
         descritor = abas.newTabSpec("aba1");
@@ -73,6 +80,14 @@ public class FragmentEstabelecimento extends Fragment  {
         listPontosEmVistoria();
         listPontosSemVistoria();
 
+        btNovo.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                startActivity( new Intent(getActivity(), CadastroEstabelecimento.class));
+            }
+        });
+
 
         return rootView;
 
@@ -80,6 +95,7 @@ public class FragmentEstabelecimento extends Fragment  {
 
 
 }
+
     public  void listPontosLicVencida(){
 
         ListView ponto_licVencida = (ListView) rootView.findViewById(R.id.list_pontos_licVencida);

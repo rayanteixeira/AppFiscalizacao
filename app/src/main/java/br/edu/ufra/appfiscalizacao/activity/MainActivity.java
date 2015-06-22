@@ -1,4 +1,4 @@
-package br.edu.ufra.appfiscalizacao.interfaces;
+package br.edu.ufra.appfiscalizacao.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

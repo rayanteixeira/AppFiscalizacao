@@ -1,15 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Fiscal Devisa</string>
 
+    <string name="app_name">Fiscal Devisa</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <!--Spinner Situacao do Ponto -->
+    <string name="situacao">Defina a situação do ponto</string>
+    <string-array name="arraySituacao">
+        <item>Regular</item>
+        <item>Em vistoria</item>
+        <item>Sem vistoria</item>
+        <item>Vencida</item>
+    </string-array>
 
-
-    <!--Liveo-->
+    <!-- Liveo -->
 
     <string name="sign_in">Sign in</string>
-
     <string name="inbox">Inbox</string>
     <string name="starred">Principal</string>
     <string name="sent_mail">Estabelecimento</string>
@@ -18,7 +25,6 @@
     <string name="trash">Equipamentos</string>
     <string name="spam">Spam</string>
     <string name="settings">Sobre</string>
-
     <string name="add">Add</string>
     <string name="search">Search</string>
 
@@ -26,9 +32,10 @@
     <string name="open_user_profile">Open user profile</string>
     <string name="open_settings">Open settings</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_em_vistoria">EmVistoriaActivity</string>
     <string name="title_activity_lic_vencidas">LicVencidasActivity</string>
+    <string name="title_activity_cadastro_estabelecimento">CadastroEstabelecimento</string>
 
 </resources>

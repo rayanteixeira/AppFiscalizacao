@@ -30,7 +30,7 @@
                     android:layout_gravity="left|center_vertical" />
 
                 <Button
-                    android:id="@+id/novoPonto"
+                    android:id="@+id/btnNovoPonto"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"

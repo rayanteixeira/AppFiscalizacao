@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoAdapter;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
+import br.edu.ufra.appfiscalizacao.rn.EstabelecimentoRN;
 
 
 public class FragmentPrincipal extends Fragment implements AdapterView.OnItemClickListener {
@@ -21,7 +22,8 @@ public class FragmentPrincipal extends Fragment implements AdapterView.OnItemCli
     private ListView listView;
     private EstabelecimentoAdapter adapter;
     private ArrayList<String> estabelecimentos;
-    //private Estabelecimento estabelecimento;
+    private Estabelecimento estabelecimento;
+    private EstabelecimentoRN rn;
 
     public FragmentPrincipal() {
         // Required empty public constructor
@@ -34,14 +36,17 @@ public class FragmentPrincipal extends Fragment implements AdapterView.OnItemCli
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_principal, container, false);
-
-
+        rn = new EstabelecimentoRN(getActivity());
+        estabelecimentos = new ArrayList<String>();
         listView = (ListView) rootView.findViewById(R.id.listaestabelecimentos);
        // String[] pontos = {"Rayan","Jairo", "Geovane"};
 
         listView.setOnItemClickListener(this);
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getBaseContext(),android.R.layout.simple_list_item_1, pontos);
-        //listaestabelecimentos.setAdapter(adapter);
+        for(Estabelecimento e: rn.obterTodos()){
+            estabelecimentos.add(e.getNome());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getBaseContext(),android.R.layout.simple_list_item_1, estabelecimentos);
+        listView.setAdapter(adapter);
         createListView();
         return rootView;
     }

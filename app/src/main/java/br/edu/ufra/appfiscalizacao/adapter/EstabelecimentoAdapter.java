@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.R;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
@@ -19,9 +20,9 @@ import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 public class EstabelecimentoAdapter extends BaseAdapter {
 
     private LayoutInflater mInflate;
-    private ArrayList<Estabelecimento> estabelecimentos;
+    private List<Estabelecimento> estabelecimentos;
 
-    public EstabelecimentoAdapter(Context context, ArrayList<Estabelecimento> estabelecimentos) {
+    public EstabelecimentoAdapter(Context context, List<Estabelecimento> estabelecimentos) {
         this.mInflate = LayoutInflater.from(context);
         this.estabelecimentos = estabelecimentos;
     }
@@ -48,12 +49,12 @@ public class EstabelecimentoAdapter extends BaseAdapter {
 
     view = mInflate.inflate(R.layout.item_model, null);
     TextView nome = (TextView) view.findViewById(R.id.namepoint);
-    TextView situacao = (TextView) view.findViewById(R.id.situacaopoint);
-    ImageView img = (ImageView) view.findViewById(R.id.photopoint);
+    //TextView situacao = (TextView) view.findViewById(R.id.situacaopoint);
+    //ImageView img = (ImageView) view.findViewById(R.id.photopoint);
 
         nome.setText(estabelecimento.getNome());
-        situacao.setText(estabelecimento.getSituacao());
-        img.setImageResource(estabelecimento.getDataVenc());
+        //situacao.setText(estabelecimento.getSituacao());
+        //img.setImageResource(estabelecimento.getDataVenc());
 
 
 

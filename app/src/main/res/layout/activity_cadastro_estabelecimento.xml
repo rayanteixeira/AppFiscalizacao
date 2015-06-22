@@ -1,0 +1,57 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/layoutEstabelecimento"
+    tools:context="br.edu.ufra.appfiscalizacao.activity.CadastroEstabelecimento">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nome"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/nomePonto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <Spinner
+        android:id="@+id/spinnerSituacaoPonto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:prompt="@string/situacao"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data da Licença"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/dataLicenca"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:numeric="decimal" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data de Vencimento da Licença"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/dataVencLicenca"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:numeric="decimal" />
+
+    <Button
+        android:id="@+id/btnSalvarPonto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Salvar"
+        />
+
+
+</LinearLayout>

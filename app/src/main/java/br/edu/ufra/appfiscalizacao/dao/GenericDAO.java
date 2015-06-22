@@ -60,6 +60,7 @@ public class GenericDAO<E> extends DataBaseHelper<E> {
 
     public boolean inserir(E obj){
         try{
+        dao.create(obj);
             Log.w("Insert", "Sucesso ao inserir" + obj.getClass());
             return true;
         }catch (Exception e){
