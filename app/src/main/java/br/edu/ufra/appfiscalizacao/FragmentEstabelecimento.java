@@ -23,7 +23,7 @@ import br.edu.ufra.appfiscalizacao.rn.EstabelecimentoRN;
 /**
  * Created by Rayan on 16/06/2015.
  */
-public class FragmentEstabelecimento extends Fragment  {
+public class FragmentEstabelecimento extends Fragment {
 
 
     View rootView;
@@ -36,6 +36,7 @@ public class FragmentEstabelecimento extends Fragment  {
     List<String> pontosVencidos;
     private TabHost abas;
     Button btNovo;
+
     public FragmentEstabelecimento() {
         // TODO Auto-generated constructor stub
     }
@@ -50,7 +51,7 @@ public class FragmentEstabelecimento extends Fragment  {
         rn = new EstabelecimentoRN(getActivity());
 
         TabHost.TabSpec descritor;
-       abas = (TabHost) rootView.findViewById(R.id.tabhost);
+        abas = (TabHost) rootView.findViewById(R.id.tabhost);
         abas.setup();
 
         descritor = abas.newTabSpec("aba1");
@@ -80,11 +81,11 @@ public class FragmentEstabelecimento extends Fragment  {
         listPontosEmVistoria();
         listPontosSemVistoria();
 
-        btNovo.setOnClickListener(new View.OnClickListener(){
+        btNovo.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                startActivity( new Intent(getActivity(), CadastroEstabelecimento.class));
+                startActivity(new Intent(getActivity(), CadastroEstabelecimento.class));
             }
         });
 
@@ -92,65 +93,61 @@ public class FragmentEstabelecimento extends Fragment  {
         return rootView;
 
 
+    }
 
-
-}
-
-    public  void listPontosLicVencida(){
+    public void listPontosLicVencida() {
 
         ListView ponto_licVencida = (ListView) rootView.findViewById(R.id.list_pontos_licVencida);
 
 
-        ArrayAdapter<String> licVencidasAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(),android.R.layout.simple_list_item_1, pontosVencidos);
+        ArrayAdapter<String> licVencidasAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, pontosVencidos);
         ponto_licVencida.setAdapter(licVencidasAdapter);
 
 
     }
 
-
-    public void listPontosEmVistoria(){
+    public void listPontosEmVistoria() {
         ListView ponto_emVistoria = (ListView) rootView.findViewById(R.id.list_pontos_emVistoria);
 
-        ArrayAdapter<String> ponto_emVistoriaAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(),android.R.layout.simple_list_item_1, pontosEmVistoria);
+        ArrayAdapter<String> ponto_emVistoriaAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, pontosEmVistoria);
         ponto_emVistoria.setAdapter(ponto_emVistoriaAdapter);
 
     }
 
-    public  void listPontosSemVistoria(){
+    public void listPontosSemVistoria() {
 
         ListView pontoSemVistoria = (ListView) rootView.findViewById(R.id.list_pontos_semVistoria);
 
 
-        ArrayAdapter<String> semVistoriaAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(),android.R.layout.simple_list_item_1, pontosSemVistoria);
+        ArrayAdapter<String> semVistoriaAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, pontosSemVistoria);
         pontoSemVistoria.setAdapter(semVistoriaAdapter);
 
 
     }
 
-
-    public void listPontosRegular(){
+    public void listPontosRegular() {
         ListView pontoRegular = (ListView) rootView.findViewById(R.id.list_pontos_regular);
 
-        ArrayAdapter<String> pontoRegularAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(),android.R.layout.simple_list_item_1, pontosRegular);
+        ArrayAdapter<String> pontoRegularAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, pontosRegular);
         pontoRegular.setAdapter(pontoRegularAdapter);
 
     }
 
-        public void definirSituacaoPonto(){
+    public void definirSituacaoPonto() {
         pontosEmVistoria = new ArrayList<String>();
         pontosSemVistoria = new ArrayList<String>();
         pontosRegular = new ArrayList<String>();
         pontosVencidos = new ArrayList<String>();
 
-        for (Estabelecimento e: rn.obterTodos()){
+        for (Estabelecimento e : rn.obterTodos()) {
 
-            if (e.getSituacao().equals("vencida")){
+            if (e.getSituacao().equals("vencida")) {
                 pontosVencidos.add(e.getNome());
-            } else if (e.getSituacao().equals("semVistoria")){
+            } else if (e.getSituacao().equals("semVistoria")) {
                 pontosSemVistoria.add(e.getNome());
-            } else if (e.getSituacao().equals("emVistoria")){
-             pontosEmVistoria.add(e.getNome());
-            } else if (e.getSituacao().equals("regular")){
+            } else if (e.getSituacao().equals("emVistoria")) {
+                pontosEmVistoria.add(e.getNome());
+            } else if (e.getSituacao().equals("regular")) {
                 pontosRegular.add(e.getNome());
             }
         }

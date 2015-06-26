@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import br.edu.ufra.appfiscalizacao.FragmentEstabelecimento;
 import br.edu.ufra.appfiscalizacao.FragmentPrincipal;
+import br.edu.ufra.appfiscalizacao.FragmentTecnicos;
 import br.edu.ufra.appfiscalizacao.R;
 import br.liveo.Model.HelpLiveo;
 import br.liveo.interfaces.OnItemClickListener;
@@ -27,8 +28,8 @@ public class MainActivity extends NavigationLiveo implements OnItemClickListener
         // User Information
 
         this.userName.setText("Açaí Pai D'égua");
-         this.userEmail.setText("acaipaideguaufra@gmail.com");
-         this.userPhoto.setImageResource(R.drawable.ic_photologo);
+        this.userEmail.setText("acaipaideguaufra@gmail.com");
+        this.userPhoto.setImageResource(R.drawable.ic_photologo);
         this.userBackground.setImageResource(R.drawable.acaimao);
 
         // Creating items navigation
@@ -89,8 +90,11 @@ public class MainActivity extends NavigationLiveo implements OnItemClickListener
             case 2:
                  mFragment = new FragmentEstabelecimento();
                 Toast.makeText(getApplicationContext(), "Fragmente Estabelecimento :D", Toast.LENGTH_SHORT).show();
-            default:
                 break;
+            case 3:
+                mFragment = new FragmentTecnicos();
+                Toast.makeText(getApplicationContext(), "Fragmente Técnicos :D", Toast.LENGTH_SHORT).show();
+            default:
         }
 
 
