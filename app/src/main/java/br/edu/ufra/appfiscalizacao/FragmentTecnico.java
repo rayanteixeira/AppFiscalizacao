@@ -1,6 +1,7 @@
 package br.edu.ufra.appfiscalizacao;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.ufra.appfiscalizacao.activity.DetalheActivity;
 import br.edu.ufra.appfiscalizacao.adapter.TecnicoAdapter;
 import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
 import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
@@ -112,11 +114,13 @@ public class FragmentTecnico extends Fragment {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Tecnico item = (Tecnico) adapter.getItem(position);
-
+                                int idtecnico = item.getId();
                                 System.out.println("ITEM--=>" +item.getId());
                                 System.out.println("NOME--=>" +item.getNome());
 
-
+                                Intent it = new Intent(getActivity().getBaseContext(), DetalheActivity.class);
+                                it.putExtra("id", idtecnico);
+                                startActivity(it);
 
 
 
