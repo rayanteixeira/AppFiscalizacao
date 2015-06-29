@@ -1,13 +1,23 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.edu.ufra.appfiscalizacao.FragmentTecnicos">
+    android:orientation="vertical"
+    tools:context="br.edu.ufra.appfiscalizacao.FragmentTecnico">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/txtjson"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+
+    <ListView
+        android:id="@+id/listtecnicos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>
+
+
+</LinearLayout>

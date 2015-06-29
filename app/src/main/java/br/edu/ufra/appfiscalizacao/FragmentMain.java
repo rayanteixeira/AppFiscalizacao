@@ -48,8 +48,8 @@ public class FragmentMain extends Fragment {
 		// TODO Auto-generated method stub		
 		View rootView = inflater.inflate(R.layout.activity_main, container, false);
 
-       // TextView mTxtTitle = (TextView) rootView.findViewById(R.id.txtTitle);
-        //mTxtTitle.setText(getArguments().getString(TEXT_FRAGMENT));
+        TextView mTxtTitle = (TextView) rootView.findViewById(R.id.txtTitle);
+        mTxtTitle.setText(getArguments().getString(TEXT_FRAGMENT));
 
 		rootView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT ));		
 		return rootView;		

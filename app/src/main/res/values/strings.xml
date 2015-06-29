@@ -37,5 +37,7 @@
     <string name="title_activity_em_vistoria">EmVistoriaActivity</string>
     <string name="title_activity_lic_vencidas">LicVencidasActivity</string>
     <string name="title_activity_cadastro_estabelecimento">CadastroEstabelecimento</string>
+    <string name="title_activity_detalhes">DetalhesActivity</string>
+    <string name="title_activity_detalhe">DetalheActivity</string>
 
 </resources>

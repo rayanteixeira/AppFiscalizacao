@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import br.edu.ufra.appfiscalizacao.FragmentEstabelecimento;
 import br.edu.ufra.appfiscalizacao.FragmentPrincipal;
-import br.edu.ufra.appfiscalizacao.FragmentTecnicos;
+import br.edu.ufra.appfiscalizacao.FragmentTecnico;
 import br.edu.ufra.appfiscalizacao.R;
 import br.liveo.Model.HelpLiveo;
 import br.liveo.interfaces.OnItemClickListener;
@@ -92,7 +92,7 @@ public class MainActivity extends NavigationLiveo implements OnItemClickListener
                 Toast.makeText(getApplicationContext(), "Fragmente Estabelecimento :D", Toast.LENGTH_SHORT).show();
                 break;
             case 3:
-                mFragment = new FragmentTecnicos();
+                mFragment = new FragmentTecnico();
                 Toast.makeText(getApplicationContext(), "Fragmente Técnicos :D", Toast.LENGTH_SHORT).show();
             default:
         }
