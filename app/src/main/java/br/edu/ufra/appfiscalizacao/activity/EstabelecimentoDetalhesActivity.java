@@ -4,15 +4,21 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import br.edu.ufra.appfiscalizacao.R;
 
 public class EstabelecimentoDetalhesActivity extends ActionBarActivity {
-
+    TextView nomeTxt;
+    TextView contatoTxt;
+    TextView logradouroTxt;
+    TextView bairroTxt;
+    TextView telefoneTxt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_estabelecimento_detalhes);
+
 
         Bundle extra=getIntent().getExtras();
         int id = extra.getInt("id",0);
