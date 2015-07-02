@@ -89,7 +89,6 @@ public class MainActivity extends NavigationLiveo implements OnItemClickListener
                 break;
             case 2:
                  mFragment = new FragmentEstabelecimento();
-                Toast.makeText(getApplicationContext(), "Fragmente Estabelecimento :D", Toast.LENGTH_SHORT).show();
                 break;
             case 3:
                 mFragment = new FragmentTecnico();

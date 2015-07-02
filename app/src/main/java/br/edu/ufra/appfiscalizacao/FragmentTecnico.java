@@ -27,6 +27,7 @@ import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.activity.DetalheActivity;
 import br.edu.ufra.appfiscalizacao.adapter.TecnicoAdapter;
+import br.edu.ufra.appfiscalizacao.application.StringURL;
 import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
 import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
 
@@ -34,7 +35,7 @@ import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
 public class FragmentTecnico extends Fragment {
 
     Gson gson;
-    String url = "http://10.10.168.4:8084/AcaiPDE_Web/resources/tecnico/all";
+    String url = StringURL.getUrlTecnico()+"all";
     List<Tecnico> tecnicos = null;
     TextView mText;
     TecnicoAdapter adapter = null;

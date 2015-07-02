@@ -20,58 +20,30 @@
             android:layout_height="match_parent" >
 
             <RelativeLayout
-                android:id="@+id/semVistoria"
+                android:id="@+id/aguardandoVistoria"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" >
                 <ListView
-                    android:id="@+id/list_pontos_semVistoria"
+                    android:id="@+id/listPontosAguardando"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="left|center_vertical" />
 
-                <Button
-                    android:id="@+id/btnNovoPonto"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:text="Novo" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/emVistoria"
+                android:id="@+id/pendente"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" >
 
                 <ListView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/list_pontos_emVistoria" />
+                    android:id="@+id/listPontosPendente" />
 
 
             </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/vencidas"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-            <ListView
-                android:id="@+id/list_pontos_licVencida"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="left|center_vertical" />
 
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/regular"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-                <ListView
-                    android:id="@+id/list_pontos_regular"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="left|center_vertical" />
-
-            </RelativeLayout>
         </FrameLayout>
     </LinearLayout>
 

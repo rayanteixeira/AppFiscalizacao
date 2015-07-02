@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".application.VolleyApplication"
@@ -27,11 +28,12 @@
             android:name=".activity.LoginActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".activity.CadastroEstabelecimento"
-            android:label="@string/title_activity_cadastro_estabelecimento" />
-        <activity
             android:name=".activity.DetalheActivity"
             android:label="@string/title_activity_detalhe" >
+        </activity>
+        <activity
+            android:name=".activity.EstabelecimentoDetalhesActivity"
+            android:label="@string/title_activity_estabelecimento_detalhes" >
         </activity>
     </application>
 

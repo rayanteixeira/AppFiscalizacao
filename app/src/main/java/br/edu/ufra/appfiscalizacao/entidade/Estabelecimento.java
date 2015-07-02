@@ -15,7 +15,7 @@ public class Estabelecimento {
     @DatabaseField
     private int dataVenc;
     @DatabaseField
-    private String situacao;
+    private String status;
 
 
     public Estabelecimento() {
@@ -55,11 +55,11 @@ public class Estabelecimento {
         this.dataVenc = dataVenc;
     }
 
-    public String getSituacao() {
-        return situacao;
+    public String getStatus() {
+        return status;
     }
 
-    public void setSituacao(String situacao) {
-        this.situacao = situacao;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
