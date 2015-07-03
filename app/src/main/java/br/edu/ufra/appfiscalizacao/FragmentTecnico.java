@@ -1,15 +1,9 @@
 package br.edu.ufra.appfiscalizacao;
 
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.util.MalformedJsonException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,16 +22,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.transform.Source;
-
 import br.edu.ufra.appfiscalizacao.activity.DetalheActivity;
 import br.edu.ufra.appfiscalizacao.adapter.TecnicoAdapter;
-import br.edu.ufra.appfiscalizacao.application.StringURL;
 import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
 import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
 
@@ -45,14 +34,12 @@ import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
 public class FragmentTecnico extends Fragment {
 
     Gson gson;
-
+    String url = "http://10.10.168.4:8084/AcaiPDE_Web/resources/tecnico/all";
     List<Tecnico> tecnicos = null;
     TextView mText;
     TecnicoAdapter adapter = null;
     ListView listtecnicos;
-    StringURL url = new StringURL();
-    ProgressDialog mProgressDialog;
-    Context context = null;
+
 
     public FragmentTecnico() {
 
@@ -61,7 +48,7 @@ public class FragmentTecnico extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       context = getActivity();
+
     }
 
     @Override
@@ -75,22 +62,11 @@ public class FragmentTecnico extends Fragment {
         gson = new Gson();
         mText = (TextView) rootview.findViewById(R.id.txtjson);
 
+        getjsonArray();
 
-        mProgressDialog = ProgressDialog.show(context,"Baixando lista", "Por favor, aguarde enquanto a lista é atualizada...", false, true);
 
-        new Thread() {
-            public void run() {
-                try{
-                    getjsonArray();
-                    //esse � apenas um m�todo de teste que pode ser demorado
-                    Thread.sleep(10 * 1000);//10segundos ou 10000
-                } catch (Exception e) {
-                    Log.e("tag", e.getMessage());
-                }
-                //encerra progress dialog
-                mProgressDialog.dismiss();
-            }
-        }.start();
+
+
 
         return rootview;
     }
@@ -99,9 +75,9 @@ public class FragmentTecnico extends Fragment {
     public void getjsonArray() {
 
 
-        System.out.println("Baixando JSONARRAY");
+
         JsonArrayRequest arrayRequest = new JsonArrayRequest(
-                url.URLTecnicos,
+                url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
@@ -127,10 +103,10 @@ public class FragmentTecnico extends Fragment {
                         }
 
 
-                        for (Tecnico t : tecnicos) {
+                        for( Tecnico t : tecnicos){
                             System.out.println(t.getId());
                         }
-                        Toast.makeText(getActivity().getBaseContext(), "Lista atualizada com sucesso", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity().getBaseContext(),"Lista atualizada com sucesso",Toast.LENGTH_SHORT).show();
 
                         adapter = new TecnicoAdapter(getActivity().getBaseContext(), tecnicos);
                         listtecnicos.setAdapter(adapter);
@@ -139,8 +115,8 @@ public class FragmentTecnico extends Fragment {
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Tecnico item = (Tecnico) adapter.getItem(position);
                                 int idtecnico = item.getId();
-                                System.out.println("ITEM--=>" + item.getId());
-                                System.out.println("NOME--=>" + item.getNome());
+                                System.out.println("ITEM--=>" +item.getId());
+                                System.out.println("NOME--=>" +item.getNome());
 
                                 Intent it = new Intent(getActivity().getBaseContext(), DetalheActivity.class);
                                 it.putExtra("id", idtecnico);
@@ -160,7 +136,8 @@ public class FragmentTecnico extends Fragment {
                         });
 
 
-                    }
+                }
+
 
 
                 }
@@ -172,14 +149,15 @@ public class FragmentTecnico extends Fragment {
                     public void onErrorResponse(VolleyError error) {
 
                         mText.setText(error.toString());
-                        Toast.makeText(getActivity().getBaseContext(), "Erro ao atualizar Lista ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity().getBaseContext(),"Erro ao atualizar Lista ",Toast.LENGTH_SHORT).show();
                     }
                 });
 
 
         //int socketTimeout = 30000;//30 seconds - change to what you want
-        // RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        // arrayRequest.setRetryPolicy(policy);
+       // RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+       // arrayRequest.setRetryPolicy(policy);
+
 
 
         VolleyApplication.getsInstance().getmRequestQueue().add(arrayRequest);

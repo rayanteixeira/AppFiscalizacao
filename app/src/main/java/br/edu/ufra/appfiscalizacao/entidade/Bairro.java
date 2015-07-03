@@ -3,20 +3,32 @@ package br.edu.ufra.appfiscalizacao.entidade;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.util.List;
-
-/**
- * Created by Rayan on 30/06/2015.
- */
-
-
 @DatabaseTable(tableName = "bairro")
 public class Bairro {
-
-    @DatabaseField(generatedId=true)
-    private int id;
+    @DatabaseField(generatedId = false)
+    private Integer id;
     @DatabaseField
     private String nome;
 
-    private List<Estabelecimento> estabelecimentoList;
+    public Bairro(){
+
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
+    
 }

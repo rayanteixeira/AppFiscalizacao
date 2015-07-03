@@ -5,7 +5,6 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 
 @DatabaseTable(tableName = "estabelecimento")
@@ -21,7 +20,7 @@ public class Estabelecimento {
     @DatabaseField
     private String cpf;
     @DatabaseField
-    private String logradouro ;
+    private String logradouro;
     @DatabaseField
     private String numero;
     @DatabaseField
@@ -29,49 +28,22 @@ public class Estabelecimento {
     @DatabaseField
     private String telefone;
     @DatabaseField
-    private Date dataCadastro;
+    private Date dataLicenca;
     @DatabaseField
-    private String dataLicenca;
-    @DatabaseField
-    private String dataVencimento;
+    private Date dataVencimento;
     @DatabaseField
     private String status;
     @DatabaseField
-    private double latitude;
+    private BigDecimal latitude;
     @DatabaseField
-    private double longitude;
+    private BigDecimal longitude;
     @DatabaseField
     private String autentificacao;
-
-    private List<Vistoria> vistoriaList;
-
+    @DatabaseField
     private Bairro bairro;
 
 
-
-
     public Estabelecimento() {
-    }
-
-    public Estabelecimento(int id, String nome, String contato, String rg, String cpf, String logradouro, String numero, String email, String telefone, Date dataCadastro, String dataLicenca, String dataVencimento, String status, double latitude, double longitude, String autentificacao, List<Vistoria> vistoriaList, Bairro bairro) {
-        this.id = id;
-        this.nome = nome;
-        this.contato = contato;
-        this.rg = rg;
-        this.cpf = cpf;
-        this.logradouro = logradouro;
-        this.numero = numero;
-        this.email = email;
-        this.telefone = telefone;
-        this.dataCadastro = dataCadastro;
-        this.dataLicenca = dataLicenca;
-        this.dataVencimento = dataVencimento;
-        this.status = status;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.autentificacao = autentificacao;
-        this.vistoriaList = vistoriaList;
-        this.bairro = bairro;
     }
 
     public int getId() {
@@ -146,27 +118,19 @@ public class Estabelecimento {
         this.telefone = telefone;
     }
 
-    public Date getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(Date dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
-
-    public String getDataLicenca() {
+    public Date getDataLicenca() {
         return dataLicenca;
     }
 
-    public void setDataLicenca(String dataLicenca) {
+    public void setDataLicenca(Date dataLicenca) {
         this.dataLicenca = dataLicenca;
     }
 
-    public String getDataVencimento() {
+    public Date getDataVencimento() {
         return dataVencimento;
     }
 
-    public void setDataVencimento(String dataVencimento) {
+    public void setDataVencimento(Date dataVencimento) {
         this.dataVencimento = dataVencimento;
     }
 
@@ -178,19 +142,19 @@ public class Estabelecimento {
         this.status = status;
     }
 
-    public double getLatitude() {
+    public BigDecimal getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(BigDecimal latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public BigDecimal getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(BigDecimal longitude) {
         this.longitude = longitude;
     }
 
@@ -200,14 +164,6 @@ public class Estabelecimento {
 
     public void setAutentificacao(String autentificacao) {
         this.autentificacao = autentificacao;
-    }
-
-    public List<Vistoria> getVistoriaList() {
-        return vistoriaList;
-    }
-
-    public void setVistoriaList(List<Vistoria> vistoriaList) {
-        this.vistoriaList = vistoriaList;
     }
 
     public Bairro getBairro() {
