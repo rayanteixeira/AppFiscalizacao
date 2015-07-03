@@ -21,8 +21,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import br.edu.ufra.appfiscalizacao.R;
+import br.liveo.navigationliveo.NavigationActionBarLiveo;
 
 public class SettingsActivity extends AppCompatActivity {
+
+
+    private ActionBar mActionBar;
+    NavigationActionBarLiveo s = new NavigationActionBarLiveo() {
+        @Override
+        public void onInt(Bundle bundle) {
+            mActionBar = this.getSupportActionBar();
+            if(mActionBar != null) {
+                mActionBar.setDisplayHomeAsUpEnabled(true);
+                mActionBar.setHomeButtonEnabled(true);
+            }
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

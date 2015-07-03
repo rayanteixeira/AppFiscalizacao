@@ -3,21 +3,26 @@ package br.edu.ufra.appfiscalizacao;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 
 import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoAdapter;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 import br.edu.ufra.appfiscalizacao.rn.EstabelecimentoRN;
+import br.liveo.navigationliveo.NavigationActionBarLiveo;
 
 
 public class FragmentPrincipal extends Fragment implements AdapterView.OnItemClickListener {
+
+
 
     private ListView listView;
     private EstabelecimentoAdapter adapter;

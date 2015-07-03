@@ -16,10 +16,11 @@ import br.edu.ufra.appfiscalizacao.R;
 import br.liveo.Model.HelpLiveo;
 import br.liveo.interfaces.OnItemClickListener;
 import br.liveo.interfaces.OnPrepareOptionsMenuLiveo;
+import br.liveo.navigationliveo.NavigationActionBarLiveo;
 import br.liveo.navigationliveo.NavigationLiveo;
 
 
-public class MainActivity extends NavigationLiveo implements OnItemClickListener {
+public class MainActivity extends NavigationActionBarLiveo implements OnItemClickListener {
 
     private HelpLiveo mHelpLiveo;
     @Override
