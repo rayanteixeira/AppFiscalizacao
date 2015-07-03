@@ -3,6 +3,7 @@ package br.edu.ufra.appfiscalizacao.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +31,11 @@ public class LoginActivity extends Activity {
         btnentrar = (Button) findViewById(R.id.btnLogin);
 
 
+        ActionBar actionBar = getActionBar();
 
+        if (actionBar != null){
+            actionBar.hide();
+        }
 
         btnentrar.setOnClickListener(new View.OnClickListener() {
             @Override

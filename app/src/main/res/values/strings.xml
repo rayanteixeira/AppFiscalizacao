@@ -5,8 +5,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <!--Spinner Situacao do Ponto -->
+    <!-- Spinner Situacao do Ponto -->
     <string name="situacao">Defina a situação do ponto</string>
+
     <string-array name="arraySituacao">
         <item>Regular</item>
         <item>Em vistoria</item>
@@ -39,5 +40,6 @@
     <string name="title_activity_cadastro_estabelecimento">CadastroEstabelecimento</string>
     <string name="title_activity_detalhes">DetalhesActivity</string>
     <string name="title_activity_detalhe">DetalheActivity</string>
+    <string name="title_activity_estabelecimento_detalhes">EstabelecimentoDetalhesActivity</string>
 
 </resources>

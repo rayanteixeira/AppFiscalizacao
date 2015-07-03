@@ -15,30 +15,24 @@
  */
 package br.edu.ufra.appfiscalizacao.activity;
 
+
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import com.melnykov.fab.FloatingActionButton;
 
 import br.edu.ufra.appfiscalizacao.R;
-import br.liveo.navigationliveo.NavigationActionBarLiveo;
 
 public class SettingsActivity extends AppCompatActivity {
 
 
-    private ActionBar mActionBar;
-    NavigationActionBarLiveo s = new NavigationActionBarLiveo() {
-        @Override
-        public void onInt(Bundle bundle) {
-            mActionBar = this.getSupportActionBar();
-            if(mActionBar != null) {
-                mActionBar.setDisplayHomeAsUpEnabled(true);
-                mActionBar.setHomeButtonEnabled(true);
-            }
-        }
-    };
 
 
+    String[] nomes = {"Rayan","Rayan","Rayan","Rayan","Rayan","Rayan","Rayan","Rayan","Rayan","Rayan","Rayan","Rayan","Rayan","Rayan","Rayan","Rayan"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +40,15 @@ public class SettingsActivity extends AppCompatActivity {
 
         //TextView mTxtTitle = (TextView) findViewById(R.id.txtTitle);
        // mTxtTitle.setText(getString(R.string.settings));
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(),android.R.layout.simple_list_item_1, nomes);
+        ListView list = (ListView) findViewById(R.id.listviewteste);
+        list.setAdapter(adapter);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.attachToListView(list);
+
 
         ActionBar actionBar = getSupportActionBar();
 

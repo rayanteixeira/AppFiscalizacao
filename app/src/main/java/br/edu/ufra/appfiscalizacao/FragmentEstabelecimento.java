@@ -1,44 +1,65 @@
 package br.edu.ufra.appfiscalizacao;
 
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.edu.ufra.appfiscalizacao.activity.CadastroEstabelecimento;
+import br.edu.ufra.appfiscalizacao.activity.EstabelecimentoDetalhesActivity;
+import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoAdapter;
+import br.edu.ufra.appfiscalizacao.application.StringURL;
+import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 import br.edu.ufra.appfiscalizacao.rn.EstabelecimentoRN;
+import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;
+import br.edu.ufra.appfiscalizacao.util.Mensagem;
 
-/**
- * Created by Rayan on 16/06/2015.
- */
+
 public class FragmentEstabelecimento extends Fragment {
-
 
     View rootView;
     private TextView textoselo;
-    EstabelecimentoRN rn;
+    //EstabelecimentoRN rn;
     Estabelecimento estabelecimento;
-    List<String> pontosRegular;
-    List<String> pontosEmVistoria;
-    List<String> pontosSemVistoria;
-    List<String> pontosVencidos;
+    List<Estabelecimento> estabelecimentos;
+    List<Estabelecimento> listAguardandoVistoria;
+    List<Estabelecimento> listPendente;
     private TabHost abas;
-    Button btNovo;
+    RequestQueue resquestQueue;
+    String urlEstabelecimentos = StringURL.getUrlEstabelecimento() + "all";
+    Gson gson;
+    int id;
+    String mensagemInternet = Mensagem.getMensagemInternet();
+    Context contexto;
+    private EstabelecimentoAdapter adapter;
 
     public FragmentEstabelecimento() {
-        // TODO Auto-generated constructor stub
+
     }
 
 
@@ -46,48 +67,26 @@ public class FragmentEstabelecimento extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
+        contexto = getActivity().getBaseContext();
         rootView = inflater.inflate(R.layout.fragment_estabelecimento, container, false);
-        btNovo = (Button) rootView.findViewById(R.id.btnNovoPonto);
-        rn = new EstabelecimentoRN(getActivity());
+        //rn = new EstabelecimentoRN(getActivity());
 
         TabHost.TabSpec descritor;
         abas = (TabHost) rootView.findViewById(R.id.tabhost);
         abas.setup();
 
         descritor = abas.newTabSpec("aba1");
-        descritor.setContent(R.id.semVistoria);
-        descritor.setIndicator("Sem Vistoria");
+        descritor.setContent(R.id.aguardandoVistoria);
+        descritor.setIndicator("Aguardando");
         abas.addTab(descritor);
 
         descritor = abas.newTabSpec("aba2");
-        descritor.setContent(R.id.emVistoria);
-        descritor.setIndicator("Em Vistoria");
+        descritor.setContent(R.id.pendente);
+        descritor.setIndicator("Pendente");
         abas.addTab(descritor);
 
-        descritor = abas.newTabSpec("aba3");
-        descritor.setContent(R.id.vencidas);
-        descritor.setIndicator("Vencidas");
-        abas.addTab(descritor);
-
-        descritor = abas.newTabSpec("aba4");
-        descritor.setContent(R.id.regular);
-        descritor.setIndicator("Regular");
-        abas.addTab(descritor);
-
-        definirSituacaoPonto();
-
-        listPontosRegular();
-        listPontosLicVencida();
-        listPontosEmVistoria();
-        listPontosSemVistoria();
-
-        btNovo.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), CadastroEstabelecimento.class));
-            }
-        });
+        getJsonArray();
 
 
         return rootView;
@@ -95,60 +94,101 @@ public class FragmentEstabelecimento extends Fragment {
 
     }
 
-    public void listPontosLicVencida() {
+    public void getJsonArray(){
+        try {
+            if (ConexaoInternet.estaConectado(contexto) == true) {
+                System.out.println("conectado");
+                gson = new Gson();
+                JsonArrayRequest request = new JsonArrayRequest(urlEstabelecimentos, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        int i;
+                        estabelecimentos = new ArrayList<>();
+                        for (i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject estabelecimentoItem = response.getJSONObject(i);
+                                estabelecimento = gson.fromJson(estabelecimentoItem.toString(), Estabelecimento.class);
+                                System.out.println("estabelecimento"+estabelecimento.getNome());
+                                estabelecimentos.add(estabelecimento);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
 
-        ListView ponto_licVencida = (ListView) rootView.findViewById(R.id.list_pontos_licVencida);
+                        for (Estabelecimento e : estabelecimentos){
+                            System.out.println("lista estabelecimento "+e.getNome());
+                        }
+                        definirSituacaoPonto();
+                        listPontosAguardandoVistoria();
+                        listPontosPendente();
 
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
 
-        ArrayAdapter<String> licVencidasAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, pontosVencidos);
-        ponto_licVencida.setAdapter(licVencidasAdapter);
+                        Toast.makeText(contexto, "Erro ao obter dados do servidor:"+error.getMessage() , Toast.LENGTH_LONG).show();
+                    }
+                });
+                VolleyApplication.getsInstance().getmRequestQueue().add(request);
+            } else {
+                Toast.makeText(contexto, mensagemInternet, Toast.LENGTH_LONG).show();
+                System.out.println("sem internet"+mensagemInternet);
+            }
+        } catch (Exception e) {
+            Toast.makeText(contexto, "Erro ao solicitar dados: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            System.out.println("erro " + e.getMessage());
+        }
+    }
+
+    public void listPontosAguardandoVistoria() {
+        final ListView pontoAguardando = (ListView) rootView.findViewById(R.id.listPontosAguardando);
+        adapter = new EstabelecimentoAdapter(contexto, listAguardandoVistoria);
+        pontoAguardando.setAdapter(adapter);
+        pontoAguardando.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("clicou");
+                Estabelecimento item = (Estabelecimento) pontoAguardando.getAdapter().getItem(position);
+
+                id = item.getId();
+                System.out.println("ponto selecionado"+id);
+                startActivity(new Intent(contexto, EstabelecimentoDetalhesActivity.class).putExtra("id",id));
+
+                Toast.makeText(getActivity().getBaseContext(), "ponto: " + item.getNome(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    public void listPontosPendente() {
+
+        final ListView pontoPendente = (ListView) rootView.findViewById(R.id.listPontosPendente);
+        adapter = new EstabelecimentoAdapter(contexto, listPendente);
+        pontoPendente.setAdapter(adapter);
+        pontoPendente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Estabelecimento item = (Estabelecimento) pontoPendente.getAdapter().getItem(position);
+                System.out.println("ponto selecionado"+item.getNome());
+                Toast.makeText(getActivity().getBaseContext(), "ponto: " + item.getNome(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
 
-    public void listPontosEmVistoria() {
-        ListView ponto_emVistoria = (ListView) rootView.findViewById(R.id.list_pontos_emVistoria);
-
-        ArrayAdapter<String> ponto_emVistoriaAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, pontosEmVistoria);
-        ponto_emVistoria.setAdapter(ponto_emVistoriaAdapter);
-
-    }
-
-    public void listPontosSemVistoria() {
-
-        ListView pontoSemVistoria = (ListView) rootView.findViewById(R.id.list_pontos_semVistoria);
-
-
-        ArrayAdapter<String> semVistoriaAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, pontosSemVistoria);
-        pontoSemVistoria.setAdapter(semVistoriaAdapter);
-
-
-    }
-
-    public void listPontosRegular() {
-        ListView pontoRegular = (ListView) rootView.findViewById(R.id.list_pontos_regular);
-
-        ArrayAdapter<String> pontoRegularAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, pontosRegular);
-        pontoRegular.setAdapter(pontoRegularAdapter);
-
-    }
 
     public void definirSituacaoPonto() {
-        pontosEmVistoria = new ArrayList<String>();
-        pontosSemVistoria = new ArrayList<String>();
-        pontosRegular = new ArrayList<String>();
-        pontosVencidos = new ArrayList<String>();
+        listAguardandoVistoria = new ArrayList<>();
+        listPendente = new ArrayList<>();
 
-        for (Estabelecimento e : rn.obterTodos()) {
+        for (Estabelecimento e : estabelecimentos) {
 
-            if (e.getSituacao().equals("vencida")) {
-                pontosVencidos.add(e.getNome());
-            } else if (e.getSituacao().equals("semVistoria")) {
-                pontosSemVistoria.add(e.getNome());
-            } else if (e.getSituacao().equals("emVistoria")) {
-                pontosEmVistoria.add(e.getNome());
-            } else if (e.getSituacao().equals("regular")) {
-                pontosRegular.add(e.getNome());
+            if (e.getStatus().equals("Aguardando vistoria")) {
+                listAguardandoVistoria.add(e);
+            } else if (e.getStatus().equals("Pendente")) {
+                listPendente.add(e);
             }
         }
     }

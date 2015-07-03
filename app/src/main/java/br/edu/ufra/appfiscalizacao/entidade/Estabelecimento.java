@@ -3,6 +3,9 @@ package br.edu.ufra.appfiscalizacao.entidade;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 
 @DatabaseTable(tableName = "estabelecimento")
 public class Estabelecimento {
@@ -11,17 +14,37 @@ public class Estabelecimento {
     @DatabaseField
     private String nome;
     @DatabaseField
-    private int dataLic;
+    private String contato;
     @DatabaseField
-    private int dataVenc;
+    private String rg;
     @DatabaseField
-    private String situacao;
+    private String cpf;
+    @DatabaseField
+    private String logradouro;
+    @DatabaseField
+    private String numero;
+    @DatabaseField
+    private String email;
+    @DatabaseField
+    private String telefone;
+    @DatabaseField
+    private Date dataLicenca;
+    @DatabaseField
+    private Date dataVencimento;
+    @DatabaseField
+    private String status;
+    @DatabaseField
+    private BigDecimal latitude;
+    @DatabaseField
+    private BigDecimal longitude;
+    @DatabaseField
+    private String autentificacao;
+    @DatabaseField
+    private Bairro bairro;
 
 
     public Estabelecimento() {
     }
-
-
 
     public int getId() {
         return id;
@@ -39,27 +62,115 @@ public class Estabelecimento {
         this.nome = nome;
     }
 
-    public int getDataLic() {
-        return dataLic;
+    public String getContato() {
+        return contato;
     }
 
-    public void setDataLic(int dataLic) {
-        this.dataLic = dataLic;
+    public void setContato(String contato) {
+        this.contato = contato;
     }
 
-    public int getDataVenc() {
-        return dataVenc;
+    public String getRg() {
+        return rg;
     }
 
-    public void setDataVenc(int dataVenc) {
-        this.dataVenc = dataVenc;
+    public void setRg(String rg) {
+        this.rg = rg;
     }
 
-    public String getSituacao() {
-        return situacao;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setSituacao(String situacao) {
-        this.situacao = situacao;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public Date getDataLicenca() {
+        return dataLicenca;
+    }
+
+    public void setDataLicenca(Date dataLicenca) {
+        this.dataLicenca = dataLicenca;
+    }
+
+    public Date getDataVencimento() {
+        return dataVencimento;
+    }
+
+    public void setDataVencimento(Date dataVencimento) {
+        this.dataVencimento = dataVencimento;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
+    }
+
+    public BigDecimal getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(BigDecimal longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getAutentificacao() {
+        return autentificacao;
+    }
+
+    public void setAutentificacao(String autentificacao) {
+        this.autentificacao = autentificacao;
+    }
+
+    public Bairro getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(Bairro bairro) {
+        this.bairro = bairro;
     }
 }

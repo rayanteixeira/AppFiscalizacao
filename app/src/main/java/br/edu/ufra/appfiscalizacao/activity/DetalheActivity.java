@@ -6,25 +6,37 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import android.widget.TextView;
 
 import br.edu.ufra.appfiscalizacao.R;
+import br.edu.ufra.appfiscalizacao.dao.TecnicoDAO;
+import br.edu.ufra.appfiscalizacao.rn.TecnicoRN;
+
 
 public class DetalheActivity extends ActionBarActivity {
+
     private ActionBar actionBar;
-    private Toolbar mToolbar;
+    TecnicoRN rn;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhe);
 
-        mToolbar = (Toolbar) findViewById(R.id.tb_main);
-        mToolbar.setTitle("Detalhes");
-        setSupportActionBar(mToolbar);
+        rn = new TecnicoRN(getBaseContext());
+
+        //ActionBar actionBar = getSupportActionBar();
+
+        //if (actionBar != null){
+          //  actionBar.setDisplayHomeAsUpEnabled(true);
+           // actionBar.setHomeButtonEnabled(true);
+        //}
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -32,6 +44,9 @@ public class DetalheActivity extends ActionBarActivity {
 
         Bundle extras = getIntent().getExtras();
         int id = extras.getInt("id");
+
+
+
 
         TextView txt = (TextView) findViewById(R.id.txtdetalhes);
         txt.setText(String.valueOf(id));
@@ -52,13 +67,14 @@ public class DetalheActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+       // int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+       // if (id == R.id.action_settings) {
+           // return true;
+       // }
 
+        finish();
         return super.onOptionsItemSelected(item);
     }
 }

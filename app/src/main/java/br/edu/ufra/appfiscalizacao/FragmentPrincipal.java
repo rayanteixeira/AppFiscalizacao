@@ -1,34 +1,48 @@
 package br.edu.ufra.appfiscalizacao;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.ToggleButton;
+import android.widget.Toast;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoAdapter;
+import br.edu.ufra.appfiscalizacao.application.StringURL;
+import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 import br.edu.ufra.appfiscalizacao.rn.EstabelecimentoRN;
-import br.liveo.navigationliveo.NavigationActionBarLiveo;
+import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;
+import br.edu.ufra.appfiscalizacao.util.Mensagem;
 
 
 public class FragmentPrincipal extends Fragment implements AdapterView.OnItemClickListener {
 
-
-
     private ListView listView;
     private EstabelecimentoAdapter adapter;
-    private ArrayList<String> estabelecimentos;
+    private ArrayList<Estabelecimento> estabelecimentos;
     private Estabelecimento estabelecimento;
     private EstabelecimentoRN rn;
+    private Gson gson;
+    private String urlEstabelecimentos = StringURL.getUrlEstabelecimento()+"all";
+    private Context contexto ;
+    private String mensagemInternet= Mensagem.getMensagemInternet();
 
     public FragmentPrincipal() {
         // Required empty public constructor
@@ -39,43 +53,67 @@ public class FragmentPrincipal extends Fragment implements AdapterView.OnItemCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        contexto = getActivity().getBaseContext();
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_principal, container, false);
-        rn = new EstabelecimentoRN(getActivity());
-        estabelecimentos = new ArrayList<String>();
         listView = (ListView) rootView.findViewById(R.id.listaestabelecimentos);
-       // String[] pontos = {"Rayan","Jairo", "Geovane"};
+        getJsonArray();
 
-        listView.setOnItemClickListener(this);
-        for(Estabelecimento e: rn.obterTodos()){
-            estabelecimentos.add(e.getNome());
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getBaseContext(),android.R.layout.simple_list_item_1, estabelecimentos);
-        listView.setAdapter(adapter);
-        createListView();
         return rootView;
     }
 
+    public void getJsonArray(){
+        try {
+            if (ConexaoInternet.estaConectado(contexto) == true) {
+                System.out.println("conectado");
+                gson = new Gson();
+                JsonArrayRequest request = new JsonArrayRequest(urlEstabelecimentos, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        int i;
+                        estabelecimentos = new ArrayList<>();
+                        for (i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject estabelecimentoItem = response.getJSONObject(i);
+                                estabelecimento = gson.fromJson(estabelecimentoItem.toString(), Estabelecimento.class);
+                                System.out.println("estabelecimento"+estabelecimento.getNome());
+                                estabelecimentos.add(estabelecimento);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        for (Estabelecimento e : estabelecimentos){
+                            System.out.println("lista estabelecimento "+e.getNome());
+                        }
+                        createListView();
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        Toast.makeText(contexto, "Erro ao obter dados do servidor:"+error.getMessage() , Toast.LENGTH_LONG).show();
+                    }
+                });
+                VolleyApplication.getsInstance().getmRequestQueue().add(request);
+            } else {
+                Toast.makeText(contexto, mensagemInternet, Toast.LENGTH_LONG).show();
+                System.out.println("sem internet"+mensagemInternet);
+            }
+        } catch (Exception e) {
+            Toast.makeText(contexto, "Erro ao solicitar dados: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            System.out.println("erro " + e.getMessage());
+        }
+    }
+
     private void createListView(){
-        /*
-        estabelecimentos = new ArrayList<String>();
-
-        Estabelecimento estabelecimento1 = new Estabelecimento("POnto do Geovane", "Licenciado", R.drawable.biff );
-        Estabelecimento estabelecimento2 = new Estabelecimento("POnto do Rayan", "Licenciado", R.drawable.icon );
-        Estabelecimento estabelecimento3 = new Estabelecimento("POnto do Jairo", "Licenciado", R.drawable.ic_launcher );
-        Estabelecimento estabelecimento4 = new Estabelecimento("POnto do Fabio", "Interditado", R.drawable.ricoldi );
-        Estabelecimento estabelecimento5 = new Estabelecimento("POnto do Zenaldo", "Interditado", R.drawable.iconic);
-        estabelecimentos.add(estabelecimento1);
-        estabelecimentos.add(estabelecimento2);
-        estabelecimentos.add(estabelecimento3);
-        estabelecimentos.add(estabelecimento4);
-        estabelecimentos.add(estabelecimento5);
 
 
-        adapter = new EstabelecimentoAdapter(getActivity().getApplicationContext(), estabelecimentos);
+
+        adapter = new EstabelecimentoAdapter(contexto, estabelecimentos);
         listView.setAdapter(adapter);
-        listView.setCacheColorHint(Color.TRANSPARENT);
-        */
+
     }
 
     @Override
