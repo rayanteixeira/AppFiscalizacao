@@ -58,7 +58,7 @@ public class CadastroEstabelecimento extends Activity {
             @Override
             public void onClick(View v) {
 
-                salvar();
+               // salvar();
                 finish();
             }
         });
@@ -76,7 +76,7 @@ public class CadastroEstabelecimento extends Activity {
             situacao = "regular";
         }
     }
-
+/*
     public void salvar(){
        try {
            estabelecimento = new Estabelecimento();
@@ -93,7 +93,7 @@ public class CadastroEstabelecimento extends Activity {
        }
 
 
-    }
+    }  */
 
 
     @Override

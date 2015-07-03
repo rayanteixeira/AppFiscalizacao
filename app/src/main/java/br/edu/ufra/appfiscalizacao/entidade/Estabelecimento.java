@@ -3,6 +3,10 @@ package br.edu.ufra.appfiscalizacao.entidade;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
 
 @DatabaseTable(tableName = "estabelecimento")
 public class Estabelecimento {
@@ -11,17 +15,64 @@ public class Estabelecimento {
     @DatabaseField
     private String nome;
     @DatabaseField
-    private int dataLic;
+    private String contato;
     @DatabaseField
-    private int dataVenc;
+    private String rg;
     @DatabaseField
-    private String situacao;
+    private String cpf;
+    @DatabaseField
+    private String logradouro ;
+    @DatabaseField
+    private String numero;
+    @DatabaseField
+    private String email;
+    @DatabaseField
+    private String telefone;
+    @DatabaseField
+    private Date dataCadastro;
+    @DatabaseField
+    private String dataLicenca;
+    @DatabaseField
+    private String dataVencimento;
+    @DatabaseField
+    private String status;
+    @DatabaseField
+    private double latitude;
+    @DatabaseField
+    private double longitude;
+    @DatabaseField
+    private String autentificacao;
+
+    private List<Vistoria> vistoriaList;
+
+    private Bairro bairro;
+
+
 
 
     public Estabelecimento() {
     }
 
-
+    public Estabelecimento(int id, String nome, String contato, String rg, String cpf, String logradouro, String numero, String email, String telefone, Date dataCadastro, String dataLicenca, String dataVencimento, String status, double latitude, double longitude, String autentificacao, List<Vistoria> vistoriaList, Bairro bairro) {
+        this.id = id;
+        this.nome = nome;
+        this.contato = contato;
+        this.rg = rg;
+        this.cpf = cpf;
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.email = email;
+        this.telefone = telefone;
+        this.dataCadastro = dataCadastro;
+        this.dataLicenca = dataLicenca;
+        this.dataVencimento = dataVencimento;
+        this.status = status;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.autentificacao = autentificacao;
+        this.vistoriaList = vistoriaList;
+        this.bairro = bairro;
+    }
 
     public int getId() {
         return id;
@@ -39,27 +90,131 @@ public class Estabelecimento {
         this.nome = nome;
     }
 
-    public int getDataLic() {
-        return dataLic;
+    public String getContato() {
+        return contato;
     }
 
-    public void setDataLic(int dataLic) {
-        this.dataLic = dataLic;
+    public void setContato(String contato) {
+        this.contato = contato;
     }
 
-    public int getDataVenc() {
-        return dataVenc;
+    public String getRg() {
+        return rg;
     }
 
-    public void setDataVenc(int dataVenc) {
-        this.dataVenc = dataVenc;
+    public void setRg(String rg) {
+        this.rg = rg;
     }
 
-    public String getSituacao() {
-        return situacao;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setSituacao(String situacao) {
-        this.situacao = situacao;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public Date getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
+    public String getDataLicenca() {
+        return dataLicenca;
+    }
+
+    public void setDataLicenca(String dataLicenca) {
+        this.dataLicenca = dataLicenca;
+    }
+
+    public String getDataVencimento() {
+        return dataVencimento;
+    }
+
+    public void setDataVencimento(String dataVencimento) {
+        this.dataVencimento = dataVencimento;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getAutentificacao() {
+        return autentificacao;
+    }
+
+    public void setAutentificacao(String autentificacao) {
+        this.autentificacao = autentificacao;
+    }
+
+    public List<Vistoria> getVistoriaList() {
+        return vistoriaList;
+    }
+
+    public void setVistoriaList(List<Vistoria> vistoriaList) {
+        this.vistoriaList = vistoriaList;
+    }
+
+    public Bairro getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(Bairro bairro) {
+        this.bairro = bairro;
     }
 }

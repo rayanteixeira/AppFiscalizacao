@@ -74,12 +74,11 @@ public class FragmentEstabelecimento extends Fragment {
         descritor.setIndicator("Regular");
         abas.addTab(descritor);
 
-        definirSituacaoPonto();
-
-        listPontosRegular();
-        listPontosLicVencida();
-        listPontosEmVistoria();
-        listPontosSemVistoria();
+        //definirSituacaoPonto();
+        //listPontosRegular();
+        //listPontosLicVencida();
+        //listPontosEmVistoria();
+        //listPontosSemVistoria();
 
         btNovo.setOnClickListener(new View.OnClickListener() {
 
@@ -132,14 +131,14 @@ public class FragmentEstabelecimento extends Fragment {
         pontoRegular.setAdapter(pontoRegularAdapter);
 
     }
-
+ /*
     public void definirSituacaoPonto() {
         pontosEmVistoria = new ArrayList<String>();
         pontosSemVistoria = new ArrayList<String>();
         pontosRegular = new ArrayList<String>();
         pontosVencidos = new ArrayList<String>();
 
-        for (Estabelecimento e : rn.obterTodos()) {
+       for (Estabelecimento e : rn.obterTodos()) {
 
             if (e.getSituacao().equals("vencida")) {
                 pontosVencidos.add(e.getNome());
@@ -151,6 +150,7 @@ public class FragmentEstabelecimento extends Fragment {
                 pontosRegular.add(e.getNome());
             }
         }
-    }
 
+    }
+*/
 }

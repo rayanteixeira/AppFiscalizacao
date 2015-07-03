@@ -30,28 +30,27 @@ public class FragmentPrincipal extends Fragment implements AdapterView.OnItemCli
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_principal, container, false);
         rn = new EstabelecimentoRN(getActivity());
-        estabelecimentos = new ArrayList<String>();
+        estabelecimentos = new ArrayList<>();
         listView = (ListView) rootView.findViewById(R.id.listaestabelecimentos);
-       // String[] pontos = {"Rayan","Jairo", "Geovane"};
+
 
         listView.setOnItemClickListener(this);
-        for(Estabelecimento e: rn.obterTodos()){
-            estabelecimentos.add(e.getNome());
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getBaseContext(),android.R.layout.simple_list_item_1, estabelecimentos);
-        listView.setAdapter(adapter);
-        createListView();
+        //for (Estabelecimento e : rn.obterTodos()) {
+         //   estabelecimentos.add(e.getNome());
+        //}
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, estabelecimentos);
+        //listView.setAdapter(adapter);
+        //createListView();
         return rootView;
     }
 
-    private void createListView(){
+    private void createListView() {
         /*
         estabelecimentos = new ArrayList<String>();
 
@@ -76,7 +75,7 @@ public class FragmentPrincipal extends Fragment implements AdapterView.OnItemCli
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-       // Estabelecimento item = adapter.getItem(position);
+        // Estabelecimento item = adapter.getItem(position);
 
     }
 }
