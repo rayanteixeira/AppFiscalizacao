@@ -9,19 +9,19 @@ import android.widget.Toast;
  */
 public class ConexaoInternet {
 
-    public static boolean estaConectado(Context context){
-        boolean conectado=false;
-        ConnectivityManager connectivityManager=(ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean estaConectado(Context context) {
+        boolean conectado = false;
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        if (connectivityManager.getActiveNetworkInfo() !=null && connectivityManager.getActiveNetworkInfo().isAvailable() &&
+        if (connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isAvailable() &&
                 connectivityManager.getActiveNetworkInfo().isConnected()
-                ){
+                ) {
 
 
-            conectado=true;
+            conectado = true;
 
-        }else {
-            conectado=false;
+        } else {
+            conectado = false;
         }
 
         return conectado;

@@ -11,8 +11,12 @@ import android.view.MenuItem;
 
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.edu.ufra.appfiscalizacao.R;
 import br.edu.ufra.appfiscalizacao.dao.TecnicoDAO;
+import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
 import br.edu.ufra.appfiscalizacao.rn.TecnicoRN;
 
 
@@ -20,10 +24,7 @@ public class DetalheActivity extends ActionBarActivity {
 
     private ActionBar actionBar;
     TecnicoRN rn;
-
-
-
-
+    int idtecnico;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,18 +44,32 @@ public class DetalheActivity extends ActionBarActivity {
 
 
         Bundle extras = getIntent().getExtras();
-        int id = extras.getInt("id");
+        idtecnico = extras.getInt("idtecnico");
+        //Tecnico tecnico = rn.obterId(idtecnico);
+        //System.out.println(tecnico);
+
+
 
 
 
 
         TextView txt = (TextView) findViewById(R.id.txtdetalhes);
-        txt.setText(String.valueOf(id));
+        txt.setText(String.valueOf(idtecnico));
 
 
 
     }
 
+
+    public void idTecnico(){
+
+
+
+
+       // List<Tecnico> tecnicos = new ArrayList<>();
+        //for (int i; i <=   )
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

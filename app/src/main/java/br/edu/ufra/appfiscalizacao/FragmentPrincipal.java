@@ -67,7 +67,7 @@ public class FragmentPrincipal extends Fragment implements AdapterView.OnItemCli
             if (ConexaoInternet.estaConectado(contexto) == true) {
                 System.out.println("conectado");
                 gson = new Gson();
-                JsonArrayRequest request = new JsonArrayRequest(urlEstabelecimentos, new Response.Listener<JSONArray>() {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           JsonArrayRequest request = new JsonArrayRequest(urlEstabelecimentos, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         int i;

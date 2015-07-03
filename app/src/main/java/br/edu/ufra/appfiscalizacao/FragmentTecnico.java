@@ -1,9 +1,11 @@
 package br.edu.ufra.appfiscalizacao;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +24,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.activity.DetalheActivity;
 import br.edu.ufra.appfiscalizacao.adapter.TecnicoAdapter;
+import br.edu.ufra.appfiscalizacao.application.StringURL;
 import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
 import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
 
@@ -34,11 +38,12 @@ import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
 public class FragmentTecnico extends Fragment {
 
     Gson gson;
-    String url = "http://10.10.168.4:8084/AcaiPDE_Web/resources/tecnico/all";
+    StringURL url;
     List<Tecnico> tecnicos = null;
     TextView mText;
     TecnicoAdapter adapter = null;
     ListView listtecnicos;
+    ProgressDialog mProgressDialog = null;
 
 
     public FragmentTecnico() {
@@ -60,14 +65,9 @@ public class FragmentTecnico extends Fragment {
         listtecnicos = (ListView) rootview.findViewById(R.id.listtecnicos);
 
         gson = new Gson();
+        mProgressDialog = ProgressDialog.show(getActivity(),"Download","Atualizando lista, por favor espere.", false, true);
         mText = (TextView) rootview.findViewById(R.id.txtjson);
-
         getjsonArray();
-
-
-
-
-
         return rootview;
     }
 
@@ -77,7 +77,7 @@ public class FragmentTecnico extends Fragment {
 
 
         JsonArrayRequest arrayRequest = new JsonArrayRequest(
-                url,
+                url.getUrlTecnico() + "all",
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
@@ -87,11 +87,12 @@ public class FragmentTecnico extends Fragment {
 
                         for (i = 0; i < response.length(); i++) {
                             try {
+
                                 JSONObject mTecnicoItem = response.getJSONObject(i);
                                 System.out.println("Estabelecimento Item -> " + mTecnicoItem);
                                 Tecnico tecnico = gson.fromJson(String.valueOf(mTecnicoItem), Tecnico.class);
                                 tecnicos.add(tecnico);
-
+                                mProgressDialog.dismiss();
                                 //tecnico.setNome(mTecnicoItem.getString("nome"));
                                 //System.out.println(tecnico.getNome());
 
@@ -119,7 +120,7 @@ public class FragmentTecnico extends Fragment {
                                 System.out.println("NOME--=>" +item.getNome());
 
                                 Intent it = new Intent(getActivity().getBaseContext(), DetalheActivity.class);
-                                it.putExtra("id", idtecnico);
+                                it.putExtra("idtecnico", idtecnico);
                                 startActivity(it);
 
 
