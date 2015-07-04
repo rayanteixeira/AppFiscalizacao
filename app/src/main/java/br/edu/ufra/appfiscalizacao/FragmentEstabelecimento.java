@@ -22,14 +22,25 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import br.edu.ufra.appfiscalizacao.activity.DetalheActivity;
 import br.edu.ufra.appfiscalizacao.activity.EstabelecimentoDetalhesActivity;
 import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoAdapter;
 import br.edu.ufra.appfiscalizacao.application.StringURL;
@@ -53,10 +64,11 @@ public class FragmentEstabelecimento extends Fragment {
     RequestQueue resquestQueue;
     String urlEstabelecimentos = StringURL.getUrlEstabelecimento() + "all";
     Gson gson;
-    int id;
     String mensagemInternet = Mensagem.getMensagemInternet();
     Context contexto;
-    private EstabelecimentoAdapter adapter;
+    private GsonBuilder builder;
+    private EstabelecimentoAdapter adapterAguardando;
+    private EstabelecimentoAdapter adapterPendente;
 
     public FragmentEstabelecimento() {
 
@@ -98,7 +110,20 @@ public class FragmentEstabelecimento extends Fragment {
         try {
             if (ConexaoInternet.estaConectado(contexto) == true) {
                 System.out.println("conectado");
-                gson = new Gson();
+                builder = new GsonBuilder();
+                builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+                    @Override
+                    public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                        try {
+                            return df.parse(json.getAsString());
+                        } catch (ParseException e) {
+                            return null;
+                        }
+                    }
+                });
+                gson = builder.create();
                 JsonArrayRequest request = new JsonArrayRequest(urlEstabelecimentos, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -143,19 +168,17 @@ public class FragmentEstabelecimento extends Fragment {
 
     public void listPontosAguardandoVistoria() {
         final ListView pontoAguardando = (ListView) rootView.findViewById(R.id.listPontosAguardando);
-        adapter = new EstabelecimentoAdapter(contexto, listAguardandoVistoria);
-        pontoAguardando.setAdapter(adapter);
-        pontoAguardando.setOnItemClickListener(new ListView.OnItemClickListener() {
+         adapterAguardando = new EstabelecimentoAdapter(contexto, listAguardandoVistoria);
+        pontoAguardando.setAdapter(adapterAguardando);
+        pontoAguardando.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("clicou");
-                Estabelecimento item = (Estabelecimento) pontoAguardando.getAdapter().getItem(position);
+                Estabelecimento estabelecimento = (Estabelecimento) adapterAguardando.getItem(position);
 
-                id = item.getId();
-                System.out.println("ponto selecionado"+id);
-                startActivity(new Intent(contexto, EstabelecimentoDetalhesActivity.class).putExtra("id",id));
-
-                Toast.makeText(getActivity().getBaseContext(), "ponto: " + item.getNome(), Toast.LENGTH_SHORT).show();
+                int idEstabelecimento = estabelecimento.getId();
+                Intent it = new Intent(getActivity().getBaseContext(), DetalheActivity.class);
+                it.putExtra("estabelecimento", estabelecimento);
+                startActivity(it);
             }
         });
 
@@ -164,14 +187,17 @@ public class FragmentEstabelecimento extends Fragment {
     public void listPontosPendente() {
 
         final ListView pontoPendente = (ListView) rootView.findViewById(R.id.listPontosPendente);
-        adapter = new EstabelecimentoAdapter(contexto, listPendente);
-        pontoPendente.setAdapter(adapter);
+        adapterPendente = new EstabelecimentoAdapter(contexto, listPendente);
+        pontoPendente.setAdapter(adapterPendente);
         pontoPendente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Estabelecimento item = (Estabelecimento) pontoPendente.getAdapter().getItem(position);
-                System.out.println("ponto selecionado"+item.getNome());
-                Toast.makeText(getActivity().getBaseContext(), "ponto: " + item.getNome(), Toast.LENGTH_SHORT).show();
+                Estabelecimento item = (Estabelecimento) adapterAguardando.getItem(position);
+
+                int idEstabelecimento = item.getId();
+                Intent it = new Intent(getActivity().getBaseContext(), DetalheActivity.class);
+                it.putExtra("estabelecimento", estabelecimento);
+                startActivity(it);
             }
         });
 

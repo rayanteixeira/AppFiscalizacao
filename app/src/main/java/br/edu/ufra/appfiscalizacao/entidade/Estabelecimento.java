@@ -3,13 +3,14 @@ package br.edu.ufra.appfiscalizacao.entidade;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 
 @DatabaseTable(tableName = "estabelecimento")
-public class Estabelecimento {
-    @DatabaseField (generatedId=true)
+public class Estabelecimento implements Serializable {
+    @DatabaseField (generatedId=false)
     private int id;
     @DatabaseField
     private String nome;

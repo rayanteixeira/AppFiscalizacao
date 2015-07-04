@@ -3,8 +3,10 @@ package br.edu.ufra.appfiscalizacao.entidade;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 @DatabaseTable(tableName = "bairro")
-public class Bairro {
+public class Bairro implements Serializable {
     @DatabaseField(generatedId = false)
     private Integer id;
     @DatabaseField
@@ -26,9 +28,9 @@ public class Bairro {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+     public void setNome(String nome) {
+          this.nome = nome;
+                                                                                                                                                                                                                                            }
     
     
 }
