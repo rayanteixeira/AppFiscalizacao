@@ -114,13 +114,13 @@ public class FragmentTecnico extends Fragment {
                         listtecnicos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Tecnico item = (Tecnico) adapter.getItem(position);
-                                int idtecnico = item.getId();
-                                System.out.println("ITEM--=>" +item.getId());
-                                System.out.println("NOME--=>" +item.getNome());
+                                Tecnico tecnico = (Tecnico) adapter.getItem(position);
+                                int idtecnico = tecnico.getId();
+                                System.out.println("ITEM--=>" +tecnico.getId());
+                                System.out.println("NOME--=>" +tecnico.getNome());
 
                                 Intent it = new Intent(getActivity().getBaseContext(), DetalheActivity.class);
-                                it.putExtra("idtecnico", idtecnico);
+                                it.putExtra("tecnico", tecnico);
                                 startActivity(it);
 
 

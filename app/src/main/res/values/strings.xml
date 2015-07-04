@@ -41,5 +41,6 @@
     <string name="title_activity_detalhes">DetalhesActivity</string>
     <string name="title_activity_detalhe">DetalheActivity</string>
     <string name="title_activity_estabelecimento_detalhes">EstabelecimentoDetalhesActivity</string>
+    <string name="title_activity_vistoria">VistoriaActivity</string>
 
 </resources>

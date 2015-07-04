@@ -51,7 +51,8 @@ public class TecnicoAdapter extends BaseAdapter{
         TextView nome = (TextView) view.findViewById(R.id.situacaopoint);
         //ImageView img = (ImageView) view.findViewById(R.id.photopoint);
 
-        matricula.setText(String.valueOf(tecnico.getId()));
+        //matricula.setText(String.valueOf(tecnico.getId()));
+        matricula.setText(tecnico.getEmail().toString());
         nome.setText(tecnico.getNome().toString());
         //img.setImageResource(estabelecimento.getDataVenc());
 

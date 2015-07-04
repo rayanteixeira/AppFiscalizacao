@@ -3,6 +3,8 @@ package br.edu.ufra.appfiscalizacao.entidade;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 /**
  * Created by Rayan on 16/06/2015.
  */
@@ -11,7 +13,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 
 @DatabaseTable(tableName = "tecnico")
-public class Tecnico {
+public class Tecnico implements Serializable {
     @DatabaseField(generatedId=true)
     private int id;
     @DatabaseField

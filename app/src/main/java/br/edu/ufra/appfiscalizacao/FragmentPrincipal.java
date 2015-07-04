@@ -1,6 +1,7 @@
 package br.edu.ufra.appfiscalizacao;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -30,6 +31,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import br.edu.ufra.appfiscalizacao.activity.EstabelecimentoDetalhesActivity;
 import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoAdapter;
 import br.edu.ufra.appfiscalizacao.application.StringURL;
 import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
@@ -134,6 +137,19 @@ public class FragmentPrincipal extends Fragment implements AdapterView.OnItemCli
 
         adapter = new EstabelecimentoAdapter(contexto, estabelecimentos);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Estabelecimento estabelecimento = (Estabelecimento) adapter.getItem(position);
+
+                Intent it = new Intent(getActivity().getBaseContext(), EstabelecimentoDetalhesActivity.class);
+                it.putExtra("estabelecimento",estabelecimento);
+                startActivity(it);
+
+            }
+        });
+
 
     }
 

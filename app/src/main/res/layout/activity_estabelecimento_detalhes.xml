@@ -1,62 +1,134 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     android:orientation="vertical"
     tools:context="br.edu.ufra.appfiscalizacao.activity.EstabelecimentoDetalhesActivity">
 
-    <TextView android:text="Nome" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <ImageView
+        android:src="@drawable/ic_launche2"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/imageView4" />
 
-    <TextView android:id="@+id/nomeEstabelecimento" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <TextView
+            android:paddingTop="15dp"
+            android:paddingBottom="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/nliveo_black"
+            android:text="Nome: " />
 
-    <TextView android:text="Contato" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/nomeEstabelecimento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <TextView android:id="@+id/contatoEstabelecimento" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView android:text="Logradouro" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:paddingBottom="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/nliveo_black"
+            android:text="Contato: " />
 
-    <TextView android:id="@+id/logradouroEstabelecimento" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/contatoEstabelecimento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView android:text="Bairro" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:paddingBottom="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/nliveo_black"
+            android:text="Logradouro: " />
 
-    <TextView android:id="@+id/bairroEstabelecimento" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/logradouroEstabelecimento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView android:text="Telefone" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:paddingBottom="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/nliveo_black"
+            android:text="Bairro: " />
 
-    <TextView android:id="@+id/telefoneEstabelecimento" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/bairroEstabelecimento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView android:text="Status" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:paddingBottom="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/nliveo_black"
+            android:text="Telefone: " />
 
-    <TextView android:id="@+id/statusEstabelecimento" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/telefoneEstabelecimento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/btnVistoriar"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:paddingBottom="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/nliveo_black"
+            android:text="Status: " />
+
+        <TextView
+            android:id="@+id/statusEstabelecimento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Vistoriar"
-        />
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_novavistoria"
+        fab:fab_shadow="true"
 
-    <Button
-        android:id="@+id/btnVistorias"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Vistorias Realizadas"
         />
+    </FrameLayout>
 </LinearLayout>

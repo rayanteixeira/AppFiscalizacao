@@ -22,54 +22,47 @@ import br.edu.ufra.appfiscalizacao.rn.TecnicoRN;
 
 public class DetalheActivity extends ActionBarActivity {
 
-    private ActionBar actionBar;
-    TecnicoRN rn;
-    int idtecnico;
+
+    TextView txvNome, txvMatricula, txvEmail;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhe);
 
-        rn = new TecnicoRN(getBaseContext());
+        Tecnico tecnico = (Tecnico) getIntent().getSerializableExtra("tecnico");
 
         //ActionBar actionBar = getSupportActionBar();
 
         //if (actionBar != null){
-          //  actionBar.setDisplayHomeAsUpEnabled(true);
-           // actionBar.setHomeButtonEnabled(true);
+        //  actionBar.setDisplayHomeAsUpEnabled(true);
+        // actionBar.setHomeButtonEnabled(true);
         //}
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
-        Bundle extras = getIntent().getExtras();
-        idtecnico = extras.getInt("idtecnico");
+        //Bundle extras = getIntent().getExtras();
+        //idtecnico = extras.getInt("idtecnico");
         //Tecnico tecnico = rn.obterId(idtecnico);
         //System.out.println(tecnico);
 
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setHomeButtonEnabled(true);
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
+        txvNome = (TextView) findViewById(R.id.txvNomeTec);
+        txvMatricula = (TextView) findViewById(R.id.txvMatriculaTec);
+        txvEmail = (TextView) findViewById(R.id.txvEmailTec);
 
-
-        TextView txt = (TextView) findViewById(R.id.txtdetalhes);
-        txt.setText(String.valueOf(idtecnico));
-
+        txvNome.setText(tecnico.getNome());
+        txvMatricula.setText(tecnico.getMatricula());
+        txvEmail.setText(tecnico.getEmail());
 
 
     }
 
 
-    public void idTecnico(){
-
-
-
-
-       // List<Tecnico> tecnicos = new ArrayList<>();
-        //for (int i; i <=   )
-
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -82,12 +75,12 @@ public class DetalheActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-       // int id = item.getItemId();
+        // int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-       // if (id == R.id.action_settings) {
-           // return true;
-       // }
+        // if (id == R.id.action_settings) {
+        // return true;
+        // }
 
         finish();
         return super.onOptionsItemSelected(item);

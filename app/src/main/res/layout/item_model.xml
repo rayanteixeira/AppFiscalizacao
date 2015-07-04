@@ -9,33 +9,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5sp">
+        android:padding="5dp">
+
         <TextView
             android:id="@+id/situacaopoint"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:textColor="@color/nliveo_lime_alpha_colorPrimaryDark"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_height="30dp"
             android:layout_alignBottom="@+id/photopoint"
-            android:layout_toRightOf="@+id/photopoint"
-            android:layout_toEndOf="@+id/photopoint"
-             />
+            android:layout_toEndOf="@+id/space2"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/nliveo_lime_alpha_colorPrimaryDark"
+            android:layout_toRightOf="@+id/space2" />
 
         <TextView
             android:id="@+id/namepoint"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_height="30dp"
             android:gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/nliveo_brown_colorPrimaryDark"
-            android:layout_toRightOf="@+id/photopoint"
-            android:layout_toEndOf="@+id/photopoint" />
+            android:layout_above="@+id/situacaopoint"
+            android:layout_toEndOf="@+id/space2"
+            android:layout_toRightOf="@+id/space2" />
 
         <ImageView
-            android:layout_width="87dp"
-            android:layout_height="87dp"
+
             android:id="@+id/photopoint"
-            android:src="@drawable/ic_launche2"
-            />
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/ic_launche2" />
+
+        <Space
+            android:layout_width="20px"
+            android:layout_height="20px"
+            android:layout_alignTop="@+id/namepoint"
+            android:layout_toRightOf="@+id/photopoint"
+            android:layout_toEndOf="@+id/photopoint"
+            android:id="@+id/space2"
+            android:layout_alignBottom="@+id/situacaopoint" />
     </RelativeLayout>
 </LinearLayout>
