@@ -30,9 +30,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoAdapter;
-import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoTypeJsonAdapter;
 import br.edu.ufra.appfiscalizacao.application.StringURL;
 import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
@@ -90,7 +88,7 @@ public class FragmentPrincipal extends Fragment implements AdapterView.OnItemCli
                 });
                 gson = builder.create();
 
-                JsonArrayRequest request = new JsonArrayRequest(urlEstabelecimentos, new Response.Listener<JSONArray>() {
+               JsonArrayRequest request = new JsonArrayRequest(urlEstabelecimentos, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         int i;

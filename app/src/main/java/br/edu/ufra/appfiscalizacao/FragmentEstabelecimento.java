@@ -176,7 +176,7 @@ public class FragmentEstabelecimento extends Fragment {
                 Estabelecimento estabelecimento = (Estabelecimento) adapterAguardando.getItem(position);
 
                 int idEstabelecimento = estabelecimento.getId();
-                Intent it = new Intent(getActivity().getBaseContext(), DetalheActivity.class);
+                Intent it = new Intent(getActivity().getBaseContext(), EstabelecimentoDetalhesActivity.class);
                 it.putExtra("estabelecimento", estabelecimento);
                 startActivity(it);
             }
@@ -195,7 +195,7 @@ public class FragmentEstabelecimento extends Fragment {
                 Estabelecimento item = (Estabelecimento) adapterAguardando.getItem(position);
 
                 int idEstabelecimento = item.getId();
-                Intent it = new Intent(getActivity().getBaseContext(), DetalheActivity.class);
+                Intent it = new Intent(getActivity().getBaseContext(), EstabelecimentoDetalhesActivity.class);
                 it.putExtra("estabelecimento", estabelecimento);
                 startActivity(it);
             }

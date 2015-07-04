@@ -35,13 +35,13 @@ public class EstabelecimentoDetalhesActivity extends ActionBarActivity {
         logradouroTxt = (TextView) findViewById(R.id.logradouroEstabelecimento);
         bairroTxt = (TextView) findViewById(R.id.bairroEstabelecimento);
         telefoneTxt = (TextView) findViewById(R.id.telefoneEstabelecimento);
-
-        nomeTxt.setText(e.getNome().toString());
-        contatoTxt.setText(e.getContato().toString());
-        logradouroTxt.setText(e.getLogradouro().toString());
-        bairroTxt.setText(e.getBairro().toString());
-        telefoneTxt.setText(e.getTelefone().toString());
-
+        statusTxt = (TextView) findViewById(R.id.statusEstabelecimento);
+        nomeTxt.setText(e.getNome());
+        contatoTxt.setText(e.getContato());
+        logradouroTxt.setText(e.getLogradouro());
+        bairroTxt.setText(e.getBairro().getNome());
+        telefoneTxt.setText(e.getTelefone());
+        statusTxt.setText(e.getStatus());
     }
 
 
