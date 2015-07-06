@@ -47,12 +47,12 @@ public class TecnicoAdapter extends BaseAdapter{
         Tecnico tecnico = (Tecnico) getItem(position);
 
         view = mInflate.inflate(R.layout.item_model, null);
-        TextView matricula = (TextView) view.findViewById(R.id.namepoint);
-        TextView nome = (TextView) view.findViewById(R.id.situacaopoint);
+        TextView nome = (TextView) view.findViewById(R.id.namepoint);
+        TextView email = (TextView) view.findViewById(R.id.situacaopoint);
         //ImageView img = (ImageView) view.findViewById(R.id.photopoint);
 
         //matricula.setText(String.valueOf(tecnico.getId()));
-        matricula.setText(tecnico.getEmail().toString());
+        email.setText(tecnico.getEmail().toString());
         nome.setText(tecnico.getNome().toString());
         //img.setImageResource(estabelecimento.getDataVenc());
 

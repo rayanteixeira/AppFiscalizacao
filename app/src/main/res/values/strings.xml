@@ -19,13 +19,13 @@
 
     <string name="sign_in">Sign in</string>
     <string name="inbox">Inbox</string>
-    <string name="starred">Principal</string>
-    <string name="sent_mail">Estabelecimento</string>
-    <string name="drafts">Técnicos</string>
-    <string name="categories">Menu</string>
-    <string name="trash">Equipamentos</string>
+    <string name="estabelecimento">Estabelecimentos</string>
+    <string name="vistoria">Vistorias</string>
+    <string name="tecnico">Técnicos</string>
+    <string name="menu">Menu</string>
+    <string name="equipamento">Equipamentos</string>
     <string name="spam">Spam</string>
-    <string name="settings">Sobre</string>
+    <string name="sobre">Sobre</string>
     <string name="add">Add</string>
     <string name="search">Search</string>
 

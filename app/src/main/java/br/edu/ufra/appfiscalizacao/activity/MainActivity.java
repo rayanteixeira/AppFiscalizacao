@@ -9,15 +9,14 @@ import android.view.View;
 import android.widget.Toast;
 
 
+import br.edu.ufra.appfiscalizacao.FragmentVistoria;
 import br.edu.ufra.appfiscalizacao.FragmentEstabelecimento;
-import br.edu.ufra.appfiscalizacao.FragmentPrincipal;
 import br.edu.ufra.appfiscalizacao.FragmentTecnico;
 import br.edu.ufra.appfiscalizacao.R;
 import br.liveo.Model.HelpLiveo;
 import br.liveo.interfaces.OnItemClickListener;
 import br.liveo.interfaces.OnPrepareOptionsMenuLiveo;
 import br.liveo.navigationliveo.NavigationActionBarLiveo;
-import br.liveo.navigationliveo.NavigationLiveo;
 
 
 public class MainActivity extends NavigationActionBarLiveo implements OnItemClickListener {
@@ -37,11 +36,11 @@ public class MainActivity extends NavigationActionBarLiveo implements OnItemClic
         mHelpLiveo = new HelpLiveo();
         //mHelpLiveo.add(getString(R.string.inbox), R.drawable.ic_inbox_black_24dp, 7);
 
-        mHelpLiveo.addSubHeader(getString(R.string.categories)); //Item subHeader
-        mHelpLiveo.add(getString(R.string.starred), R.drawable.ic_star_black_24dp);
-        mHelpLiveo.add(getString(R.string.sent_mail), R.drawable.ic_send_black_24dp);
-        mHelpLiveo.add(getString(R.string.drafts), R.drawable.ic_drafts_black_24dp);
-        mHelpLiveo.add(getString(R.string.trash), R.drawable.ic_delete_black_24dp);
+        mHelpLiveo.addSubHeader(getString(R.string.menu)); //Item subHeader
+        mHelpLiveo.add(getString(R.string.estabelecimento), R.drawable.ic_estabelecimento);
+        mHelpLiveo.add(getString(R.string.vistoria), R.drawable.ic_vistoria);
+        mHelpLiveo.add(getString(R.string.tecnico), R.drawable.ic_tecnico);
+        mHelpLiveo.add(getString(R.string.equipamento), R.drawable.ic_equipamento);
         //mHelpLiveo.add(getString(R.string.spam), R.drawable.ic_report_black_24dp, 120);
 
 
@@ -61,7 +60,7 @@ public class MainActivity extends NavigationActionBarLiveo implements OnItemClic
 
                         //.colorLineSeparator(R.color.nliveo_blue_colorPrimary)
 
-                .footerItem(R.string.settings, R.drawable.ic_settings_black_24dp)
+                .footerItem(R.string.sobre, R.drawable.ic_sobre)
 
                         //{optional} - Footer Customization
                 .footerNameColor(R.color.nliveo_purple_colorPrimary)
@@ -85,15 +84,13 @@ public class MainActivity extends NavigationActionBarLiveo implements OnItemClic
 
         switch (position){
             case 1:
-                mFragment = new FragmentPrincipal();
-                Toast.makeText(getApplicationContext(), "Fragment Principal :D", Toast.LENGTH_SHORT).show();
+                mFragment = new FragmentEstabelecimento();
                 break;
             case 2:
-                 mFragment = new FragmentEstabelecimento();
+                 mFragment = new FragmentVistoria();
                 break;
             case 3:
                 mFragment = new FragmentTecnico();
-                Toast.makeText(getApplicationContext(), "Fragmente Técnicos :D", Toast.LENGTH_SHORT).show();
             default:
         }
 
@@ -123,7 +120,7 @@ public class MainActivity extends NavigationActionBarLiveo implements OnItemClic
     private View.OnClickListener onClickFooter = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+            startActivity(new Intent(getApplicationContext(), SobreActivity.class));
             closeDrawer();
         }
     };

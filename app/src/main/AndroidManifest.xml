@@ -22,21 +22,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.SettingsActivity"
-            android:label="@string/app_name" />
+            android:name=".activity.SobreActivity"
+            android:label="@string/app_name"
+            android:theme="@style/nLiveoDrawer"/>
         <activity
             android:name=".activity.LoginActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:theme="@style/nLiveoDrawer"/>
         <activity
-            android:name=".activity.DetalheActivity"
+            android:name=".activity.DetalhesTecnicoActivity"
             android:label="@string/title_activity_detalhe" >
         </activity>
         <activity
-            android:name=".activity.EstabelecimentoDetalhesActivity"
+            android:name=".activity.DetalhesEstabelecimentoActivity"
             android:label="@string/title_activity_estabelecimento_detalhes" >
         </activity>
         <activity
-            android:name=".activity.VistoriaActivity"
+            android:name=".activity.InspecaoActivity"
             android:label="@string/title_activity_vistoria" >
         </activity>
     </application>

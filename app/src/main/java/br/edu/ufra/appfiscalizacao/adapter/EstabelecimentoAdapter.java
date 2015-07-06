@@ -49,11 +49,11 @@ public class EstabelecimentoAdapter extends BaseAdapter {
 
     view = mInflate.inflate(R.layout.item_model, null);
     TextView nome = (TextView) view.findViewById(R.id.namepoint);
-    //TextView situacao = (TextView) view.findViewById(R.id.situacaopoint);
+    TextView situacao = (TextView) view.findViewById(R.id.situacaopoint);
     //ImageView img = (ImageView) view.findViewById(R.id.photopoint);
 
         nome.setText(estabelecimento.getNome());
-        //situacao.setText(estabelecimento.getSituacao());
+        situacao.setText(estabelecimento.getContato());
         //img.setImageResource(estabelecimento.getDataVenc());
 
 

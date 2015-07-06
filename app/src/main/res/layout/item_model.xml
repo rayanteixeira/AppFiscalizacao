@@ -17,8 +17,9 @@
             android:layout_height="30dp"
             android:layout_alignBottom="@+id/photopoint"
             android:layout_toEndOf="@+id/space2"
+            android:textColor="@color/nliveo_blue_gray_colorPrimary"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/nliveo_lime_alpha_colorPrimaryDark"
+            android:text="Nome do dono"
             android:layout_toRightOf="@+id/space2" />
 
         <TextView
@@ -27,9 +28,9 @@
             android:layout_height="30dp"
             android:gravity="center_vertical"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/nliveo_brown_colorPrimaryDark"
             android:layout_above="@+id/situacaopoint"
             android:layout_toEndOf="@+id/space2"
+            android:text="Nome do Ponto"
             android:layout_toRightOf="@+id/space2" />
 
         <ImageView
@@ -37,7 +38,7 @@
             android:id="@+id/photopoint"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/ic_launche2" />
+            android:src="@drawable/ic_perfil" />
 
         <Space
             android:layout_width="20px"

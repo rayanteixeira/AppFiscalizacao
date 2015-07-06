@@ -5,8 +5,6 @@
         <item name="colorPrimary">@color/nliveo_blue_colorPrimary</item>
         <item name="colorPrimaryDark">@color/nliveo_blue_alpha_colorPrimaryDark</item>
         <item name="colorAccent">@color/nliveo_blue_colorPrimary</item>
-
-
     </style>
 
     <style name="nLiveoDrawer" parent="nLiveo.Theme.Light">
@@ -14,15 +12,12 @@
         <item name="colorPrimary">@color/nliveo_blue_colorPrimary</item>
         <item name="colorPrimaryDark">@color/nliveo_blue_alpha_colorPrimaryDark</item>
         <item name="colorAccent">@color/nliveo_blue_colorPrimary</item>
-
-
     </style>
 
 
     <style name="AppTheme.Fab" parent="FloatingActionButton">
-    <item name="floatingActionButtonColor">@color/nliveo_orange_alpha_colorPrimaryDark</item>
-</style>
-
+        <item name="floatingActionButtonColor">@color/nliveo_orange_alpha_colorPrimaryDark</item>
+    </style>
 
 
 </resources>
