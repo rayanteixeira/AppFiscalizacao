@@ -1,12 +1,4 @@
 --INICIO
-insert into estabelecimento (nome, dataLic, dataVenc, situacao) values ('Papa Açaí', 0, 0,'semVistoria');
---FIM
---INICIO
-insert into estabelecimento (nome, dataLic, dataVenc, situacao) values ('Loja do Açaí', 0, 0,'emVistoria');
---FIM
---INICIO
-insert into estabelecimento (nome, dataLic, dataVenc, situacao) values ('Bom Açaí', 200614,200615 ,'vencida');
---FIM
---INICIO
-insert into estabelecimento (nome, dataLic, dataVenc, situacao) values ('Melhor Açaí',200615,200616,'regular');
+insert into estabelecimento (nome, contato, rg, cpf,logradouro,numero,email,telefone,dataLicenca,dataVencimento,status,latitude,longitude,autentificacao)
+values ('Papa Açaí','332123-2', '223.231.211-32','rua dois de junho','32','papaacai@gmail.com','992321322',null,null,null,'Pendente',null,null,'123');
 --FIM

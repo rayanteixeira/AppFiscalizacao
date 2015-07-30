@@ -37,6 +37,7 @@ import br.edu.ufra.appfiscalizacao.activity.DetalhesEstabelecimentoActivity;
 import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoAdapter;
 import br.edu.ufra.appfiscalizacao.application.StringURL;
 import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
+import br.edu.ufra.appfiscalizacao.dao.EstabelecimentoDAO;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 import br.edu.ufra.appfiscalizacao.rn.EstabelecimentoRN;
 import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;
@@ -71,16 +72,19 @@ public class FragmentEstabelecimento extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_principal, container, false);
         listView = (ListView) rootView.findViewById(R.id.listaestabelecimentos);
         mProgressDialog = ProgressDialog.show(getActivity(), "Download", "Atualizando lista, por favor espere.", false, true);
-        getJsonArray();
-
+        //getJsonArray();
+        listaBancoLocal();
         return rootView;
     }
 
+    //Busca no servidor os estabelecimentos
     public void getJsonArray() {
         try {
+            //verifica conexao com internet
             if (ConexaoInternet.estaConectado(contexto) == true) {
                 System.out.println("conectado");
                 builder = new GsonBuilder();
+                //converte data(pois esta em formato DATE)
                 builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
@@ -95,6 +99,7 @@ public class FragmentEstabelecimento extends Fragment {
                 });
                 gson = builder.create();
 
+                //Recebe a lista de estabelecimentos do servidor
                 JsonArrayRequest request = new JsonArrayRequest(urlEstabelecimentos, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -139,6 +144,7 @@ public class FragmentEstabelecimento extends Fragment {
         }
     }
 
+    //passagem dos dados da lista para o listview utilizando adapterpersonalizado.
     private void createListView() {
 
 
@@ -160,5 +166,16 @@ public class FragmentEstabelecimento extends Fragment {
 
     }
 
+
+    //utilizando busca em banco de dados local
+    public void listaBancoLocal(){
+
+        estabelecimentos = new ArrayList<>();
+        rn = new EstabelecimentoRN(getActivity().getBaseContext());
+        for (Estabelecimento e : rn.obterTodos()){
+            estabelecimentos.add(e);
+        }
+        createListView();
+    }
 
 }

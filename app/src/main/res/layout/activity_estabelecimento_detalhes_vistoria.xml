@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tabhostestab"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:id="@+id/dadosvistoria"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="16dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:src="@drawable/ic_perfil"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:id="@+id/imageView4" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:paddingTop="15dp"
+                                android:paddingBottom="2dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/nliveo_black"
+                                android:text="Nome: " />
+
+                            <TextView
+                                android:id="@+id/nomeEstabelecimento"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:paddingBottom="2dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/nliveo_black"
+                                android:text="Contato: " />
+
+                            <TextView
+                                android:id="@+id/contatoEstabelecimento"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:paddingBottom="2dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/nliveo_black"
+                                android:text="Logradouro: " />
+
+                            <TextView
+                                android:id="@+id/logradouroEstabelecimento"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:paddingBottom="2dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/nliveo_black"
+                                android:text="Bairro: " />
+
+                            <TextView
+                                android:id="@+id/bairroEstabelecimento"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:paddingBottom="2dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/nliveo_black"
+                                android:text="Telefone: " />
+
+                            <TextView
+                                android:id="@+id/telefoneEstabelecimento"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:paddingBottom="2dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/nliveo_black"
+                                android:text="Status: " />
+
+                            <TextView
+                                android:id="@+id/statusEstabelecimento"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <com.melnykov.fab.FloatingActionButton
+                                android:id="@+id/fab"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|right"
+                                android:layout_margin="16dp"
+                                android:src="@drawable/ic_novavistoria"
+                                fab:fab_shadow="true"
+
+                                />
+                        </FrameLayout>
+                    </LinearLayout>
+
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/equipamentosobrigatorio"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="EQUIPAMENTOS OBRIGATÓRIOS"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/nliveo_orange_colorPrimary" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Peneira" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Branqueador" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Tranque de Lavagem" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Tanque com instalação hidro-sanitária" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Basquetas" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/demaisequipamentos"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        >
+
+                        <Spinner
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/spinner" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Material"
+                            android:id="@+id/textView11" />
+
+
+                        <RadioGroup
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="inox"
+                                android:id="@+id/radioButton8"
+                                android:checked="false" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="aluminio"
+                                android:id="@+id/radioButton9"
+                                android:checked="false" />
+                        </RadioGroup>
+
+                        <AutoCompleteTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="OBS"
+                            android:id="@+id/autoCompleteTextView" />
+
+                        <Button
+                            style="?android:attr/buttonStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="add"
+                            android:id="@+id/button" />
+
+                        <ListView
+                            android:layout_width="match_parent"
+                            android:layout_height="269dp"
+                            android:id="@+id/listView"
+                            android:layout_gravity="center_horizontal" />
+                        <RadioGroup
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center_horizontal">
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Apto"
+                                android:id="@+id/radioButton11"
+                                android:layout_gravity="center_horizontal"
+                                android:checked="false" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Não apto"
+                                android:id="@+id/radioButton10"
+                                android:checked="false" />
+                        </RadioGroup>
+                    </LinearLayout>
+                </RelativeLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+</TabHost>

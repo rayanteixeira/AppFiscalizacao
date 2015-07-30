@@ -40,9 +40,9 @@ public class Estabelecimento implements Serializable {
     private BigDecimal longitude;
     @DatabaseField
     private String autentificacao;
-    @DatabaseField
+ /*   @DatabaseField
     private Bairro bairro;
-
+*/
 
     public Estabelecimento() {
     }
@@ -167,6 +167,7 @@ public class Estabelecimento implements Serializable {
         this.autentificacao = autentificacao;
     }
 
+    /*
     public Bairro getBairro() {
         return bairro;
     }
@@ -174,4 +175,5 @@ public class Estabelecimento implements Serializable {
     public void setBairro(Bairro bairro) {
         this.bairro = bairro;
     }
+    */
 }
