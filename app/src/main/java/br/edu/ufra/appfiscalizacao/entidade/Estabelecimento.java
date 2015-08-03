@@ -1,10 +1,12 @@
 package br.edu.ufra.appfiscalizacao.entidade;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -41,10 +43,9 @@ public class Estabelecimento implements Serializable {
     private BigDecimal longitude;
     @DatabaseField
     private String autentificacao;
-    private List<Vistoria> vistorias;
- /*   @DatabaseField
-    private Bairro bairro;
-*/
+    @ForeignCollectionField(eager = false)
+    private Collection<Vistoria> vistorias;
+
 
     public Estabelecimento() {
     }
@@ -169,21 +170,11 @@ public class Estabelecimento implements Serializable {
         this.autentificacao = autentificacao;
     }
 
-    public List<Vistoria> getVistorias() {
+    public Collection<Vistoria> getVistorias() {
         return vistorias;
     }
 
-    public void setVistorias(List<Vistoria> vistorias) {
+    public void setVistorias(Collection<Vistoria> vistorias) {
         this.vistorias = vistorias;
     }
-
-    /*
-    public Bairro getBairro() {
-        return bairro;
-    }
-
-    public void setBairro(Bairro bairro) {
-        this.bairro = bairro;
-    }
-    */
 }

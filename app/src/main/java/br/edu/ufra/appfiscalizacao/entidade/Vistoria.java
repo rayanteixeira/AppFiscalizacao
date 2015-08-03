@@ -3,6 +3,8 @@ package br.edu.ufra.appfiscalizacao.entidade;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +12,7 @@ import java.util.List;
  * Created by Rayan on 16/06/2015.
  */
 @DatabaseTable (tableName = "vistoria")
-public class Vistoria {
+public class Vistoria implements Serializable{
 
     @DatabaseField (generatedId = true)
     private int id;
@@ -30,26 +32,12 @@ public class Vistoria {
     private Tecnico tecnico1;
     @DatabaseField
     private Tecnico tecnico2;
-    private List<Inspecao> inspecaoList;
+    private Collection<Inspecao> inspecaoList;
 
 
 
     public Vistoria() {
     }
-
-    public Vistoria(int id, String dataSolicitacao, String dataVistoria, Integer prazo, boolean apto, String observacao, List<Inspecao> inspecaoList, Estabelecimento estabelecimento, Tecnico tecnico1, Tecnico tecnico2) {
-        this.id = id;
-        this.dataSolicitacao = dataSolicitacao;
-        this.dataVistoria = dataVistoria;
-        this.prazo = prazo;
-        this.apto = apto;
-        this.observacao = observacao;
-        this.inspecaoList = inspecaoList;
-        this.estabelecimento = estabelecimento;
-        this.tecnico1 = tecnico1;
-        this.tecnico2 = tecnico2;
-    }
-
 
     public int getId() {
         return id;
@@ -99,14 +87,6 @@ public class Vistoria {
         this.observacao = observacao;
     }
 
-    public List<Inspecao> getInspecaoList() {
-        return inspecaoList;
-    }
-
-    public void setInspecaoList(List<Inspecao> inspecaoList) {
-        this.inspecaoList = inspecaoList;
-    }
-
     public Estabelecimento getEstabelecimento() {
         return estabelecimento;
     }
@@ -129,5 +109,13 @@ public class Vistoria {
 
     public void setTecnico2(Tecnico tecnico2) {
         this.tecnico2 = tecnico2;
+    }
+
+    public Collection<Inspecao> getInspecaoList() {
+        return inspecaoList;
+    }
+
+    public void setInspecaoList(Collection<Inspecao> inspecaoList) {
+        this.inspecaoList = inspecaoList;
     }
 }

@@ -1,9 +1,11 @@
 package br.edu.ufra.appfiscalizacao.entidade;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -11,8 +13,8 @@ import java.util.List;
  */
 
 @DatabaseTable(tableName = "equipamento")
-public class Equipamento implements Serializable{
-    @DatabaseField (generatedId = false)
+public class Equipamento implements Serializable {
+    @DatabaseField(generatedId = false)
     private int id;
     @DatabaseField
     private String nome;
@@ -20,18 +22,12 @@ public class Equipamento implements Serializable{
     private String descricao;
     @DatabaseField
     private String condicoes;
-    private List<Equipamento> equipamentos;
+    @ForeignCollectionField(eager = false)
+    private Collection<Inspecao> inspecoes;
 
     public Equipamento() {
     }
 
-    public List<Equipamento> getEquipamentos() {
-        return equipamentos;
-    }
-
-    public void setEquipamentos(List<Equipamento> equipamentos) {
-        this.equipamentos = equipamentos;
-    }
 
     public int getId() {
         return id;
@@ -63,5 +59,13 @@ public class Equipamento implements Serializable{
 
     public void setCondicoes(String condicoes) {
         this.condicoes = condicoes;
+    }
+
+    public Collection<Inspecao> getInspecoes() {
+        return inspecoes;
+    }
+
+    public void setInspecoes(Collection<Inspecao> inspecoes) {
+        this.inspecoes = inspecoes;
     }
 }

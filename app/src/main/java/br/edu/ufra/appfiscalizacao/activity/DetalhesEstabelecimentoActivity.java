@@ -26,10 +26,8 @@ import br.edu.ufra.appfiscalizacao.rn.EquipamentoRN;
 import br.edu.ufra.appfiscalizacao.rn.EstabelecimentoRN;
 
 public class DetalhesEstabelecimentoActivity extends ActionBarActivity {
-    private TextView statusTxt,nomeTxt,contatoTxt,logradouroTxt,bairroTxt,telefoneTxt;
-
-    Spinner spinnerequip;
-    EquipamentoRN equiprn;
+    private TextView statusTxt,nomeTxt,contatoTxt,logradouroTxt,telefoneTxt;
+    private Spinner spinnerequip;
     private TabHost abas;
 
     @Override
@@ -111,8 +109,6 @@ public class DetalhesEstabelecimentoActivity extends ActionBarActivity {
         spinner();
     }
 
-
-
     private void spinner(){
         List<String> equipamentos = new ArrayList<>();
 
@@ -136,10 +132,15 @@ public class DetalhesEstabelecimentoActivity extends ActionBarActivity {
 
         spinnerequip.setAdapter(spinneradapter);
 
+
+        spinnerequip.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getBaseContext(),"Escolheu Esse: " +position, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

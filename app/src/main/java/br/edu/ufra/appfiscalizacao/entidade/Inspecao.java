@@ -1,32 +1,34 @@
 package br.edu.ufra.appfiscalizacao.entidade;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Rayan on 16/06/2015.
  */
-public class Inspecao {
+@DatabaseTable(tableName = "inspecao")
+public class Inspecao implements Serializable {
 
+    @DatabaseField
     private int id;
-    private Vistoria vistoria;
-    private Equipamento equipamento;
+    @DatabaseField
     private Date dataInsp;
+    @DatabaseField
     private boolean apto;
+    @DatabaseField
     private String observacao;
-    private List<Equipamento> equipamentos;
+    @DatabaseField(foreign = true)
+    private Vistoria vistoria;
+    @DatabaseField(foreign = true)
+    private Equipamento equipamento;
+
 
     public Inspecao() {
-    }
-
-    public Inspecao(Vistoria vistoria, Equipamento equipamento, Date dataInsp, boolean apto, String observacao, List<Equipamento> equipamentos, int id) {
-        this.vistoria = vistoria;
-        this.equipamento = equipamento;
-        this.dataInsp = dataInsp;
-        this.apto = apto;
-        this.observacao = observacao;
-        this.equipamentos = equipamentos;
-        this.id = id;
     }
 
     public int getId() {
@@ -35,22 +37,6 @@ public class Inspecao {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Vistoria getVistoria() {
-        return vistoria;
-    }
-
-    public void setVistoria(Vistoria vistoria) {
-        this.vistoria = vistoria;
-    }
-
-    public Equipamento getEquipamento() {
-        return equipamento;
-    }
-
-    public void setEquipamento(Equipamento equipamento) {
-        this.equipamento = equipamento;
     }
 
     public Date getDataInsp() {
@@ -77,11 +63,19 @@ public class Inspecao {
         this.observacao = observacao;
     }
 
-    public List<Equipamento> getEquipamentos() {
-        return equipamentos;
+    public Vistoria getVistoria() {
+        return vistoria;
     }
 
-    public void setEquipamentos(List<Equipamento> equipamentos) {
-        this.equipamentos = equipamentos;
+    public void setVistoria(Vistoria vistoria) {
+        this.vistoria = vistoria;
+    }
+
+    public Equipamento getEquipamento() {
+        return equipamento;
+    }
+
+    public void setEquipamento(Equipamento equipamento) {
+        this.equipamento = equipamento;
     }
 }
