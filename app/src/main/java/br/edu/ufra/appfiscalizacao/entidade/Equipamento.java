@@ -4,6 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Rayan on 16/06/2015.
@@ -19,8 +20,17 @@ public class Equipamento implements Serializable{
     private String descricao;
     @DatabaseField
     private String condicoes;
+    private List<Equipamento> equipamentos;
 
     public Equipamento() {
+    }
+
+    public List<Equipamento> getEquipamentos() {
+        return equipamentos;
+    }
+
+    public void setEquipamentos(List<Equipamento> equipamentos) {
+        this.equipamentos = equipamentos;
     }
 
     public int getId() {

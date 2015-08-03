@@ -6,6 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 
 @DatabaseTable(tableName = "estabelecimento")
@@ -40,6 +41,7 @@ public class Estabelecimento implements Serializable {
     private BigDecimal longitude;
     @DatabaseField
     private String autentificacao;
+    private List<Vistoria> vistorias;
  /*   @DatabaseField
     private Bairro bairro;
 */
@@ -165,6 +167,14 @@ public class Estabelecimento implements Serializable {
 
     public void setAutentificacao(String autentificacao) {
         this.autentificacao = autentificacao;
+    }
+
+    public List<Vistoria> getVistorias() {
+        return vistorias;
+    }
+
+    public void setVistorias(List<Vistoria> vistorias) {
+        this.vistorias = vistorias;
     }
 
     /*

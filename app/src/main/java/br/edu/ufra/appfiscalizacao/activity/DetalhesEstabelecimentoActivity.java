@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -50,6 +51,9 @@ public class DetalhesEstabelecimentoActivity extends ActionBarActivity {
         telefoneTxt = (TextView) findViewById(R.id.telefoneEstabelecimento);
         statusTxt = (TextView) findViewById(R.id.statusEstabelecimento);
 
+        Button btnProximo1 = (Button) findViewById(R.id.btproximo1);
+
+
         nomeTxt.setText(e.getNome());
         contatoTxt.setText(e.getContato());
         logradouroTxt.setText(e.getLogradouro());
@@ -80,11 +84,22 @@ public class DetalhesEstabelecimentoActivity extends ActionBarActivity {
         descritor = abas.newTabSpec("aba1");
         descritor.setContent(R.id.dadosvistoria);
         descritor.setIndicator("Dados Vistoria");
+        abas.setCurrentTab(0);
         abas.addTab(descritor);
+
+        btnProximo1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                abas.setCurrentTab(1);
+            }
+        });
 
         descritor = abas.newTabSpec("aba2");
         descritor.setContent(R.id.equipamentosobrigatorio);
         descritor.setIndicator("Equipamentos Obrigatorios");
+        abas.setCurrentTab(1);
+
         abas.addTab(descritor);
 
         descritor = abas.newTabSpec("aba3");
@@ -92,7 +107,8 @@ public class DetalhesEstabelecimentoActivity extends ActionBarActivity {
         descritor.setIndicator("Demais Equipamentos");
         abas.addTab(descritor);
 
-        //spinner();
+
+        spinner();
     }
 
 

@@ -24,14 +24,14 @@ public class Vistoria {
     private boolean apto;
     @DatabaseField
     private String observacao;
-
+    @DatabaseField
+    private Estabelecimento estabelecimento;
+    @DatabaseField
+    private Tecnico tecnico1;
+    @DatabaseField
+    private Tecnico tecnico2;
     private List<Inspecao> inspecaoList;
 
-    private Estabelecimento estabelecimento;
-
-    private Tecnico tecnico1;
-
-    private Tecnico tecnico2;
 
 
     public Vistoria() {
