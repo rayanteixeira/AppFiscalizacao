@@ -57,12 +57,7 @@ public class DetalhesEstabelecimentoActivity extends ActionBarActivity {
         telefoneTxt.setText(e.getTelefone());
         statusTxt.setText(e.getStatus());
 
-        spinnerequip.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            }
-        });
 
         //FloatingButton
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -97,7 +92,7 @@ public class DetalhesEstabelecimentoActivity extends ActionBarActivity {
         descritor.setIndicator("Demais Equipamentos");
         abas.addTab(descritor);
 
-        spinner();
+        //spinner();
     }
 
 
