@@ -13,7 +13,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.ufra.appfiscalizacao.entidade.Equipamento;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
+import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
 
 /**
  * Created by bpmlab on 19/06/2015.
@@ -60,24 +62,25 @@ public class DataBaseHelper<E> extends OrmLiteSqliteOpenHelper {
     public DataBaseHelper(Context context) {
         super(context, databaseName, null, databaseVersion);
         cont = context;
-        Log.e("Construtor", "Construtor");
     }
     private void realizarInserts(SQLiteDatabase db) {
         List<StringBuilder> inserts = lerScript("inserts.sql");
         for (StringBuilder sb : inserts) {
             db.execSQL(sb.toString());
+            Log.i("Inserts","Insert sendo realizado");
         }
     }
 
     @Override
     public void onCreate(SQLiteDatabase db, ConnectionSource src) {
         try {
-            Log.e("Criando", "criando bd");
+            Log.i("Tabelas", "Criando tablelas");
             TableUtils.createTable(src, Estabelecimento.class);
+            TableUtils.createTable(src, Equipamento.class);
             realizarInserts(db);
-            Log.e("Create", "Banco criado com sucesso");
+            Log.i("Tabelas", "Tabelas criadas com sucesso");
         } catch (Exception e) {
-            Log.e("Create", "Erro ao criar banco de dados" + e.getMessage().toString());
+            Log.e("Tabelas", "Erro ao criar tablelas " + e.getMessage().toString());
         }
 
     }
@@ -96,9 +99,6 @@ public class DataBaseHelper<E> extends OrmLiteSqliteOpenHelper {
         }
 
     }
-
-
-
 
     @Override
     public void close() {

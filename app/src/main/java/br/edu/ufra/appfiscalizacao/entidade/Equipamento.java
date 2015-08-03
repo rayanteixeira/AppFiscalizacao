@@ -1,24 +1,27 @@
 package br.edu.ufra.appfiscalizacao.entidade;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+import java.io.Serializable;
+
 /**
  * Created by Rayan on 16/06/2015.
  */
-public class Equipamento {
+
+@DatabaseTable(tableName = "equipamento")
+public class Equipamento implements Serializable{
+    @DatabaseField (generatedId = false)
     private int id;
+    @DatabaseField
     private String nome;
+    @DatabaseField
     private String descricao;
+    @DatabaseField
     private String condicoes;
 
     public Equipamento() {
     }
-
-    public Equipamento(int id, String nome, String descricao, String condicoes) {
-        this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.condicoes = condicoes;
-    }
-
 
     public int getId() {
         return id;

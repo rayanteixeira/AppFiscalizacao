@@ -231,9 +231,9 @@
                         >
 
                         <Spinner
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/spinner" />
+                            android:id="@+id/spinnerequip" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -250,23 +250,24 @@
                             <RadioButton
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="inox"
+                                android:text="Inox"
                                 android:id="@+id/radioButton8"
                                 android:checked="false" />
 
                             <RadioButton
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="aluminio"
+                                android:text="Aluminio"
                                 android:id="@+id/radioButton9"
                                 android:checked="false" />
                         </RadioGroup>
 
-                        <AutoCompleteTextView
+                        <EditText
+                            android:layout_marginTop="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="OBS"
-                            android:id="@+id/autoCompleteTextView" />
+                            android:hint="Observações"
+                            android:id="@+id/txtobs" />
 
                         <Button
                             style="?android:attr/buttonStyleSmall"
@@ -277,7 +278,7 @@
 
                         <ListView
                             android:layout_width="match_parent"
-                            android:layout_height="269dp"
+                            android:layout_height="180dp"
                             android:id="@+id/listView"
                             android:layout_gravity="center_horizontal" />
                         <RadioGroup
@@ -285,6 +286,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:layout_gravity="center_horizontal">
+
                             <RadioButton
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

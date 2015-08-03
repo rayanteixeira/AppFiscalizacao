@@ -38,6 +38,7 @@ public class GenericDAO<E> extends DataBaseHelper<E> {
     public List<E> obterTodos(){
         try{
             List<E> result = dao.queryForAll();
+            Log.e("lista", "Obter todos realizado com sucesso");
             return result;
         }catch (Exception e){
             e.printStackTrace();

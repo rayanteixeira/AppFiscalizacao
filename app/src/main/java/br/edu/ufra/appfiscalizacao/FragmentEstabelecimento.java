@@ -38,6 +38,7 @@ import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoAdapter;
 import br.edu.ufra.appfiscalizacao.application.StringURL;
 import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
 import br.edu.ufra.appfiscalizacao.dao.EstabelecimentoDAO;
+import br.edu.ufra.appfiscalizacao.entidade.Equipamento;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 import br.edu.ufra.appfiscalizacao.rn.EstabelecimentoRN;
 import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;
