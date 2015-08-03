@@ -132,13 +132,19 @@ public class DetalhesEstabelecimentoActivity extends ActionBarActivity {
 
         spinnerequip.setAdapter(spinneradapter);
 
-
-        spinnerequip.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        spinnerequip.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getBaseContext(),"Escolheu Esse: " +position, Toast.LENGTH_SHORT).show();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getBaseContext(),"Escolheu Esse: " +parent, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
+
+
 
     }
 

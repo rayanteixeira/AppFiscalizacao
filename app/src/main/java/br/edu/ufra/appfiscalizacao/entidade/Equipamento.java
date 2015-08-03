@@ -14,20 +14,22 @@ import java.util.List;
 
 @DatabaseTable(tableName = "equipamento")
 public class Equipamento implements Serializable {
-    @DatabaseField(generatedId = false)
+    @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField
     private String nome;
     @DatabaseField
     private String descricao;
     @DatabaseField
-    private String condicoes;
+    private String status;
+    @DatabaseField
+    private String material;
     @ForeignCollectionField(eager = false)
     private Collection<Inspecao> inspecoes;
 
     public Equipamento() {
-    }
 
+    }
 
     public int getId() {
         return id;
@@ -53,12 +55,20 @@ public class Equipamento implements Serializable {
         this.descricao = descricao;
     }
 
-    public String getCondicoes() {
-        return condicoes;
+    public String getStatus() {
+        return status;
     }
 
-    public void setCondicoes(String condicoes) {
-        this.condicoes = condicoes;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
     }
 
     public Collection<Inspecao> getInspecoes() {

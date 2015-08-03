@@ -13,7 +13,7 @@ import java.util.List;
 
 @DatabaseTable(tableName = "estabelecimento")
 public class Estabelecimento implements Serializable {
-    @DatabaseField (generatedId=false)
+    @DatabaseField (generatedId=true)
     private int id;
     @DatabaseField
     private String nome;
@@ -45,6 +45,7 @@ public class Estabelecimento implements Serializable {
     private String autentificacao;
     @ForeignCollectionField(eager = false)
     private Collection<Vistoria> vistorias;
+
 
 
     public Estabelecimento() {

@@ -1,9 +1,11 @@
 package br.edu.ufra.appfiscalizacao.entidade;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * Created by Rayan on 16/06/2015.
@@ -14,7 +16,7 @@ import java.io.Serializable;
 
 @DatabaseTable(tableName = "tecnico")
 public class Tecnico implements Serializable {
-    @DatabaseField(generatedId=true)
+    @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField
     private String matricula;
@@ -24,18 +26,10 @@ public class Tecnico implements Serializable {
     private String email;
     @DatabaseField
     private String senha;
-
+    @ForeignCollectionField(eager = false)
+    Collection<Vistoria> vistorias;
 
     public Tecnico() {
-    }
-
-
-    public Tecnico(int id, String matricula, String nome, String email, String senha) {
-        this.id = id;
-        this.matricula = matricula;
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
     }
 
     public int getId() {
@@ -76,5 +70,13 @@ public class Tecnico implements Serializable {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public Collection<Vistoria> getVistorias() {
+        return vistorias;
+    }
+
+    public void setVistorias(Collection<Vistoria> vistorias) {
+        this.vistorias = vistorias;
     }
 }

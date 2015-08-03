@@ -26,11 +26,11 @@ public class Vistoria implements Serializable{
     private boolean apto;
     @DatabaseField
     private String observacao;
-    @DatabaseField
+    @DatabaseField(foreign = true)
     private Estabelecimento estabelecimento;
-    @DatabaseField
+    @DatabaseField (foreign = true)
     private Tecnico tecnico1;
-    @DatabaseField
+    @DatabaseField (foreign = true)
     private Tecnico tecnico2;
     private Collection<Inspecao> inspecaoList;
 
