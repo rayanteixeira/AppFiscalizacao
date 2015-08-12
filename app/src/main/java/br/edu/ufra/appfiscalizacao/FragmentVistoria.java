@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import br.edu.ufra.appfiscalizacao.activity.DetalhesEstabelecimentoActivity;
+import br.edu.ufra.appfiscalizacao.activity.DetalhesVistoriaActivity;
 import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoAdapter;
 import br.edu.ufra.appfiscalizacao.application.StringURL;
 import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
@@ -132,7 +132,7 @@ public class FragmentVistoria extends Fragment {
                             try {
                                 JSONObject estabelecimentoItem = response.getJSONObject(i);
                                 estabelecimento = gson.fromJson(estabelecimentoItem.toString(), Estabelecimento.class);
-                                System.out.println("estabelecimento" + estabelecimento.getNome());
+                                System.out.println("estabelecimento" + estabelecimento.getNomeFantasia());
                                 estabelecimentos.add(estabelecimento);
                                 mProgressDialog.dismiss();
                             } catch (JSONException e) {
@@ -141,7 +141,7 @@ public class FragmentVistoria extends Fragment {
                         }
 
                         for (Estabelecimento e : estabelecimentos){
-                            System.out.println("lista estabelecimento "+e.getNome());
+                            System.out.println("lista estabelecimento "+e.getNomeFantasia());
                         }
                         definirSituacaoPonto();
                         listPontosAguardandoVistoria();
@@ -179,7 +179,7 @@ public class FragmentVistoria extends Fragment {
                 Estabelecimento estabelecimento = (Estabelecimento) adapterAguardando.getItem(position);
 
                 int idEstabelecimento = estabelecimento.getId();
-                Intent it = new Intent(getActivity().getBaseContext(), DetalhesEstabelecimentoActivity.class);
+                Intent it = new Intent(getActivity().getBaseContext(), DetalhesVistoriaActivity.class);
                 it.putExtra("estabelecimento", estabelecimento);
                 startActivity(it);
             }
@@ -198,7 +198,7 @@ public class FragmentVistoria extends Fragment {
                 Estabelecimento item = (Estabelecimento) adapterAguardando.getItem(position);
 
                 int idEstabelecimento = item.getId();
-                Intent it = new Intent(getActivity().getBaseContext(), DetalhesEstabelecimentoActivity.class);
+                Intent it = new Intent(getActivity().getBaseContext(), DetalhesVistoriaActivity.class);
                 it.putExtra("estabelecimento", estabelecimento);
                 startActivity(it);
             }

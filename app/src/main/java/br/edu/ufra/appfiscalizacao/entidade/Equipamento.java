@@ -8,9 +8,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Created by Rayan on 16/06/2015.
- */
 
 @DatabaseTable(tableName = "equipamento")
 public class Equipamento implements Serializable {
@@ -63,19 +60,19 @@ public class Equipamento implements Serializable {
         this.status = status;
     }
 
-    public String getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(String material) {
-        this.material = material;
-    }
-
     public Collection<Inspecao> getInspecoes() {
         return inspecoes;
     }
 
     public void setInspecoes(Collection<Inspecao> inspecoes) {
         this.inspecoes = inspecoes;
+    }
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
     }
 }

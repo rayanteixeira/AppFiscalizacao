@@ -9,7 +9,7 @@ public class Mensagem implements Serializable{
     private static final Mensagem uniqueInstance= new Mensagem();
     private String erroAoLogar;
     private  String mensagemSalvar;
-    private String mensagemDeEnvio;
+    private String mensagemServToClient;
     private static String mensagemInternet= "Conecte-se a internet para obter dados do servidor";
 
     private Mensagem(){
@@ -33,12 +33,12 @@ public class Mensagem implements Serializable{
         this.erroAoLogar = erroAoLogar;
     }
 
-    public String getMensagemDeEnvio() {
-        return mensagemDeEnvio;
+    public String getMensagemServToClient() {
+        return mensagemServToClient;
     }
 
-    public void setMensagemDeEnvio(String mensagemDeEnvio) {
-        this.mensagemDeEnvio = mensagemDeEnvio;
+    public void setMensagemServToClient(String mensagemServToClient) {
+        this.mensagemServToClient = mensagemServToClient;
     }
 
     public  String getMensagemSalvar() {

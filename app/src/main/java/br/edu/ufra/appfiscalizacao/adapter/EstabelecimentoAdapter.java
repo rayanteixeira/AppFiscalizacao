@@ -5,18 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.R;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 
-/**
- * Created by bpmlab on 19/06/2015.
- */
 public class EstabelecimentoAdapter extends BaseAdapter {
 
     private LayoutInflater mInflate;
@@ -52,7 +47,7 @@ public class EstabelecimentoAdapter extends BaseAdapter {
     TextView situacao = (TextView) view.findViewById(R.id.situacaopoint);
     //ImageView img = (ImageView) view.findViewById(R.id.photopoint);
 
-        nome.setText(estabelecimento.getNome());
+        nome.setText(estabelecimento.getNomeFantasia());
         situacao.setText(estabelecimento.getContato());
         //img.setImageResource(estabelecimento.getDataVenc());
 

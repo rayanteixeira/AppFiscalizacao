@@ -37,121 +37,53 @@
                         android:padding="16dp"
                         android:orientation="vertical">
 
-                        <ImageView
-                            android:src="@drawable/ic_perfil"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:id="@+id/imageView4" />
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Data de solicitação: "
+                            android:id="@+id/dataSolicitacao" />
 
-                            <TextView
-                                android:paddingTop="15dp"
-                                android:paddingBottom="2dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/nliveo_black"
-                                android:text="Nome: " />
-
-                            <TextView
-                                android:id="@+id/nomeEstabelecimento"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:paddingBottom="2dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/nliveo_black"
-                                android:text="Contato: " />
-
-                            <TextView
-                                android:id="@+id/contatoEstabelecimento"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:paddingBottom="2dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/nliveo_black"
-                                android:text="Logradouro: " />
-
-                            <TextView
-                                android:id="@+id/logradouroEstabelecimento"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:paddingBottom="2dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/nliveo_black"
-                                android:text="Bairro: " />
-
-                            <TextView
-                                android:id="@+id/bairroEstabelecimento"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:paddingBottom="2dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/nliveo_black"
-                                android:text="Telefone: " />
-
-                            <TextView
-                                android:id="@+id/telefoneEstabelecimento"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:paddingBottom="2dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/nliveo_black"
-                                android:text="Status: " />
-
-                            <TextView
-                                android:id="@+id/statusEstabelecimento"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-                        </LinearLayout>
-
-                        <Button
-                            android:id="@+id/btproximo1"
+                        <EditText
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Próximo"/>
+                            android:hint="Prazo"
+                            android:id="@+id/prazo"/>
+
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="Observação"
+                            android:id="@+id/observacao"/>
+
+                        <RadioGroup
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center_horizontal">
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Apto"
+                                android:id="@+id/radioVistoriaAp"
+                                android:layout_gravity="center_horizontal"
+                                android:checked="false" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Não apto"
+                                android:id="@+id/radioVistoriaNAp"
+                                android:checked="false" />
+                        </RadioGroup>
+
+                        <Button
+                            android:id="@+id/btnConcluirVistoria"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Concluir"/>
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
@@ -173,58 +105,68 @@
 
                 <!--TAB3 2-->
                 <RelativeLayout
-                    android:id="@+id/equipamentosobrigatorio"
+                    android:id="@+id/equipamentosObrigatorios"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        >
 
-                    <TextView
-                        android:id="@+id/textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="EQUIPAMENTOS OBRIGATÓRIOS"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/nliveo_orange_colorPrimary" />
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/spinnerEquipObrigatorios" />
 
-                    <CheckBox
-                        android:id="@+id/checkBox2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="Peneira" />
 
-                    <CheckBox
-                        android:id="@+id/checkBox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="Branqueador" />
+                        <EditText
+                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Observações"
+                            android:id="@+id/txtObsEquipamentoObrigatorio" />
 
-                    <CheckBox
-                        android:id="@+id/checkBox3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="Tranque de Lavagem" />
+                        <RadioGroup
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center_horizontal">
 
-                    <CheckBox
-                        android:id="@+id/checkBox18"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="Tanque com instalação hidro-sanitária" />
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Apto"
+                                android:id="@+id/radioBtnEquipamentoObrigatorioApt"
+                                android:layout_gravity="center_horizontal"
+                                android:checked="false" />
 
-                    <CheckBox
-                        android:id="@+id/checkBox5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="Basquetas" />
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Não apto"
+                                android:id="@+id/radioBtnEquipamentoObrigatorioNaoApt"
+                                android:checked="false" />
+                        </RadioGroup>
+
+                        <Button
+                            style="?android:attr/buttonStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Inspecionado"
+                            android:id="@+id/btnInspecaoEquipamentoObrigatorio" />
+
+
+                        <ListView
+                            android:layout_width="match_parent"
+                            android:layout_height="180dp"
+                            android:id="@+id/listVEquipamentosObrigatoriosAdicionados"
+                            android:layout_gravity="center_horizontal" />
+
                     </LinearLayout>
                 </RelativeLayout>
+
 
                 <!--TAB3 3-->
                 <RelativeLayout
@@ -241,54 +183,15 @@
                         <Spinner
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/spinnerequip" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Material"
-                            android:id="@+id/textView11" />
-
-
-                        <RadioGroup
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-                            <RadioButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Inox"
-                                android:id="@+id/radioButton8"
-                                android:checked="false" />
-
-                            <RadioButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Aluminio"
-                                android:id="@+id/radioButton9"
-                                android:checked="false" />
-                        </RadioGroup>
+                            android:id="@+id/spinnerDemaisEquip" />
 
                         <EditText
                             android:layout_marginTop="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Observações"
-                            android:id="@+id/txtobs" />
+                            android:id="@+id/txtObsDemaisEquipamento" />
 
-                        <Button
-                            style="?android:attr/buttonStyleSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="add"
-                            android:id="@+id/button" />
-
-                        <ListView
-                            android:layout_width="match_parent"
-                            android:layout_height="180dp"
-                            android:id="@+id/listView"
-                            android:layout_gravity="center_horizontal" />
                         <RadioGroup
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -299,7 +202,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Apto"
-                                android:id="@+id/radioButton11"
+                                android:id="@+id/radioBtnDemaisEquipamentoApt"
                                 android:layout_gravity="center_horizontal"
                                 android:checked="false" />
 
@@ -307,9 +210,24 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Não apto"
-                                android:id="@+id/radioButton10"
+                                android:id="@+id/radioBtnDemaisEquipamentoNaoApt"
                                 android:checked="false" />
                         </RadioGroup>
+
+                        <Button
+                            style="?android:attr/buttonStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Inspecionado"
+                            android:id="@+id/btnInspecaoDemaisEquipamento" />
+
+
+                        <ListView
+                            android:layout_width="match_parent"
+                            android:layout_height="180dp"
+                            android:id="@+id/listVDemaisEquipamentosAdicionados"
+                            android:layout_gravity="center_horizontal" />
+
                     </LinearLayout>
                 </RelativeLayout>
         </FrameLayout>

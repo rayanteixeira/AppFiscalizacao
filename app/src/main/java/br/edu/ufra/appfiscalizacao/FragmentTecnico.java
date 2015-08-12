@@ -93,8 +93,8 @@ public class FragmentTecnico extends Fragment {
                                         Tecnico tecnico = gson.fromJson(String.valueOf(mTecnicoItem), Tecnico.class);
                                         tecnicos.add(tecnico);
                                         mProgressDialog.dismiss();
-                                        //tecnico.setNome(mTecnicoItem.getString("nome"));
-                                        //System.out.println(tecnico.getNome());
+                                        //tecnico.setNomeFantasia(mTecnicoItem.getString("nome"));
+                                        //System.out.println(tecnico.getNomeFantasia());
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -163,7 +163,7 @@ public class FragmentTecnico extends Fragment {
 
 
                                 /* Fragment chamando Fragment e passango argumento entre eles
-                                FragmentMain mFragmentMain = new FragmentMain().newInstance(((Tecnico) adapter.getItem(position)).getNome());
+                                FragmentMain mFragmentMain = new FragmentMain().newInstance(((Tecnico) adapter.getItem(position)).getNomeFantasia());
                                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                                 ft.replace(R.id.container, mFragmentMain);
                                 ft.addToBackStack(null);

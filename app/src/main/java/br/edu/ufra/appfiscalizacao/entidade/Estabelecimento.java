@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 
 @DatabaseTable(tableName = "estabelecimento")
@@ -16,7 +15,7 @@ public class Estabelecimento implements Serializable {
     @DatabaseField (generatedId=true)
     private int id;
     @DatabaseField
-    private String nome;
+    private String nomeFantasia;
     @DatabaseField
     private String contato;
     @DatabaseField
@@ -36,13 +35,13 @@ public class Estabelecimento implements Serializable {
     @DatabaseField
     private Date dataVencimento;
     @DatabaseField
+    private Date dataCadastro;
+    @DatabaseField
     private String status;
     @DatabaseField
     private BigDecimal latitude;
     @DatabaseField
     private BigDecimal longitude;
-    @DatabaseField
-    private String autentificacao;
     @ForeignCollectionField(eager = false)
     private Collection<Vistoria> vistorias;
 
@@ -59,12 +58,12 @@ public class Estabelecimento implements Serializable {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomeFantasia() {
+        return nomeFantasia;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomeFantasia(String nomeFantasia) {
+        this.nomeFantasia = nomeFantasia;
     }
 
     public String getContato() {
@@ -139,6 +138,14 @@ public class Estabelecimento implements Serializable {
         this.dataVencimento = dataVencimento;
     }
 
+    public Date getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -161,14 +168,6 @@ public class Estabelecimento implements Serializable {
 
     public void setLongitude(BigDecimal longitude) {
         this.longitude = longitude;
-    }
-
-    public String getAutentificacao() {
-        return autentificacao;
-    }
-
-    public void setAutentificacao(String autentificacao) {
-        this.autentificacao = autentificacao;
     }
 
     public Collection<Vistoria> getVistorias() {

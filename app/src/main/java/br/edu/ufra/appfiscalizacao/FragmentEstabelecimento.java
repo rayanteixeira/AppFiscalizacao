@@ -33,12 +33,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import br.edu.ufra.appfiscalizacao.activity.DetalhesEstabelecimentoActivity;
+import br.edu.ufra.appfiscalizacao.activity.DetalhesVistoriaActivity;
 import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoAdapter;
 import br.edu.ufra.appfiscalizacao.application.StringURL;
 import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
-import br.edu.ufra.appfiscalizacao.dao.EstabelecimentoDAO;
-import br.edu.ufra.appfiscalizacao.entidade.Equipamento;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 import br.edu.ufra.appfiscalizacao.rn.EstabelecimentoRN;
 import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;
@@ -73,13 +71,13 @@ public class FragmentEstabelecimento extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_principal, container, false);
         listView = (ListView) rootView.findViewById(R.id.listaestabelecimentos);
         mProgressDialog = ProgressDialog.show(getActivity(), "Download", "Atualizando lista, por favor espere.", false, true);
-        //getJsonArray();
-        listaBancoLocal();
+        obterEstabelecimentos();
+        //listaBancoLocal();
         return rootView;
     }
 
     //Busca no servidor os estabelecimentos
-    public void getJsonArray() {
+    public void obterEstabelecimentos() {
         try {
             //verifica conexao com internet
             if (ConexaoInternet.estaConectado(contexto) == true) {
@@ -117,10 +115,6 @@ public class FragmentEstabelecimento extends Fragment {
                                 e.printStackTrace();
                             }
                         }
-
-                        for (Estabelecimento e : estabelecimentos) {
-                            System.out.println("lista estabelecimento " + e.getNome());
-                        }
                         createListView();
 
                     }
@@ -157,7 +151,7 @@ public class FragmentEstabelecimento extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Estabelecimento estabelecimento = (Estabelecimento) adapter.getItem(position);
 
-                Intent it = new Intent(getActivity().getBaseContext(), DetalhesEstabelecimentoActivity.class);
+                Intent it = new Intent(getActivity().getBaseContext(), DetalhesVistoriaActivity.class);
                 it.putExtra("estabelecimento", estabelecimento);
                 startActivity(it);
 
@@ -173,8 +167,10 @@ public class FragmentEstabelecimento extends Fragment {
 
         estabelecimentos = new ArrayList<>();
         rn = new EstabelecimentoRN(getActivity().getBaseContext());
+        System.out.println("Quantidade e "+rn.obterTodos().size());
         for (Estabelecimento e : rn.obterTodos()){
             estabelecimentos.add(e);
+
         }
         createListView();
     }
