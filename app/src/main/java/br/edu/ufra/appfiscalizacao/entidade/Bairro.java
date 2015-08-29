@@ -11,6 +11,9 @@ public class Bairro implements Serializable {
     private Integer id;
     @DatabaseField
     private String nome;
+    @DatabaseField
+    String enviado = "naoEnviado";
+
 
     public Bairro(){
 

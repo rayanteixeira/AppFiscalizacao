@@ -49,6 +49,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="Prazo"
+                            android:numeric="decimal"
                             android:id="@+id/prazo"/>
 
                         <EditText
@@ -161,7 +162,7 @@
                         <ListView
                             android:layout_width="match_parent"
                             android:layout_height="180dp"
-                            android:id="@+id/listVEquipamentosObrigatoriosAdicionados"
+                            android:id="@+id/listVEquipamentosObrigatoriosInspecionados"
                             android:layout_gravity="center_horizontal" />
 
                     </LinearLayout>
@@ -225,7 +226,7 @@
                         <ListView
                             android:layout_width="match_parent"
                             android:layout_height="180dp"
-                            android:id="@+id/listVDemaisEquipamentosAdicionados"
+                            android:id="@+id/listVDemaisEquipamentosInspecionados"
                             android:layout_gravity="center_horizontal" />
 
                     </LinearLayout>

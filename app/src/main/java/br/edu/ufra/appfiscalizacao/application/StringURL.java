@@ -1,11 +1,8 @@
 package br.edu.ufra.appfiscalizacao.application;
 
-/**
- * Created by bpmlab on 29/06/15.
- */
 public class StringURL {
     private static StringURL uniqueInstance = new StringURL();
-    private static String ip="10.10.164.20";
+    private static String ip="192.168.43.136";
     private static String porta="8080";
     private static String urlEstabelecimento = "http://"+ip+":"+porta+"/AcaiInspecao-mvn/resources/estabelecimento/";
     private static String urlTecnico = "http://"+ip+":"+porta+"/AcaiInspecao-mvn/resources/tecnico/";

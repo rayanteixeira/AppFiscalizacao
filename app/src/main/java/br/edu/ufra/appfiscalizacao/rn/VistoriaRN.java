@@ -11,6 +11,9 @@ import br.edu.ufra.appfiscalizacao.entidade.Vistoria;
 public class VistoriaRN extends GenericRN<Vistoria>{
 
     VistoriaDAO dao;
+
+
+
     public VistoriaRN( Context context) {
         super(Vistoria.class, context);
         dao = new VistoriaDAO(context);

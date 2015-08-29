@@ -1,69 +1,46 @@
-package br.edu.ufra.appfiscalizacao.entidade;
-
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
-import com.j256.ormlite.table.DatabaseTable;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.edu.ufra.appfiscalizacao.application.pojo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Date;
 
+/**
+ *
+ * @author geovane
+ */
+public class EstabelecimentoPOJO implements Serializable {
 
-@DatabaseTable(tableName = "estabelecimento")
-public class Estabelecimento implements Serializable {
-    @DatabaseField(generatedId = true)
-    private int id;
-    @DatabaseField
+    private Integer id;
     private String razaoSocial;
-    @DatabaseField
     private String nomeFantasia;
-    @DatabaseField
     private String nomeContato;
-    @DatabaseField
     private String cnpj;
-    @DatabaseField
     private String rg;
-    @DatabaseField
     private String cpf;
-    @DatabaseField
     private String cep;
-    @DatabaseField
     private String logradouro;
-    @DatabaseField
     private String numero;
-    @DatabaseField
     private String complemeto;
-    @DatabaseField
     private String bairro;
-    @DatabaseField
     private String email;
-    @DatabaseField
     private String telefone;
-    @DatabaseField
     private Date dataCadastro;
-    @DatabaseField
     private Date dataLicenca;
-    @DatabaseField
     private Date dataVencimento;
-    @DatabaseField
     private String status;
-    @DatabaseField
     private BigDecimal latitude;
-    @DatabaseField
     private BigDecimal longitude;
-    @ForeignCollectionField(eager = false)
-    private Collection<Vistoria> vistorias;
 
-
-    public Estabelecimento() {
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -219,11 +196,4 @@ public class Estabelecimento implements Serializable {
         this.longitude = longitude;
     }
 
-    public Collection<Vistoria> getVistorias() {
-        return vistorias;
-    }
-
-    public void setVistorias(Collection<Vistoria> vistorias) {
-        this.vistorias = vistorias;
-    }
 }

@@ -1,40 +1,21 @@
-package br.edu.ufra.appfiscalizacao.entidade;
 
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
-import com.j256.ormlite.table.DatabaseTable;
+package br.edu.ufra.appfiscalizacao.application.pojo;
+
 
 import java.io.Serializable;
-import java.util.Collection;
 
-/**
- * Created by Rayan on 16/06/2015.
- */
-
-
-
-
-@DatabaseTable(tableName = "tecnico")
-public class Tecnico implements Serializable {
-    @DatabaseField(generatedId = true)
-    private int id;
-    @DatabaseField
+public class TecnicoPOJO implements Serializable {
+    private Integer id;
     private String matricula;
-    @DatabaseField
     private String nome;
-    @DatabaseField
     private String email;
-    @DatabaseField
     private String senha;
 
-    public Tecnico() {
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -70,5 +51,5 @@ public class Tecnico implements Serializable {
         this.senha = senha;
     }
 
-
+    
 }

@@ -13,6 +13,7 @@ import br.edu.ufra.appfiscalizacao.FragmentVistoria;
 import br.edu.ufra.appfiscalizacao.FragmentEstabelecimento;
 import br.edu.ufra.appfiscalizacao.FragmentTecnico;
 import br.edu.ufra.appfiscalizacao.R;
+import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 import br.liveo.Model.HelpLiveo;
 import br.liveo.interfaces.OnItemClickListener;
 import br.liveo.interfaces.OnPrepareOptionsMenuLiveo;
@@ -22,6 +23,7 @@ import br.liveo.navigationliveo.NavigationActionBarLiveo;
 public class MainActivity extends NavigationActionBarLiveo implements OnItemClickListener {
 
     private HelpLiveo mHelpLiveo;
+    public Estabelecimento estabelecimento;
     @Override
     public void onInt(Bundle savedInstanceState) {
 

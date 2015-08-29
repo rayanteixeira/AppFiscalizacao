@@ -36,10 +36,12 @@
         <activity
             android:name=".activity.DetalhesVistoriaActivity"
             android:label="@string/title_activity_estabelecimento_detalhes" >
+
         </activity>
         <activity
             android:name=".activity.InspecaoActivity"
             android:label="@string/title_activity_vistoria" >
+
         </activity>
     </application>
 

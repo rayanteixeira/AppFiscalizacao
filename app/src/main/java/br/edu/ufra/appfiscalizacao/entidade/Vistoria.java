@@ -1,6 +1,7 @@
 package br.edu.ufra.appfiscalizacao.entidade;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
@@ -17,9 +18,9 @@ public class Vistoria implements Serializable{
     @DatabaseField (generatedId = true)
     private int id;
     @DatabaseField
-    private String dataSolicitacao;
+    private Date dataSolicitacao;
     @DatabaseField
-    private String dataVistoria;
+    private Date dataVistoria;
     @DatabaseField
     private Integer prazo;
     @DatabaseField
@@ -28,10 +29,11 @@ public class Vistoria implements Serializable{
     private String observacao;
     @DatabaseField(foreign = true)
     private Estabelecimento estabelecimento;
-    @DatabaseField (foreign = true)
+    @DatabaseField
     private Tecnico tecnico1;
-    @DatabaseField (foreign = true)
+    @DatabaseField
     private Tecnico tecnico2;
+    @ForeignCollectionField(eager = false)
     private Collection<Inspecao> inspecaoList;
 
 
@@ -47,19 +49,19 @@ public class Vistoria implements Serializable{
         this.id = id;
     }
 
-    public String getDataSolicitacao() {
+    public Date getDataSolicitacao() {
         return dataSolicitacao;
     }
 
-    public void setDataSolicitacao(String dataSolicitacao) {
+    public void setDataSolicitacao(Date dataSolicitacao) {
         this.dataSolicitacao = dataSolicitacao;
     }
 
-    public String getDataVistoria() {
+    public Date getDataVistoria() {
         return dataVistoria;
     }
 
-    public void setDataVistoria(String dataVistoria) {
+    public void setDataVistoria(Date dataVistoria) {
         this.dataVistoria = dataVistoria;
     }
 

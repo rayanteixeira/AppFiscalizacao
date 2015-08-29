@@ -48,7 +48,7 @@ public class EstabelecimentoAdapter extends BaseAdapter {
     //ImageView img = (ImageView) view.findViewById(R.id.photopoint);
 
         nome.setText(estabelecimento.getNomeFantasia());
-        situacao.setText(estabelecimento.getContato());
+        situacao.setText(estabelecimento.getNomeContato());
         //img.setImageResource(estabelecimento.getDataVenc());
 
 

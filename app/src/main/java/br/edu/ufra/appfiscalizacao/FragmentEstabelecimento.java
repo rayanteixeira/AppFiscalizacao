@@ -12,9 +12,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -34,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import br.edu.ufra.appfiscalizacao.activity.DetalhesVistoriaActivity;
+import br.edu.ufra.appfiscalizacao.activity.MainActivity;
 import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoAdapter;
 import br.edu.ufra.appfiscalizacao.application.StringURL;
 import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
@@ -57,7 +60,8 @@ public class FragmentEstabelecimento extends Fragment {
     private Context contexto;
     private String mensagemInternet = Mensagem.getMensagemInternet();
     private ProgressDialog mProgressDialog;
-
+    private RequestQueue requestQueue;
+    MainActivity mainActivity;
     public FragmentEstabelecimento() {
         // Required empty public constructor
     }
@@ -66,7 +70,9 @@ public class FragmentEstabelecimento extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mainActivity = (MainActivity) getActivity();
         contexto = getActivity().getBaseContext();
+        requestQueue = Volley.newRequestQueue(getActivity().getApplication());
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_principal, container, false);
         listView = (ListView) rootView.findViewById(R.id.listaestabelecimentos);
@@ -126,8 +132,8 @@ public class FragmentEstabelecimento extends Fragment {
                     }
                 });
 
-
-                VolleyApplication.getsInstance().getmRequestQueue().add(request);
+                requestQueue.add(request);
+                //VolleyApplication.getsInstance().getmRequestQueue().add(request);
             } else {
                 mProgressDialog.dismiss();
                 Toast.makeText(contexto, mensagemInternet, Toast.LENGTH_LONG).show();
@@ -152,7 +158,9 @@ public class FragmentEstabelecimento extends Fragment {
                 Estabelecimento estabelecimento = (Estabelecimento) adapter.getItem(position);
 
                 Intent it = new Intent(getActivity().getBaseContext(), DetalhesVistoriaActivity.class);
+
                 it.putExtra("estabelecimento", estabelecimento);
+                mainActivity.estabelecimento = estabelecimento;
                 startActivity(it);
 
             }
@@ -174,5 +182,6 @@ public class FragmentEstabelecimento extends Fragment {
         }
         createListView();
     }
+
 
 }
