@@ -3,6 +3,7 @@ package br.edu.ufra.appfiscalizacao.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,13 +29,19 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import com.melnykov.fab.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,7 +55,9 @@ import br.edu.ufra.appfiscalizacao.adapter.EquipamentosSpinnerAdapter;
 import br.edu.ufra.appfiscalizacao.adapter.InspecaoAdapter;
 import br.edu.ufra.appfiscalizacao.application.StringURL;
 import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
+import br.edu.ufra.appfiscalizacao.application.pojo.conversor.InspecaoConverter;
 import br.edu.ufra.appfiscalizacao.application.pojo.conversor.VistoriaConverter;
+import br.edu.ufra.appfiscalizacao.application.pojo.lista.InspecaoListaPOJO;
 import br.edu.ufra.appfiscalizacao.entidade.Equipamento;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 import br.edu.ufra.appfiscalizacao.entidade.Inspecao;
@@ -67,8 +76,10 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
     private List<Inspecao> inspecoes, inspecoesDemaisEquip, inspecoesEquipObrigatorios;
     private Context contexto;
     private Gson gson;
+    private GsonBuilder builder;
     private String urlEquipamentos = StringURL.getUrlEquipamento()+"all";
     private String urlSalvarVistoria= StringURL.getUrlVistoria()+"salvar";
+    private String urlSalvarInspecaoListaPOJO = StringURL.getUrlInspecao()+"salvar";
     private String mensagemInternet = Mensagem.getMensagemInternet();
     private Tecnico tecnico1, tecnico2;
     private Vistoria vistoria;
@@ -85,19 +96,24 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
     private ListView LVInspecaoDemaisEquip, LVInspecaoEquipObrigatorios;
     private RequestQueue requestQueue;
     private VistoriaRN rnVistoria;
+    private InspecaoListaPOJO inspecaoListaPOJO;
+    private static final String PREFERENCE_NAME="LoginActivityPreferences";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_estabelecimento_detalhes_vistoria);
+        SharedPreferences sharedP = getSharedPreferences(PREFERENCE_NAME,MODE_PRIVATE);
         contexto= getBaseContext();
         requestQueue = Volley.newRequestQueue(this.getApplicationContext());
         sdf = new SimpleDateFormat("dd/MM/yyyy");
-        gson = new Gson();
         rnVistoria = new VistoriaRN(contexto);
         inspecoes = new ArrayList<>();
+        inspecaoListaPOJO = new InspecaoListaPOJO();
+
         vistoria = new Vistoria();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         estabelecimento = (Estabelecimento) getIntent().getSerializableExtra("estabelecimento");
+        System.out.println("nome"+estabelecimento.getNomeFantasia());
         //TabVistoria
         dataSolicitacaoTxt = (TextView) findViewById(R.id.dataSolicitacao);
         prazoEdt = (EditText) findViewById(R.id.prazo);
@@ -123,10 +139,12 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         System.out.println("Data: "+sdf.format(estabelecimento.getDataCadastro()));
         dataSolicitacaoTxt.setText(sdf.format(estabelecimento.getDataCadastro()));
         */
+        int idTec1= sharedP.getInt("idTec1",0);
+        int idTec2= sharedP.getInt("idTec2",0);
         tecnico1 = new Tecnico();
-        tecnico1.setMatricula("1234");
         tecnico2 = new Tecnico();
-        tecnico2.setMatricula("4321");
+        tecnico1.setId(idTec1);
+        tecnico2.setId(idTec2);
 
         spinnerDemaisEquip = (Spinner) findViewById(R.id.spinnerDemaisEquip);
         spinnerEquipObrigatorios = (Spinner) findViewById(R.id.spinnerEquipObrigatorios);
@@ -169,6 +187,23 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         descritor.setContent(R.id.demaisequipamentos);
         descritor.setIndicator("Demais Equipamentos");
         abas.addTab(descritor);
+
+
+        builder = new GsonBuilder();
+        //converte data(pois esta em formato DATE)
+        builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+
+            @Override
+            public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                try {
+                    return df.parse(json.getAsString());
+                } catch (ParseException e) {
+                    return null;
+                }
+            }
+        });
+        gson = builder.create();
 
         obterEquipamentosWS();
 
@@ -254,7 +289,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
                 });
 
                 requestQueue.add(request);
-               // VolleyApplication.getsInstance().getmRequestQueue().add(request);
+                // VolleyApplication.getsInstance().getmRequestQueue().add(request);
             } else {
 
                 Toast.makeText(contexto, mensagemInternet, Toast.LENGTH_LONG).show();
@@ -267,11 +302,47 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         }
     }
 
-    private void salvarVistoriaWS(){
+    private void salvarInspecaoListaPOJOWS(){
 
         try{
             progressD=ProgressDialog.show(this,"Salvando os Dados no Servidor","Aguarde...");
 
+            String converteToJson=gson.toJson(inspecaoListaPOJO);
+            System.out.println("json "+converteToJson);
+            JSONObject convertingToJsonObject= new JSONObject(converteToJson);
+
+            System.out.println("object:"+convertingToJsonObject);
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, urlSalvarInspecaoListaPOJO,convertingToJsonObject , new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+
+                    progressD.dismiss();
+                    System.out.println("mgs json "+response);
+                    mensagemServidor =gson.fromJson(response.toString(), Mensagem.class);
+                    System.out.println("resposta: "+mensagemServidor.getMensagemServToClient());
+                    Toast.makeText(contexto,mensagemServidor.getMensagemServToClient(),Toast.LENGTH_SHORT).show();
+                    finish();
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    progressD.dismiss();
+                    Toast.makeText(getBaseContext(),"Erro ao tentar obter dados do servidor: "+error.getCause(),Toast.LENGTH_LONG).show();
+                }
+            });
+            requestQueue.add(jsonObjectRequest);
+        }catch (JSONException e){
+            progressD.dismiss();
+            Toast.makeText(this,e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+    }
+    /*
+    private void salvarVistoriaWS(){
+
+        try{
+            progressD=ProgressDialog.show(this,"Salvando os Dados no Servidor","Aguarde...");
 
             String converteToJson=gson.toJson(VistoriaConverter.toVistoriaPOJO(vistoria));
             System.out.println("json "+converteToJson);
@@ -296,36 +367,36 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
                 }
             });
             requestQueue.add(jsonObjectRequest);
-        }catch (Exception e){
+        }catch (JSONException e){
             progressD.dismiss();
-            Toast.makeText(this,e.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,e.toString(),Toast.LENGTH_SHORT).show();
         }
 
     }
-
+*/
     private void salvarVistoriaBD(){
-            try {
-                if (rnVistoria.salvar(vistoria)){
-                    progressD.dismiss();
-                    Toast.makeText(getBaseContext(), "Sucesso, vistoria  salva no banco de dados do celular. " +
-                                    "Conecte-se a internet para sincronizar os dados.",
-                            Toast.LENGTH_SHORT).show();
-                    finish();
-                } else {
-                    progressD.dismiss();
-                    Toast.makeText(getBaseContext(), "Erro ao salvar no banco de dados do celular!",
-                            Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e){
-                Toast.makeText(getBaseContext(), "Exception: "+e.getCause(),
-                        Toast.LENGTH_LONG).show();
+        try {
+            if (rnVistoria.salvar(vistoria)){
+                progressD.dismiss();
+                Toast.makeText(getBaseContext(), "Sucesso, vistoria  salva no banco de dados do celular. " +
+                                "Conecte-se a internet para sincronizar os dados.",
+                        Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                progressD.dismiss();
+                Toast.makeText(getBaseContext(), "Erro ao salvar no banco de dados do celular!",
+                        Toast.LENGTH_SHORT).show();
             }
+        } catch (Exception e){
+            Toast.makeText(getBaseContext(), "Exception: "+e.getCause(),
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
     private void spinnerDemaisEquipamentos(){
 
-      //  final ArrayAdapter<String> spinneradapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, equipamentosNome);
-       // spinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //  final ArrayAdapter<String> spinneradapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, equipamentosNome);
+        // spinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinnerDemaisEquip.setAdapter(new EquipamentosSpinnerAdapter(contexto, demaisEquipamentosSpinner));
 
@@ -385,11 +456,11 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         vistoria.setObservacao(observacaoEdt.getText().toString());
 
         System.out.println("inspecoes "+inspecoes.size());
-
         vistoria.setInspecaoList(inspecoes);
+        inspecaoListaPOJO.setInspecoesPOJO(InspecaoConverter.toInspecoesPOJO(inspecoes));
 
         if (ConexaoInternet.estaConectado(this) ){
-            salvarVistoriaWS();
+            salvarInspecaoListaPOJOWS();
         }else {
             Toast.makeText(contexto,"Conecte-se a internet para sincronizar os dados com o servidor!",Toast.LENGTH_LONG).show();
             salvarVistoriaBD();
@@ -452,7 +523,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
                 equipamentosObrigatoriosSpinner.add(e);
             } else if (e.getStatus().equals("Não obrigatorio")){
                 System.out.println("Nao obrigatorio "+e.getNome());
-                    demaisEquipamentosSpinner.add(e);
+                demaisEquipamentosSpinner.add(e);
             }
         }
     }
@@ -469,10 +540,11 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         }
     }
 
-    private Date obterDataHoje(){
+    private Long obterDataHoje(){
         Date data = Calendar.getInstance().getTime();
         System.out.println("Data de hoje:"+data);
-        return data;
+        Long dataLong = data.getTime();
+        return dataLong;
     }
 
 

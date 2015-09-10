@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.edu.ufra.appfiscalizacao.application.pojo.conversor;
-
-import br.edu.ufra.appfiscalizacao.application.pojo.EquipamentoPOJO;
-import br.edu.ufra.appfiscalizacao.entidade.Equipamento;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import br.edu.ufra.appfiscalizacao.application.pojo.EquipamentoPOJO;
+import br.edu.ufra.appfiscalizacao.entidade.Equipamento;
 
 /**
  *
@@ -65,7 +60,7 @@ public class EquipamentoConverter {
 
             ArrayList<EquipamentoPOJO> resposta = new ArrayList<>();
 
-            for(Equipamento equipamento : equipamentos){
+            for (Equipamento equipamento : equipamentos){
 
                 resposta.add(toEquipamentoPOJO(equipamento));
             }
@@ -82,7 +77,7 @@ public class EquipamentoConverter {
 
             ArrayList<Equipamento> resposta = new ArrayList<>();
 
-            for(EquipamentoPOJO equipamentoPOJO : equipamentosPOJO){
+            for (EquipamentoPOJO equipamentoPOJO : equipamentosPOJO){
 
                 resposta.add(fromEquipamentoPOJO(equipamentoPOJO));
             }

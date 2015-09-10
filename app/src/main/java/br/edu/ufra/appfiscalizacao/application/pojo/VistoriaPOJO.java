@@ -1,23 +1,19 @@
+
 package br.edu.ufra.appfiscalizacao.application.pojo;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-
-import br.edu.ufra.appfiscalizacao.entidade.Inspecao;
-
 
 public class VistoriaPOJO implements Serializable {
     private Integer id; 
-    private TecnicoPOJO tecnico1;
-    private TecnicoPOJO tecnico2;
-    private EstabelecimentoPOJO estabelecimento;
-    private Date dataSolicitacao;
-    private Date dataVistoria;
+    private TecnicoPOJO tecnicoPOJO1;
+    private TecnicoPOJO tecnicoPOJO2;
+    private EstabelecimentoPOJO estabelecimentoPOJO;
+    private long dataSolicitacao;
+    private long dataVistoria;
     private int prazo;
     private Boolean apto;
     private String observacao;
-    private List<InspecaoPOJO> inspecoes;
+
     public Integer getId() {
         return id;
     }
@@ -26,43 +22,43 @@ public class VistoriaPOJO implements Serializable {
         this.id = id;
     }
 
-    public TecnicoPOJO getTecnico1() {
-        return tecnico1;
+    public TecnicoPOJO getTecnicoPOJO1() {
+        return tecnicoPOJO1;
     }
 
-    public void setTecnico1(TecnicoPOJO tecnico1) {
-        this.tecnico1 = tecnico1;
+    public void setTecnicoPOJO1(TecnicoPOJO tecnicoPOJO1) {
+        this.tecnicoPOJO1 = tecnicoPOJO1;
     }
 
-    public TecnicoPOJO getTecnico2() {
-        return tecnico2;
+    public TecnicoPOJO getTecnicoPOJO2() {
+        return tecnicoPOJO2;
     }
 
-    public void setTecnico2(TecnicoPOJO tecnico2) {
-        this.tecnico2 = tecnico2;
+    public void setTecnicoPOJO2(TecnicoPOJO tecnicoPOJO2) {
+        this.tecnicoPOJO2 = tecnicoPOJO2;
     }
 
-    public EstabelecimentoPOJO getEstabelecimento() {
-        return estabelecimento;
+    public EstabelecimentoPOJO getEstabelecimentoPOJO() {
+        return estabelecimentoPOJO;
     }
 
-    public void setEstabelecimento(EstabelecimentoPOJO estabelecimento) {
-        this.estabelecimento = estabelecimento;
+    public void setEstabelecimentoPOJO(EstabelecimentoPOJO estabelecimentoPOJO) {
+        this.estabelecimentoPOJO = estabelecimentoPOJO;
     }
 
-    public Date getDataSolicitacao() {
+    public long getDataSolicitacao() {
         return dataSolicitacao;
     }
 
-    public void setDataSolicitacao(Date dataSolicitacao) {
+    public void setDataSolicitacao(long dataSolicitacao) {
         this.dataSolicitacao = dataSolicitacao;
     }
 
-    public Date getDataVistoria() {
+    public long getDataVistoria() {
         return dataVistoria;
     }
 
-    public void setDataVistoria(Date dataVistoria) {
+    public void setDataVistoria(long dataVistoria) {
         this.dataVistoria = dataVistoria;
     }
 
@@ -89,12 +85,8 @@ public class VistoriaPOJO implements Serializable {
     public void setObservacao(String observacao) {
         this.observacao = observacao;
     }
+    
+    
+         
 
-    public List<InspecaoPOJO> getInspecoes() {
-        return inspecoes;
-    }
-
-    public void setInspecoes(List<InspecaoPOJO> inspecoes) {
-        this.inspecoes = inspecoes;
-    }
 }

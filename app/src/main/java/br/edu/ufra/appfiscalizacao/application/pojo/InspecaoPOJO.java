@@ -1,24 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.edu.ufra.appfiscalizacao.application.pojo;
 
 import java.io.Serializable;
-import java.util.Date;
 
-/**
- *
- * @author geovane
- */
-public class InspecaoPOJO implements Serializable {
+public class InspecaoPOJO implements Serializable{
 
     private Integer id;
-    private Date dataInsp;
-    private boolean apto;
-    private String observacao;
-    private EquipamentoPOJO equipamentoPOJO;
+    private long dataInspPOJO;
+    private boolean aptoPOJO;
+    private String observacaoPOJO;
+    private VistoriaPOJO vistoriaPOJO;
+    private EquipamentoPOJO equipamentoPOJO;     
 
     public Integer getId() {
         return id;
@@ -28,28 +19,36 @@ public class InspecaoPOJO implements Serializable {
         this.id = id;
     }
 
-    public Date getDataInsp() {
-        return dataInsp;
+    public long getDataInspPOJO() {
+        return dataInspPOJO;
     }
 
-    public void setDataInsp(Date dataInsp) {
-        this.dataInsp = dataInsp;
+    public void setDataInspPOJO(long dataInspPOJO) {
+        this.dataInspPOJO = dataInspPOJO;
     }
 
-    public boolean getApto() {
-        return apto;
+    public boolean isAptoPOJO() {
+        return aptoPOJO;
     }
 
-    public void setApto(boolean apto) {
-        this.apto = apto;
+    public void setAptoPOJO(boolean aptoPOJO) {
+        this.aptoPOJO = aptoPOJO;
     }
 
-    public String getObservacao() {
-        return observacao;
+    public String getObservacaoPOJO() {
+        return observacaoPOJO;
     }
 
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
+    public void setObservacaoPOJO(String observacaoPOJO) {
+        this.observacaoPOJO = observacaoPOJO;
+    }
+
+    public VistoriaPOJO getVistoriaPOJO() {
+        return vistoriaPOJO;
+    }
+
+    public void setVistoriaPOJO(VistoriaPOJO vistoriaPOJO) {
+        this.vistoriaPOJO = vistoriaPOJO;
     }
 
     public EquipamentoPOJO getEquipamentoPOJO() {
@@ -60,9 +59,6 @@ public class InspecaoPOJO implements Serializable {
         this.equipamentoPOJO = equipamentoPOJO;
     }
 
-        
     
-      
     
-
 }

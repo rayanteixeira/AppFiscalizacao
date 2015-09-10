@@ -39,7 +39,8 @@ import br.edu.ufra.appfiscalizacao.activity.DetalhesVistoriaActivity;
 import br.edu.ufra.appfiscalizacao.activity.MainActivity;
 import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoAdapter;
 import br.edu.ufra.appfiscalizacao.application.StringURL;
-import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
+import br.edu.ufra.appfiscalizacao.application.pojo.EstabelecimentoPOJO;
+import br.edu.ufra.appfiscalizacao.application.pojo.conversor.EstabelecimentoConverter;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 import br.edu.ufra.appfiscalizacao.rn.EstabelecimentoRN;
 import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;
@@ -51,8 +52,9 @@ public class FragmentEstabelecimento extends Fragment {
     private boolean mSearchCheck;
     private ListView listView;
     private EstabelecimentoAdapter adapter;
+    private ArrayList<EstabelecimentoPOJO> estabelecimentosPOJO;
     private ArrayList<Estabelecimento> estabelecimentos;
-    private Estabelecimento estabelecimento;
+    private EstabelecimentoPOJO estabelecimentoPOJO;
     private EstabelecimentoRN rn;
     private Gson gson;
     private GsonBuilder builder;
@@ -109,13 +111,14 @@ public class FragmentEstabelecimento extends Fragment {
                     @Override
                     public void onResponse(JSONArray response) {
                         int i;
-                        estabelecimentos = new ArrayList<>();
+                        estabelecimentosPOJO = new ArrayList<>();
                         for (i = 0; i < response.length(); i++) {
                             try {
+                                System.out.println("objects server "+response.length());
                                 JSONObject estabelecimentoItem = response.getJSONObject(i);
-                                estabelecimento = gson.fromJson(estabelecimentoItem.toString(), Estabelecimento.class);
-                                System.out.println("estabelecimento" + estabelecimento.getDataLicenca());
-                                estabelecimentos.add(estabelecimento);
+                                estabelecimentoPOJO = gson.fromJson(estabelecimentoItem.toString(), EstabelecimentoPOJO.class);
+                                System.out.println("estabelecimento" + estabelecimentoPOJO.getDataLicenca());
+                                estabelecimentosPOJO.add(estabelecimentoPOJO);
                                 mProgressDialog.dismiss();
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -128,7 +131,7 @@ public class FragmentEstabelecimento extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         mProgressDialog.dismiss();
-                        Toast.makeText(contexto, "Erro ao obter dados do servidor:" + error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(contexto, "Erro ao obter dados do servidor:" + error.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -148,8 +151,7 @@ public class FragmentEstabelecimento extends Fragment {
     //passagem dos dados da lista para o listview utilizando adapterpersonalizado.
     private void createListView() {
 
-
-        adapter = new EstabelecimentoAdapter(contexto, estabelecimentos);
+        adapter = new EstabelecimentoAdapter(contexto, EstabelecimentoConverter.fromEstabelecimentosPOJO(estabelecimentosPOJO));
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -160,7 +162,7 @@ public class FragmentEstabelecimento extends Fragment {
                 Intent it = new Intent(getActivity().getBaseContext(), DetalhesVistoriaActivity.class);
 
                 it.putExtra("estabelecimento", estabelecimento);
-                mainActivity.estabelecimento = estabelecimento;
+                //mainActivity.estabelecimento = estabelecimento;
                 startActivity(it);
 
             }
@@ -169,7 +171,7 @@ public class FragmentEstabelecimento extends Fragment {
 
     }
 
-
+/*
     //utilizando busca em banco de dados local
     public void listaBancoLocal(){
 
@@ -183,5 +185,5 @@ public class FragmentEstabelecimento extends Fragment {
         createListView();
     }
 
-
+*/
 }

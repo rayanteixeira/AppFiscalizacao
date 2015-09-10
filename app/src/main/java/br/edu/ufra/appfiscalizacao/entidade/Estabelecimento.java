@@ -15,17 +15,9 @@ public class Estabelecimento implements Serializable {
     @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField
-    private String razaoSocial;
-    @DatabaseField
     private String nomeFantasia;
     @DatabaseField
     private String nomeContato;
-    @DatabaseField
-    private String cnpj;
-    @DatabaseField
-    private String rg;
-    @DatabaseField
-    private String cpf;
     @DatabaseField
     private String cep;
     @DatabaseField
@@ -37,15 +29,13 @@ public class Estabelecimento implements Serializable {
     @DatabaseField
     private String bairro;
     @DatabaseField
-    private String email;
-    @DatabaseField
     private String telefone;
     @DatabaseField
-    private Date dataCadastro;
+    private long dataCadastro;
     @DatabaseField
-    private Date dataLicenca;
+    private long dataLicenca;
     @DatabaseField
-    private Date dataVencimento;
+    private long dataVencimento;
     @DatabaseField
     private String status;
     @DatabaseField
@@ -67,13 +57,6 @@ public class Estabelecimento implements Serializable {
         this.id = id;
     }
 
-    public String getRazaoSocial() {
-        return razaoSocial;
-    }
-
-    public void setRazaoSocial(String razaoSocial) {
-        this.razaoSocial = razaoSocial;
-    }
 
     public String getNomeFantasia() {
         return nomeFantasia;
@@ -89,30 +72,6 @@ public class Estabelecimento implements Serializable {
 
     public void setNomeContato(String nomeContato) {
         this.nomeContato = nomeContato;
-    }
-
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
-
-    public String getRg() {
-        return rg;
-    }
-
-    public void setRg(String rg) {
-        this.rg = rg;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
     }
 
     public String getCep() {
@@ -155,14 +114,6 @@ public class Estabelecimento implements Serializable {
         this.bairro = bairro;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getTelefone() {
         return telefone;
     }
@@ -171,27 +122,27 @@ public class Estabelecimento implements Serializable {
         this.telefone = telefone;
     }
 
-    public Date getDataCadastro() {
+    public long getDataCadastro() {
         return dataCadastro;
     }
 
-    public void setDataCadastro(Date dataCadastro) {
+    public void setDataCadastro(long dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
 
-    public Date getDataLicenca() {
+    public long getDataLicenca() {
         return dataLicenca;
     }
 
-    public void setDataLicenca(Date dataLicenca) {
+    public void setDataLicenca(long dataLicenca) {
         this.dataLicenca = dataLicenca;
     }
 
-    public Date getDataVencimento() {
+    public long getDataVencimento() {
         return dataVencimento;
     }
 
-    public void setDataVencimento(Date dataVencimento) {
+    public void setDataVencimento(long dataVencimento) {
         this.dataVencimento = dataVencimento;
     }
 

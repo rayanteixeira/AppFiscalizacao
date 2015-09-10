@@ -1,6 +1,7 @@
 package br.edu.ufra.appfiscalizacao.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -62,7 +63,7 @@ public class MainActivity extends NavigationActionBarLiveo implements OnItemClic
 
                         //.colorLineSeparator(R.color.nliveo_blue_colorPrimary)
 
-                .footerItem(R.string.sobre, R.drawable.ic_sobre)
+                .footerItem(R.string.sair, R.drawable.ic_sobre)
 
                         //{optional} - Footer Customization
                 .footerNameColor(R.color.nliveo_purple_colorPrimary)
@@ -122,7 +123,12 @@ public class MainActivity extends NavigationActionBarLiveo implements OnItemClic
     private View.OnClickListener onClickFooter = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            startActivity(new Intent(getApplicationContext(), SobreActivity.class));
+            SharedPreferences sharedP=getSharedPreferences("LoginActivityPreferences",MODE_PRIVATE);
+            SharedPreferences.Editor editor=sharedP.edit();
+
+            editor.clear().commit();
+
+            finish();
             closeDrawer();
         }
     };

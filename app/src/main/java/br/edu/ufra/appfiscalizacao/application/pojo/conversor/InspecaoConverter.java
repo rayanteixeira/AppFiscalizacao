@@ -2,7 +2,7 @@
 package br.edu.ufra.appfiscalizacao.application.pojo.conversor;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.application.pojo.InspecaoPOJO;
@@ -26,11 +26,11 @@ public class InspecaoConverter {
             InspecaoPOJO resposta = new InspecaoPOJO();
 
             resposta.setId(inspecao.getId());
-  //          resposta.setVistoria(VistoriaConverter.toVistoriaPOJO(inspecao.getVistoria()));
-            resposta.setApto(inspecao.isApto());
-            resposta.setDataInsp(inspecao.getDataInsp());
+            resposta.setVistoriaPOJO(VistoriaConverter.toVistoriaPOJO(inspecao.getVistoria()));
+            resposta.setAptoPOJO(inspecao.isApto());
+            resposta.setDataInspPOJO(inspecao.getDataInsp());
             resposta.setEquipamentoPOJO(EquipamentoConverter.toEquipamentoPOJO(inspecao.getEquipamento()));
-            resposta.setObservacao(inspecao.getObservacao());
+            resposta.setObservacaoPOJO(inspecao.getObservacao());
                 
             return resposta;
 
@@ -44,11 +44,11 @@ public class InspecaoConverter {
             Inspecao resposta = new Inspecao();
 
             resposta.setId(inspecaoPOJO.getId());
-            //resposta.setVistoria(VistoriaConverter.fromVistoriaPOJO(inspecaoPOJO.getVistoria()));
-            resposta.setApto(inspecaoPOJO.getApto());
-            resposta.setDataInsp(inspecaoPOJO.getDataInsp());
+            resposta.setVistoria(VistoriaConverter.fromVistoriaPOJO(inspecaoPOJO.getVistoriaPOJO()));
+            resposta.setApto(inspecaoPOJO.isAptoPOJO());
+            resposta.setDataInsp(inspecaoPOJO.getDataInspPOJO());
             resposta.setEquipamento(EquipamentoConverter.fromEquipamentoPOJO(inspecaoPOJO.getEquipamentoPOJO()));
-            resposta.setObservacao(inspecaoPOJO.getObservacao());
+            resposta.setObservacao(inspecaoPOJO.getObservacaoPOJO());
 
             return resposta;
 
@@ -57,12 +57,12 @@ public class InspecaoConverter {
         }
     }
 
-    public static List<InspecaoPOJO> toInspecoesPOJO(Collection<Inspecao> inspecoes) {
+    public static List<InspecaoPOJO> toInspecoesPOJO(List<Inspecao> inspecoes) {
         if (inspecoes != null) {
 
             ArrayList<InspecaoPOJO> resposta = new ArrayList<>();
 
-            for(Inspecao inspecao : inspecoes){
+            for (Inspecao inspecao : inspecoes){
 
                 resposta.add(toInspecaoPOJO(inspecao));
             }
@@ -79,8 +79,7 @@ public class InspecaoConverter {
 
             ArrayList<Inspecao> resposta = new ArrayList<>();
 
-
-            for(InspecaoPOJO inspecaoPOJO : inspecoesPOJO){
+            for (InspecaoPOJO inspecaoPOJO : inspecoesPOJO){
 
                 resposta.add(fromInspecaoPOJO(inspecaoPOJO));
             }

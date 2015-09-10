@@ -17,7 +17,7 @@ public class Inspecao implements Serializable {
     @DatabaseField
     private int id;
     @DatabaseField
-    private Date dataInsp;
+    private long dataInsp;
     @DatabaseField
     private boolean apto;
     @DatabaseField
@@ -39,11 +39,11 @@ public class Inspecao implements Serializable {
         this.id = id;
     }
 
-    public Date getDataInsp() {
+    public long getDataInsp() {
         return dataInsp;
     }
 
-    public void setDataInsp(Date dataInsp) {
+    public void setDataInsp(long dataInsp) {
         this.dataInsp = dataInsp;
     }
 

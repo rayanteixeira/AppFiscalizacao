@@ -18,9 +18,9 @@ public class Vistoria implements Serializable{
     @DatabaseField (generatedId = true)
     private int id;
     @DatabaseField
-    private Date dataSolicitacao;
+    private long dataSolicitacao;
     @DatabaseField
-    private Date dataVistoria;
+    private long dataVistoria;
     @DatabaseField
     private Integer prazo;
     @DatabaseField
@@ -49,19 +49,19 @@ public class Vistoria implements Serializable{
         this.id = id;
     }
 
-    public Date getDataSolicitacao() {
+    public long getDataSolicitacao() {
         return dataSolicitacao;
     }
 
-    public void setDataSolicitacao(Date dataSolicitacao) {
+    public void setDataSolicitacao(long dataSolicitacao) {
         this.dataSolicitacao = dataSolicitacao;
     }
 
-    public Date getDataVistoria() {
+    public long getDataVistoria() {
         return dataVistoria;
     }
 
-    public void setDataVistoria(Date dataVistoria) {
+    public void setDataVistoria(long dataVistoria) {
         this.dataVistoria = dataVistoria;
     }
 

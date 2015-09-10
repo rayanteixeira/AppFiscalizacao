@@ -34,9 +34,6 @@ public class EstabelecimentoConverter {
 
             resposta.setId(estabelecimento.getId());
             resposta.setNomeFantasia(estabelecimento.getNomeFantasia());
-            resposta.setRg(estabelecimento.getRg());
-            resposta.setCpf(estabelecimento.getCpf());
-            resposta.setEmail(estabelecimento.getEmail());
             resposta.setTelefone(estabelecimento.getTelefone());
             resposta.setLogradouro(estabelecimento.getLogradouro());
             resposta.setNumero(estabelecimento.getNumero());
@@ -60,9 +57,6 @@ public class EstabelecimentoConverter {
 
             resposta.setId(estabelecimentoPOJO.getId());
             resposta.setNomeFantasia(estabelecimentoPOJO.getNomeFantasia());
-            resposta.setRg(estabelecimentoPOJO.getRg());
-            resposta.setCpf(estabelecimentoPOJO.getCpf());
-            resposta.setEmail(estabelecimentoPOJO.getEmail());
             resposta.setTelefone(estabelecimentoPOJO.getTelefone());
             resposta.setLogradouro(estabelecimentoPOJO.getLogradouro());
             resposta.setNumero(estabelecimentoPOJO.getNumero());

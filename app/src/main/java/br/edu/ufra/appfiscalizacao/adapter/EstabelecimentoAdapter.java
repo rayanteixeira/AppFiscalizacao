@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.R;
+import br.edu.ufra.appfiscalizacao.application.pojo.EstabelecimentoPOJO;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 
 public class EstabelecimentoAdapter extends BaseAdapter {
