@@ -14,8 +14,8 @@ import java.util.List;
 @DatabaseTable(tableName = "inspecao")
 public class Inspecao implements Serializable {
 
-    @DatabaseField
-    private int id;
+    @DatabaseField(generatedId = true)
+    private Integer id;
     @DatabaseField
     private long dataInsp;
     @DatabaseField
@@ -31,11 +31,11 @@ public class Inspecao implements Serializable {
     public Inspecao() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

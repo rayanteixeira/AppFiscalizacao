@@ -35,6 +35,9 @@ import br.edu.ufra.appfiscalizacao.R;
 import br.edu.ufra.appfiscalizacao.activity.MainActivity;
 import br.edu.ufra.appfiscalizacao.application.StringURL;
 import br.edu.ufra.appfiscalizacao.application.pojo.TecnicoPOJO;
+import br.edu.ufra.appfiscalizacao.application.pojo.conversor.TecnicoConverter;
+import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
+import br.edu.ufra.appfiscalizacao.rn.TecnicoRN;
 import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;
 import br.edu.ufra.appfiscalizacao.util.Mensagem;
 
@@ -42,29 +45,31 @@ import br.edu.ufra.appfiscalizacao.util.Mensagem;
 public class LoginActivity extends ActionBarActivity {
 
     private String matriculaTec1,matriculaTec2;
-    private Integer preferencesIdTec1, preferencesIdTec2;
+    //private Integer preferencesIdTec1, preferencesIdTec2;
     private Button btnentrar;
     private EditText txtMatriculaTec1, txtMatriculaTec2;
-    private static final String PREFERENCE_NAME="LoginActivityPreferences";
+    //private static final String PREFERENCE_NAME="LoginActivityPreferences";
+    //private SharedPreferences sharedP;
     private TecnicoPOJO tecnicoPOJO,tecnicoPOJO1, tecnicoPOJO2;
     private RequestQueue requestQueue;
     private Gson gson = new Gson();
     private ProgressDialog progressD;
     private Mensagem mensagem= Mensagem.getInstace();
-    private SharedPreferences sharedP;
     private StringURL stringsURL = StringURL.getInstance();
+    private TecnicoRN rnTecnico;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+       rnTecnico = new TecnicoRN(getBaseContext());
+/*
         sharedP=getSharedPreferences(PREFERENCE_NAME,MODE_PRIVATE);
         preferencesIdTec1 = sharedP.getInt("idTec1",0);
         preferencesIdTec2 = sharedP.getInt("idTec2",0);
-
-        if (preferencesIdTec1 != null && preferencesIdTec1 !=0 && preferencesIdTec2 != null && preferencesIdTec2 !=0 ){
+*/
+        if (!rnTecnico.obterTodos().isEmpty()){
             startActivity(new Intent(getBaseContext(), MainActivity.class));
             finish();
         }
@@ -135,17 +140,28 @@ public class LoginActivity extends ActionBarActivity {
                                     }
 
                                     if  (tecnicoPOJO1.getMatricula().equals(matriculaTec1) & tecnicoPOJO2.getMatricula().equals(matriculaTec2) ) {
+                                if (rnTecnico.salvar(TecnicoConverter.fromTecnicoPOJO(tecnicoPOJO1)) &&  rnTecnico.salvar(TecnicoConverter.fromTecnicoPOJO(tecnicoPOJO2))){
 
 
+                                    for (Tecnico t : rnTecnico.obterTodos()){
+                                        System.out.println("id "+t.getId());
+                                    }
+
+                                    progressD.dismiss();
+                                    Toast.makeText(getBaseContext(), "Sucesso, sejam bem vindos !", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(getBaseContext(), MainActivity.class));
+                                    finish();
+
+                                }
+
+
+/*
                                         SharedPreferences getSharedP = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE);
                                         SharedPreferences.Editor editor = getSharedP.edit();
                                         editor.putInt("idTec1", tecnicoPOJO1.getId());
                                         editor.putInt("idTec2", tecnicoPOJO2.getId());
                                         editor.commit();
-
-                                        progressD.dismiss();
-                                        Toast.makeText(getBaseContext(), "Sucesso, sejam bem vindos !", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(getBaseContext(), MainActivity.class));
+*/
 
 
                                         }

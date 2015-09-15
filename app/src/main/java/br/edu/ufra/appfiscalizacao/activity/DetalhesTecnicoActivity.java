@@ -55,9 +55,9 @@ public class DetalhesTecnicoActivity extends ActionBarActivity {
         txvMatricula = (TextView) findViewById(R.id.txvMatriculaTec);
         txvEmail = (TextView) findViewById(R.id.txvEmailTec);
 
-        txvNome.setText(tecnico.getNome());
+        //txvNome.setText(tecnico.getNome());
         txvMatricula.setText(tecnico.getMatricula());
-        txvEmail.setText(tecnico.getEmail());
+        //txvEmail.setText(tecnico.getEmail());
 
 
     }

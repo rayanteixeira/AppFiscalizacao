@@ -7,26 +7,22 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.io.Serializable;
 import java.util.Collection;
 
-/**
- * Created by Rayan on 16/06/2015.
- */
 
 
 
 
 @DatabaseTable(tableName = "tecnico")
 public class Tecnico implements Serializable {
-    @DatabaseField(generatedId = true)
+    @DatabaseField(id = true)
     private int id;
     @DatabaseField
     private String matricula;
-    @DatabaseField
-    private String nome;
-    @DatabaseField
-    private String email;
-    @DatabaseField
-    private String senha;
+    @ForeignCollectionField
+    private Collection<Vistoria> vistoriaList1;
+    @ForeignCollectionField
+    private Collection<Vistoria> vistoriaList2;
 
+    
     public Tecnico() {
     }
 
@@ -46,29 +42,19 @@ public class Tecnico implements Serializable {
         this.matricula = matricula;
     }
 
-    public String getNome() {
-        return nome;
+    public Collection<Vistoria> getVistoriaList1() {
+        return vistoriaList1;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setVistoriaList1(Collection<Vistoria> vistoriaList1) {
+        this.vistoriaList1 = vistoriaList1;
     }
 
-    public String getEmail() {
-        return email;
+    public Collection<Vistoria> getVistoriaList2() {
+        return vistoriaList2;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setVistoriaList2(Collection<Vistoria> vistoriaList2) {
+        this.vistoriaList2 = vistoriaList2;
     }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-
 }

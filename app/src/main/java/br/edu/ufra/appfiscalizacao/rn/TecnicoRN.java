@@ -18,4 +18,10 @@ public class TecnicoRN extends GenericRN<Tecnico> {
         dao = new TecnicoDAO(context);
 
     }
+
+    public void removerTecnicos(){
+        for (Tecnico tecnico : dao.obterTodos()){
+            dao.excluir(tecnico);
+        }
+    }
 }

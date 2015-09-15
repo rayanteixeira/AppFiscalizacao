@@ -15,6 +15,7 @@ import br.edu.ufra.appfiscalizacao.FragmentEstabelecimento;
 import br.edu.ufra.appfiscalizacao.FragmentTecnico;
 import br.edu.ufra.appfiscalizacao.R;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
+import br.edu.ufra.appfiscalizacao.rn.TecnicoRN;
 import br.liveo.Model.HelpLiveo;
 import br.liveo.interfaces.OnItemClickListener;
 import br.liveo.interfaces.OnPrepareOptionsMenuLiveo;
@@ -123,11 +124,14 @@ public class MainActivity extends NavigationActionBarLiveo implements OnItemClic
     private View.OnClickListener onClickFooter = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+           /*
             SharedPreferences sharedP=getSharedPreferences("LoginActivityPreferences",MODE_PRIVATE);
             SharedPreferences.Editor editor=sharedP.edit();
 
             editor.clear().commit();
-
+            */
+            TecnicoRN rn = new TecnicoRN(getBaseContext());
+            rn.removerTecnicos();
             finish();
             closeDrawer();
         }

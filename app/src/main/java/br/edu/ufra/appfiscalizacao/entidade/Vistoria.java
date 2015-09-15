@@ -29,9 +29,9 @@ public class Vistoria implements Serializable{
     private String observacao;
     @DatabaseField(foreign = true)
     private Estabelecimento estabelecimento;
-    @DatabaseField
+    @DatabaseField(foreign = true)
     private Tecnico tecnico1;
-    @DatabaseField
+    @DatabaseField(foreign = true)
     private Tecnico tecnico2;
     @ForeignCollectionField(eager = false)
     private Collection<Inspecao> inspecaoList;

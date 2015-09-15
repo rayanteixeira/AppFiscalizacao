@@ -29,6 +29,7 @@ public class GenericDAO<E> extends DataBaseHelper<E> {
     public void setDao() {
         try{
             dao = DaoManager.createDao(getConnectionSource(), type);
+
             Log.w("setDao","Realizado!");
         }catch (Exception e){
             e.printStackTrace();
@@ -93,6 +94,14 @@ public class GenericDAO<E> extends DataBaseHelper<E> {
             e.printStackTrace();
             Log.e("Updade", "Erro ao realizar Update" + e.getMessage().toString());
             return false;
+        }
+    }
+
+    public void desfazerTransacao(){
+        try{
+            dao.rollBack((com.j256.ormlite.support.DatabaseConnection) getConnectionSource());
+        }catch (Exception e){
+            System.out.println("Erro: "+e.toString());
         }
     }
 

@@ -11,4 +11,6 @@ public class TecnicoDAO extends GenericDAO<Tecnico> {
     public TecnicoDAO(Context context) {
         super(context, Tecnico.class);
     }
+    
+
 }

@@ -154,7 +154,6 @@ public class FragmentTecnico extends Fragment {
                 Tecnico tecnico = (Tecnico) adapter.getItem(position);
                 int idtecnico = tecnico.getId();
                 System.out.println("ITEM--=>" + tecnico.getId());
-                System.out.println("NOME--=>" + tecnico.getNome());
 
                 Intent it = new Intent(getActivity().getBaseContext(), DetalhesTecnicoActivity.class);
                 it.putExtra("tecnico", tecnico);

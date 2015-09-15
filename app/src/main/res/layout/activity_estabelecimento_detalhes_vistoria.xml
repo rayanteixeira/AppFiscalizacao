@@ -22,89 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
                 <!--TAB3 1-->
-                <RelativeLayout
-                    android:id="@+id/dadosvistoria"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-
-                    <LinearLayout
-
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="16dp"
-                        android:orientation="vertical">
-
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Data de solicitação: "
-                            android:id="@+id/dataSolicitacao" />
-
-                        <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:hint="Prazo"
-                            android:numeric="decimal"
-                            android:id="@+id/prazo"/>
-
-                        <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:hint="Observação"
-                            android:id="@+id/observacao"/>
-
-                        <RadioGroup
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_gravity="center_horizontal">
-
-                            <RadioButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Apto"
-                                android:id="@+id/radioVistoriaAp"
-                                android:layout_gravity="center_horizontal"
-                                android:checked="false" />
-
-                            <RadioButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Não apto"
-                                android:id="@+id/radioVistoriaNAp"
-                                android:checked="false" />
-                        </RadioGroup>
-
-                        <Button
-                            android:id="@+id/btnConcluirVistoria"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Concluir"/>
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-                            <com.melnykov.fab.FloatingActionButton
-                                android:id="@+id/fab"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom|right"
-                                android:layout_margin="16dp"
-                                android:src="@drawable/ic_novavistoria"
-                                fab:fab_shadow="true"
-
-                                />
-                        </FrameLayout>
-                    </LinearLayout>
-
-
-                </RelativeLayout>
-
-                <!--TAB3 2-->
                 <RelativeLayout
                     android:id="@+id/equipamentosObrigatorios"
                     android:layout_width="match_parent"
@@ -169,7 +87,7 @@
                 </RelativeLayout>
 
 
-                <!--TAB3 3-->
+                <!--TAB3 2-->
                 <RelativeLayout
                     android:id="@+id/demaisequipamentos"
                     android:layout_width="match_parent"
@@ -230,6 +148,65 @@
                             android:layout_gravity="center_horizontal" />
 
                     </LinearLayout>
+                </RelativeLayout>
+
+                <!--TAB3 3-->
+                <RelativeLayout
+                    android:id="@+id/dadosvistoria"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="16dp"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Data de solicitação: "
+                            android:id="@+id/dataSolicitacao" />
+
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="Prazo"
+                            android:numeric="decimal"
+                            android:id="@+id/prazo"/>
+
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="Observação"
+                            android:id="@+id/observacao"/>
+
+                        <Button
+                            android:id="@+id/btnConcluirVistoria"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Concluir"/>
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <com.melnykov.fab.FloatingActionButton
+                                android:id="@+id/fab"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|right"
+                                android:layout_margin="16dp"
+                                android:src="@drawable/ic_novavistoria"
+                                fab:fab_shadow="true"
+
+                                />
+                        </FrameLayout>
+                    </LinearLayout>
+
+
                 </RelativeLayout>
         </FrameLayout>
     </LinearLayout>

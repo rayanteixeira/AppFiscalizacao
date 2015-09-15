@@ -19,7 +19,6 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -46,23 +45,23 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import br.edu.ufra.appfiscalizacao.R;
 import br.edu.ufra.appfiscalizacao.adapter.EquipamentosSpinnerAdapter;
 import br.edu.ufra.appfiscalizacao.adapter.InspecaoAdapter;
 import br.edu.ufra.appfiscalizacao.application.StringURL;
-import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
 import br.edu.ufra.appfiscalizacao.application.pojo.conversor.InspecaoConverter;
-import br.edu.ufra.appfiscalizacao.application.pojo.conversor.VistoriaConverter;
 import br.edu.ufra.appfiscalizacao.application.pojo.lista.InspecaoListaPOJO;
 import br.edu.ufra.appfiscalizacao.entidade.Equipamento;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 import br.edu.ufra.appfiscalizacao.entidade.Inspecao;
 import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
 import br.edu.ufra.appfiscalizacao.entidade.Vistoria;
+import br.edu.ufra.appfiscalizacao.rn.EstabelecimentoRN;
+import br.edu.ufra.appfiscalizacao.rn.InspecaoRN;
+import br.edu.ufra.appfiscalizacao.rn.TecnicoRN;
 import br.edu.ufra.appfiscalizacao.rn.VistoriaRN;
 import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;
 import br.edu.ufra.appfiscalizacao.util.Mensagem;
@@ -88,7 +87,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
     private Inspecao inspecao;
     private TextView dataSolicitacaoTxt;
     private EditText prazoEdt,  observacaoEdt, demaisEquipamentoObsEdt,equipamentoObrigatorioObsEdt;
-    private RadioButton vistoriaAptRadio, demaisEquipamentoAptRadio, demaisEquipamentoNaoAptRadio, equipamentoObrigatorioAptRadio, equipamentoObrigatorioNaoAptRadio;
+    private RadioButton demaisEquipamentoAptRadio, demaisEquipamentoNaoAptRadio, equipamentoObrigatorioAptRadio, equipamentoObrigatorioNaoAptRadio;
     private Button concluirBtn, inspecaoDemaisEquipamentosBtn, inspecaoEquipamentosObrigatoriosBtn;
     DateFormat sdf ;
     private EquipamentosSpinnerAdapter equipamentoSpAdapter;
@@ -96,17 +95,21 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
     private ListView LVInspecaoDemaisEquip, LVInspecaoEquipObrigatorios;
     private RequestQueue requestQueue;
     private VistoriaRN rnVistoria;
+    private InspecaoRN rnInspecao;
+    private TecnicoRN rnTecnico;
     private InspecaoListaPOJO inspecaoListaPOJO;
-    private static final String PREFERENCE_NAME="LoginActivityPreferences";
+    //private static final String PREFERENCE_NAME="LoginActivityPreferences";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_estabelecimento_detalhes_vistoria);
-        SharedPreferences sharedP = getSharedPreferences(PREFERENCE_NAME,MODE_PRIVATE);
+        //SharedPreferences sharedP = getSharedPreferences(PREFERENCE_NAME,MODE_PRIVATE);
         contexto= getBaseContext();
         requestQueue = Volley.newRequestQueue(this.getApplicationContext());
         sdf = new SimpleDateFormat("dd/MM/yyyy");
         rnVistoria = new VistoriaRN(contexto);
+        rnInspecao = new InspecaoRN(contexto);
+        rnTecnico = new TecnicoRN(contexto);
         inspecoes = new ArrayList<>();
         inspecaoListaPOJO = new InspecaoListaPOJO();
 
@@ -118,7 +121,6 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         dataSolicitacaoTxt = (TextView) findViewById(R.id.dataSolicitacao);
         prazoEdt = (EditText) findViewById(R.id.prazo);
         observacaoEdt = (EditText) findViewById(R.id.observacao);
-        vistoriaAptRadio = (RadioButton) findViewById(R.id.radioVistoriaAp);
         concluirBtn = (Button) findViewById(R.id.btnConcluirVistoria);
 
         //Tab2 EquipamentosObrigatorios
@@ -139,12 +141,18 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         System.out.println("Data: "+sdf.format(estabelecimento.getDataCadastro()));
         dataSolicitacaoTxt.setText(sdf.format(estabelecimento.getDataCadastro()));
         */
+        /*
         int idTec1= sharedP.getInt("idTec1",0);
         int idTec2= sharedP.getInt("idTec2",0);
-        tecnico1 = new Tecnico();
-        tecnico2 = new Tecnico();
         tecnico1.setId(idTec1);
         tecnico2.setId(idTec2);
+        */
+
+        tecnico1 = rnTecnico.obterTodos().get(0);
+        tecnico2 = rnTecnico.obterTodos().get(1);
+
+        System.out.println("tec id 1  "+tecnico1.getId() + "tec id 2"+tecnico2.getId());
+
 
         spinnerDemaisEquip = (Spinner) findViewById(R.id.spinnerDemaisEquip);
         spinnerEquipObrigatorios = (Spinner) findViewById(R.id.spinnerEquipObrigatorios);
@@ -338,58 +346,27 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         }
 
     }
-    /*
-    private void salvarVistoriaWS(){
 
-        try{
-            progressD=ProgressDialog.show(this,"Salvando os Dados no Servidor","Aguarde...");
-
-            String converteToJson=gson.toJson(VistoriaConverter.toVistoriaPOJO(vistoria));
-            System.out.println("json "+converteToJson);
-            JSONObject convertingToJsonObject= new JSONObject(converteToJson);
-            System.out.println("object:"+convertingToJsonObject);
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, urlSalvarVistoria,convertingToJsonObject , new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    progressD.dismiss();
-                    System.out.println("mgs json "+response);
-                    mensagemServidor =gson.fromJson(response.toString(), Mensagem.class);
-                    System.out.println("resposta: "+mensagemServidor.getMensagemServToClient());
-                    Toast.makeText(contexto,mensagemServidor.getMensagemServToClient(),Toast.LENGTH_SHORT).show();
+    private void salvarInspecaoListaPOJOBD(){
+        try {
+            progressD = ProgressDialog.show(this,"Salvando dados no celular","aguarde...");
+            System.out.println("v depois"+vistoria.getId());
+                if (rnVistoria.salvar(vistoria) && rnInspecao.salvarInspecaoApartirInspecoes(vistoria, InspecaoConverter.fromInspecoesPOJO(inspecaoListaPOJO.getInspecoesPOJO()))){
+                progressD.dismiss();
+                Toast.makeText(getBaseContext(), "Sucesso, inspeções  salvas no banco de dados do celular. "+
+                                "Conecte-se a internet para sincronizar os dados.",
+                        Toast.LENGTH_LONG).show();
+                    finish();
+                }else {
+                Toast.makeText(getBaseContext(), "Erro ao salvar inspeções no banco de dados do celular!", Toast.LENGTH_SHORT).show();
                     finish();
 
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    progressD.dismiss();
-                    Toast.makeText(getBaseContext(),"Erro ao tentar obter dados do servidor: "+error.getCause(),Toast.LENGTH_LONG).show();
-                }
-            });
-            requestQueue.add(jsonObjectRequest);
-        }catch (JSONException e){
-            progressD.dismiss();
-            Toast.makeText(this,e.toString(),Toast.LENGTH_SHORT).show();
-        }
-
-    }
-*/
-    private void salvarVistoriaBD(){
-        try {
-            if (rnVistoria.salvar(vistoria)){
-                progressD.dismiss();
-                Toast.makeText(getBaseContext(), "Sucesso, vistoria  salva no banco de dados do celular. " +
-                                "Conecte-se a internet para sincronizar os dados.",
-                        Toast.LENGTH_SHORT).show();
-                finish();
-            } else {
-                progressD.dismiss();
-                Toast.makeText(getBaseContext(), "Erro ao salvar no banco de dados do celular!",
-                        Toast.LENGTH_SHORT).show();
-            }
         } catch (Exception e){
-            Toast.makeText(getBaseContext(), "Exception: "+e.getCause(),
+            System.out.println("exception "+e.toString());
+            Toast.makeText(getBaseContext(), "Exception: "+e.toString(),
                     Toast.LENGTH_LONG).show();
+                    finish();
         }
     }
 
@@ -444,26 +421,25 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
     private void realizarVistoria(){
 
 
+        //System.out.println("status antes "+estabelecimento.getStatus());
 
-
-        definirVistoriaApto();
         vistoria.setTecnico1(tecnico1);
         vistoria.setTecnico2(tecnico2);
-        vistoria.setEstabelecimento(estabelecimento);
         vistoria.setDataVistoria(obterDataHoje());
         vistoria.setPrazo(Integer.parseInt(prazoEdt.getText().toString()));
-        vistoria.setApto(definirVistoriaApto());
+        vistoria.setApto(definirStatusEstabelecimentoEVistoriaApt(inspecoes));
+        vistoria.setEstabelecimento(estabelecimento);
         vistoria.setObservacao(observacaoEdt.getText().toString());
 
         System.out.println("inspecoes "+inspecoes.size());
         vistoria.setInspecaoList(inspecoes);
+        System.out.println("status depois "+inspecoes.get(0).getVistoria().getEstabelecimento().getStatus());
         inspecaoListaPOJO.setInspecoesPOJO(InspecaoConverter.toInspecoesPOJO(inspecoes));
 
         if (ConexaoInternet.estaConectado(this) ){
             salvarInspecaoListaPOJOWS();
         }else {
-            Toast.makeText(contexto,"Conecte-se a internet para sincronizar os dados com o servidor!",Toast.LENGTH_LONG).show();
-            salvarVistoriaBD();
+            salvarInspecaoListaPOJOBD();
         }
 
 
@@ -528,17 +504,24 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         }
     }
 
-
-
-    private boolean definirVistoriaApto(){
-        if (vistoriaAptRadio.isChecked()){
-            System.out.println("vistoria apto");
+    private boolean definirStatusEstabelecimentoEVistoriaApt(List<Inspecao> inspecoesRealizadas){
+        Inspecao inspecaoRealizada;
+        Iterator<Inspecao> iterator = inspecoesRealizadas.iterator();
+        int contInspecaoApt = 0;
+       while (iterator.hasNext() && iterator.next().isApto() == true){
+           System.out.println("aa");
+           contInspecaoApt ++;
+       }
+        System.out.println("context inspecao apt: "+contInspecaoApt);
+        if (contInspecaoApt == inspecoesRealizadas.size()){
+            estabelecimento.setStatus("regular");
             return true;
-        }else {
-            System.out.println("vistoria nao apto");
+        }else{
+            estabelecimento.setStatus("pendente");
             return false;
         }
     }
+
 
     private Long obterDataHoje(){
         Date data = Calendar.getInstance().getTime();

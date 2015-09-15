@@ -2,7 +2,8 @@ package br.edu.ufra.appfiscalizacao.application;
 
 public class StringURL {
     private static StringURL uniqueInstance = new StringURL();
-    private static String ip="192.168.0.160";
+    // ip localhost private static String ip="10.0.2.2";
+    private static String ip="10.11.82.164";
     private static String porta="8080";
     private String urlLogarTec;
     private static String urlEstabelecimento = "http://"+ip+":"+porta+"/AcaiInspecao-mvn/resources/estabelecimento/";
