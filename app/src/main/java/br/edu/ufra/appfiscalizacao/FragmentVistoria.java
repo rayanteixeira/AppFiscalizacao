@@ -215,7 +215,7 @@ public class FragmentVistoria extends Fragment {
 
         for (Estabelecimento e : estabelecimentos) {
 
-            if (e.getStatus().equals("aguardando vistoria")) {
+            if (e.getStatus().equals("aguardando")) {
                 listAguardandoVistoria.add(e);
             } else if (e.getStatus().equals("pendente")) {
                 listPendente.add(e);
