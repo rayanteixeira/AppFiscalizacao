@@ -38,7 +38,7 @@ import java.util.Date;
 import br.edu.ufra.appfiscalizacao.activity.DetalhesVistoriaActivity;
 import br.edu.ufra.appfiscalizacao.activity.MainActivity;
 import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoAdapter;
-import br.edu.ufra.appfiscalizacao.application.StringURL;
+import br.edu.ufra.appfiscalizacao.util.StringURL;
 import br.edu.ufra.appfiscalizacao.application.pojo.EstabelecimentoPOJO;
 import br.edu.ufra.appfiscalizacao.application.pojo.conversor.EstabelecimentoConverter;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
@@ -151,13 +151,13 @@ public class FragmentEstabelecimento extends Fragment {
     //passagem dos dados da lista para o listview utilizando adapterpersonalizado.
     private void createListView() {
 
-        adapter = new EstabelecimentoAdapter(contexto, EstabelecimentoConverter.fromEstabelecimentosPOJO(estabelecimentosPOJO));
+        adapter = new EstabelecimentoAdapter(contexto, estabelecimentosPOJO);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Estabelecimento estabelecimento = (Estabelecimento) adapter.getItem(position);
+                EstabelecimentoPOJO estabelecimento = (EstabelecimentoPOJO) adapter.getItem(position);
 
                 Intent it = new Intent(getActivity().getBaseContext(), DetalhesVistoriaActivity.class);
 

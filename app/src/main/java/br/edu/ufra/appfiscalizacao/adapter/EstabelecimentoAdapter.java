@@ -16,9 +16,9 @@ import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 public class EstabelecimentoAdapter extends BaseAdapter {
 
     private LayoutInflater mInflate;
-    private List<Estabelecimento> estabelecimentos;
+    private List<EstabelecimentoPOJO> estabelecimentos;
 
-    public EstabelecimentoAdapter(Context context, List<Estabelecimento> estabelecimentos) {
+    public EstabelecimentoAdapter(Context context, List<EstabelecimentoPOJO> estabelecimentos) {
         this.mInflate = LayoutInflater.from(context);
         this.estabelecimentos = estabelecimentos;
     }
@@ -41,8 +41,7 @@ public class EstabelecimentoAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-    Estabelecimento estabelecimento = estabelecimentos.get(position);
-
+    EstabelecimentoPOJO estabelecimento = estabelecimentos.get(position);
     view = mInflate.inflate(R.layout.item_model, null);
     TextView nome = (TextView) view.findViewById(R.id.namepoint);
     TextView situacao = (TextView) view.findViewById(R.id.situacaopoint);

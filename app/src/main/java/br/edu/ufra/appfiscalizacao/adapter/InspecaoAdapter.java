@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.R;
+import br.edu.ufra.appfiscalizacao.application.pojo.InspecaoPOJO;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 import br.edu.ufra.appfiscalizacao.entidade.Inspecao;
 
@@ -19,9 +20,9 @@ import br.edu.ufra.appfiscalizacao.entidade.Inspecao;
 public class InspecaoAdapter extends BaseAdapter {
 
     private LayoutInflater mInflate;
-    private List<Inspecao> inspecoes;
+    private List<InspecaoPOJO> inspecoes;
 
-    public InspecaoAdapter(Context context, List<Inspecao> inspecoes) {
+    public InspecaoAdapter(Context context, List<InspecaoPOJO> inspecoes) {
         this.mInflate = LayoutInflater.from(context);
         this.inspecoes = inspecoes;
     }
@@ -44,12 +45,12 @@ public class InspecaoAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        Inspecao inspecao = inspecoes.get(position);
+        InspecaoPOJO inspecao = inspecoes.get(position);
 
-        view = mInflate.inflate(R.layout.item_model, null);
-        TextView nomeEquipamento = (TextView) view.findViewById(R.id.namepoint);
+        view = mInflate.inflate(R.layout.inspecao_model, null);
+        TextView nomeEquipamento = (TextView) view.findViewById(R.id.nomeEquip);
 
-        nomeEquipamento.setText(inspecao.getEquipamento().getNome());
+        nomeEquipamento.setText(inspecao.getEquipamentoPOJO().getNome());
 
         return view;
     }

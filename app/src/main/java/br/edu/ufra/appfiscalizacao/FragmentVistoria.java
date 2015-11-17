@@ -40,9 +40,10 @@ import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.activity.DetalhesVistoriaActivity;
 import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoAdapter;
-import br.edu.ufra.appfiscalizacao.application.StringURL;
-import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
 import br.edu.ufra.appfiscalizacao.application.pojo.EstabelecimentoPOJO;
+import br.edu.ufra.appfiscalizacao.application.pojo.conversor.EstabelecimentoConverter;
+import br.edu.ufra.appfiscalizacao.util.StringURL;
+import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;
 import br.edu.ufra.appfiscalizacao.util.Mensagem;
@@ -53,10 +54,10 @@ public class FragmentVistoria extends Fragment {
     View rootView;
     private TextView textoselo;
     //EstabelecimentoRN rn;
-    Estabelecimento estabelecimento;
-    List<Estabelecimento> estabelecimentos;
-    List<Estabelecimento> listAguardandoVistoria;
-    List<Estabelecimento> listPendente;
+    EstabelecimentoPOJO estabelecimento;
+    List<EstabelecimentoPOJO> estabelecimentos;
+    List<EstabelecimentoPOJO> listAguardandoVistoria;
+    List<EstabelecimentoPOJO> listPendente;
     private TabHost abas;
     RequestQueue resquestQueue;
     String urlEstabelecimentos = StringURL.getUrlEstabelecimento() + "all";
@@ -97,7 +98,7 @@ public class FragmentVistoria extends Fragment {
         descritor.setIndicator("Pendente");
         abas.addTab(descritor);
 
-        getJsonArray();
+        obterEstabelecimentosWS();
 
 
         return rootView;
@@ -105,11 +106,10 @@ public class FragmentVistoria extends Fragment {
 
     }
 
-    public void getJsonArray(){
+    public void obterEstabelecimentosWS(){
         try {
 
             if (ConexaoInternet.estaConectado(contexto) == true) {
-                System.out.println("conectado");
                 builder = new GsonBuilder();
                 builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -132,18 +132,18 @@ public class FragmentVistoria extends Fragment {
                         for (i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject estabelecimentoItem = response.getJSONObject(i);
-                                estabelecimento = gson.fromJson(estabelecimentoItem.toString(), Estabelecimento.class);
+                                estabelecimento = gson.fromJson(estabelecimentoItem.toString(), EstabelecimentoPOJO.class);
                                 System.out.println("estabelecimento" + estabelecimento.getNomeFantasia());
                                 estabelecimentos.add(estabelecimento);
-                                mProgressDialog.dismiss();
                             } catch (JSONException e) {
+                                mProgressDialog.dismiss();
+                                Toast.makeText(contexto, "Erro ao obter dados do servidor:", Toast.LENGTH_LONG).show();
+
+                                System.out.println("Erro: "+e.getMessage());
                                 e.printStackTrace();
                             }
                         }
 
-                        for (Estabelecimento e : estabelecimentos){
-                            System.out.println("lista estabelecimento "+e.getNomeFantasia());
-                        }
                         definirSituacaoPonto();
                         listPontosAguardandoVistoria();
                         listPontosPendente();
@@ -154,6 +154,7 @@ public class FragmentVistoria extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         mProgressDialog.dismiss();
                         Toast.makeText(contexto, "Erro ao obter dados do servidor:"+error.getMessage() , Toast.LENGTH_LONG).show();
+                        System.out.println("Erro volley: "+error.getMessage());
                     }
                 });
 
@@ -177,7 +178,7 @@ public class FragmentVistoria extends Fragment {
         pontoAguardando.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Estabelecimento estabelecimento = (Estabelecimento) adapterAguardando.getItem(position);
+                EstabelecimentoPOJO estabelecimento = (EstabelecimentoPOJO) adapterAguardando.getItem(position);
 
                 int idEstabelecimento = estabelecimento.getId();
                 Intent it = new Intent(getActivity().getBaseContext(), DetalhesVistoriaActivity.class);
@@ -196,7 +197,7 @@ public class FragmentVistoria extends Fragment {
         pontoPendente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Estabelecimento item = (Estabelecimento) adapterAguardando.getItem(position);
+                EstabelecimentoPOJO item = (EstabelecimentoPOJO) adapterAguardando.getItem(position);
 
                 int idEstabelecimento = item.getId();
                 Intent it = new Intent(getActivity().getBaseContext(), DetalhesVistoriaActivity.class);
@@ -212,15 +213,15 @@ public class FragmentVistoria extends Fragment {
     public void definirSituacaoPonto() {
         listAguardandoVistoria = new ArrayList<>();
         listPendente = new ArrayList<>();
+        for (EstabelecimentoPOJO e : estabelecimentos) {
 
-        for (Estabelecimento e : estabelecimentos) {
-
-            if (e.getStatus().equals("aguardando")) {
+            if (e.getStatus().equals("Aguardando vistoria")) {
                 listAguardandoVistoria.add(e);
             } else if (e.getStatus().equals("pendente")) {
                 listPendente.add(e);
             }
         }
+        mProgressDialog.dismiss();
     }
 
 }

@@ -1,9 +1,7 @@
 package br.edu.ufra.appfiscalizacao.activity.publico;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -19,21 +17,15 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.R;
 import br.edu.ufra.appfiscalizacao.activity.MainActivity;
-import br.edu.ufra.appfiscalizacao.application.StringURL;
+import br.edu.ufra.appfiscalizacao.util.StringURL;
 import br.edu.ufra.appfiscalizacao.application.pojo.TecnicoPOJO;
 import br.edu.ufra.appfiscalizacao.application.pojo.conversor.TecnicoConverter;
 import br.edu.ufra.appfiscalizacao.entidade.Tecnico;

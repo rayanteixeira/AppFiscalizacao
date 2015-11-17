@@ -28,7 +28,7 @@ import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.activity.DetalhesTecnicoActivity;
 import br.edu.ufra.appfiscalizacao.adapter.TecnicoAdapter;
-import br.edu.ufra.appfiscalizacao.application.StringURL;
+import br.edu.ufra.appfiscalizacao.util.StringURL;
 import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
 import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
 import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;

@@ -3,7 +3,6 @@ package br.edu.ufra.appfiscalizacao.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -51,7 +50,14 @@ import java.util.List;
 import br.edu.ufra.appfiscalizacao.R;
 import br.edu.ufra.appfiscalizacao.adapter.EquipamentosSpinnerAdapter;
 import br.edu.ufra.appfiscalizacao.adapter.InspecaoAdapter;
-import br.edu.ufra.appfiscalizacao.application.StringURL;
+import br.edu.ufra.appfiscalizacao.application.pojo.EquipamentoPOJO;
+import br.edu.ufra.appfiscalizacao.application.pojo.EstabelecimentoPOJO;
+import br.edu.ufra.appfiscalizacao.application.pojo.InspecaoPOJO;
+import br.edu.ufra.appfiscalizacao.application.pojo.TecnicoPOJO;
+import br.edu.ufra.appfiscalizacao.application.pojo.VistoriaPOJO;
+import br.edu.ufra.appfiscalizacao.application.pojo.conversor.TecnicoConverter;
+import br.edu.ufra.appfiscalizacao.application.pojo.conversor.VistoriaConverter;
+import br.edu.ufra.appfiscalizacao.util.StringURL;
 import br.edu.ufra.appfiscalizacao.application.pojo.conversor.InspecaoConverter;
 import br.edu.ufra.appfiscalizacao.application.pojo.lista.InspecaoListaPOJO;
 import br.edu.ufra.appfiscalizacao.entidade.Equipamento;
@@ -59,7 +65,6 @@ import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 import br.edu.ufra.appfiscalizacao.entidade.Inspecao;
 import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
 import br.edu.ufra.appfiscalizacao.entidade.Vistoria;
-import br.edu.ufra.appfiscalizacao.rn.EstabelecimentoRN;
 import br.edu.ufra.appfiscalizacao.rn.InspecaoRN;
 import br.edu.ufra.appfiscalizacao.rn.TecnicoRN;
 import br.edu.ufra.appfiscalizacao.rn.VistoriaRN;
@@ -71,8 +76,8 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
     private ProgressDialog progressD;
     private TabHost abas;
     private Mensagem mensagemServidor;
-    private List<Equipamento> equipamentos, equipamentosObrigatoriosSpinner, demaisEquipamentosSpinner;
-    private List<Inspecao> inspecoes, inspecoesDemaisEquip, inspecoesEquipObrigatorios;
+    private List<EquipamentoPOJO> equipamentos, equipamentosObrigatoriosSpinner, demaisEquipamentosSpinner;
+    private List<InspecaoPOJO> inspecoes, inspecoesDemaisEquip, inspecoesEquipObrigatorios;
     private Context contexto;
     private Gson gson;
     private GsonBuilder builder;
@@ -81,15 +86,15 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
     private String urlSalvarInspecaoListaPOJO = StringURL.getUrlInspecao()+"salvar";
     private String mensagemInternet = Mensagem.getMensagemInternet();
     private Tecnico tecnico1, tecnico2;
-    private Vistoria vistoria;
-    Estabelecimento estabelecimento;
-    private Equipamento equipamento, demaisEquipamentoSpinner, equipamentoObrigatorioSpinner;
-    private Inspecao inspecao;
+    private VistoriaPOJO vistoria;
+    private EstabelecimentoPOJO estabelecimento;
+    private EquipamentoPOJO equipamento, demaisEquipamentoSpinner, equipamentoObrigatorioSpinner;
+    private InspecaoPOJO inspecao;
     private TextView dataSolicitacaoTxt;
     private EditText prazoEdt,  observacaoEdt, demaisEquipamentoObsEdt,equipamentoObrigatorioObsEdt;
     private RadioButton demaisEquipamentoAptRadio, demaisEquipamentoNaoAptRadio, equipamentoObrigatorioAptRadio, equipamentoObrigatorioNaoAptRadio;
     private Button concluirBtn, inspecaoDemaisEquipamentosBtn, inspecaoEquipamentosObrigatoriosBtn;
-    DateFormat sdf ;
+    private DateFormat sdf ;
     private EquipamentosSpinnerAdapter equipamentoSpAdapter;
     private InspecaoAdapter inspecoesDemaisEquipAdapter, inspecoesEquipObrigatoriosAdapter;
     private ListView LVInspecaoDemaisEquip, LVInspecaoEquipObrigatorios;
@@ -113,9 +118,9 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         inspecoes = new ArrayList<>();
         inspecaoListaPOJO = new InspecaoListaPOJO();
 
-        vistoria = new Vistoria();
+        vistoria = new VistoriaPOJO();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        estabelecimento = (Estabelecimento) getIntent().getSerializableExtra("estabelecimento");
+        estabelecimento = (EstabelecimentoPOJO) getIntent().getSerializableExtra("estabelecimento");
         System.out.println("nome"+estabelecimento.getNomeFantasia());
         //TabVistoria
         dataSolicitacaoTxt = (TextView) findViewById(R.id.dataSolicitacao);
@@ -186,14 +191,14 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
 
         descritor = abas.newTabSpec("aba2");
         descritor.setContent(R.id.equipamentosObrigatorios);
-        descritor.setIndicator("Equipamentos Obrigatorios");
+        descritor.setIndicator("Obrigatórios");
         abas.setCurrentTab(1);
 
         abas.addTab(descritor);
 
         descritor = abas.newTabSpec("aba3");
         descritor.setContent(R.id.demaisequipamentos);
-        descritor.setIndicator("Demais Equipamentos");
+        descritor.setIndicator("Demais");
         abas.addTab(descritor);
 
 
@@ -278,7 +283,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
                             try {
                                 System.out.println("quantidade equip: "+response.length());
                                 JSONObject equipamentoItem = response.getJSONObject(i);
-                                equipamento = gson.fromJson(equipamentoItem.toString(), Equipamento.class);
+                                equipamento = gson.fromJson(equipamentoItem.toString(), EquipamentoPOJO.class);
                                 System.out.println("Equipamento: "+equipamento.getNome());
                                 equipamentos.add(equipamento);
                             } catch (JSONException e) {
@@ -292,7 +297,8 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(contexto, "Erro ao tentar obter dados do servidor:" + error.getCause(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(contexto, "Erro ao tentar obter dados do servidor:", Toast.LENGTH_LONG).show();
+                        System.out.println("Erro ao tentar obter equipamentos do servidor: "+error.getMessage());
                     }
                 });
 
@@ -336,7 +342,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     progressD.dismiss();
-                    Toast.makeText(getBaseContext(),"Erro ao tentar obter dados do servidor: "+error.getCause(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(),"Erro ao tentar enviar os dados para o servidor: "+error.getCause(),Toast.LENGTH_LONG).show();
                 }
             });
             requestQueue.add(jsonObjectRequest);
@@ -351,7 +357,8 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         try {
             progressD = ProgressDialog.show(this,"Salvando dados no celular","aguarde...");
             System.out.println("v depois"+vistoria.getId());
-                if (rnVistoria.salvar(vistoria) && rnInspecao.salvarInspecaoApartirInspecoes(vistoria, InspecaoConverter.fromInspecoesPOJO(inspecaoListaPOJO.getInspecoesPOJO()))){
+            Vistoria vistoriaEntidade = VistoriaConverter.fromVistoriaPOJO(vistoria);
+                if (rnVistoria.salvar(vistoriaEntidade) && rnInspecao.salvarInspecaoApartirInspecoes(vistoriaEntidade, InspecaoConverter.fromInspecoesPOJO(inspecaoListaPOJO.getInspecoesPOJO()))){
                 progressD.dismiss();
                 Toast.makeText(getBaseContext(), "Sucesso, inspeções  salvas no banco de dados do celular. "+
                                 "Conecte-se a internet para sincronizar os dados.",
@@ -380,7 +387,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         spinnerDemaisEquip.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                demaisEquipamentoSpinner = (Equipamento) parent.getAdapter().getItem(position);
+                demaisEquipamentoSpinner = (EquipamentoPOJO) parent.getAdapter().getItem(position);
                 System.out.println("demais equip selected" + demaisEquipamentoSpinner.getNome());
 
             }
@@ -403,7 +410,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         spinnerEquipObrigatorios.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                equipamentoObrigatorioSpinner = (Equipamento) parent.getAdapter().getItem(position);
+                equipamentoObrigatorioSpinner = (EquipamentoPOJO) parent.getAdapter().getItem(position);
                 System.out.println("equip obrigatorio selected" + equipamentoObrigatorioSpinner.getNome());
 
             }
@@ -423,18 +430,18 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
 
         //System.out.println("status antes "+estabelecimento.getStatus());
 
-        vistoria.setTecnico1(tecnico1);
-        vistoria.setTecnico2(tecnico2);
+        vistoria.setTecnicoPOJO1(TecnicoConverter.toTecnicoPOJO(tecnico1));
+        vistoria.setTecnicoPOJO2(TecnicoConverter.toTecnicoPOJO(tecnico2));
         vistoria.setDataVistoria(obterDataHoje());
         vistoria.setPrazo(Integer.parseInt(prazoEdt.getText().toString()));
         vistoria.setApto(definirStatusEstabelecimentoEVistoriaApt(inspecoes));
-        vistoria.setEstabelecimento(estabelecimento);
+        vistoria.setEstabelecimentoPOJO(estabelecimento);
         vistoria.setObservacao(observacaoEdt.getText().toString());
 
-        System.out.println("inspecoes "+inspecoes.size());
-        vistoria.setInspecaoList(inspecoes);
-        System.out.println("status depois "+inspecoes.get(0).getVistoria().getEstabelecimento().getStatus());
-        inspecaoListaPOJO.setInspecoesPOJO(InspecaoConverter.toInspecoesPOJO(inspecoes));
+        System.out.println("inspecoes " + inspecoes.size());
+        //vistoria.setInspecao(inspecoes);
+        System.out.println("status depois "+inspecoes.get(0).getVistoriaPOJO().getEstabelecimentoPOJO().getStatus());
+        inspecaoListaPOJO.setInspecoesPOJO(inspecoes);
 
         if (ConexaoInternet.estaConectado(this) ){
             salvarInspecaoListaPOJOWS();
@@ -446,25 +453,25 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
 
     }
 
-    private Inspecao realizarInspecaoDemaisEquipamentos(){
-        inspecao = new Inspecao();
-        inspecao.setVistoria(vistoria);
-        inspecao.setEquipamento(demaisEquipamentoSpinner);
-        inspecao.setDataInsp(obterDataHoje());
-        inspecao.setApto(definirDemaisEquipamentoApto());
-        inspecao.setObservacao(demaisEquipamentoObsEdt.getText().toString());
+    private InspecaoPOJO realizarInspecaoDemaisEquipamentos(){
+        inspecao = new InspecaoPOJO();
+        inspecao.setVistoriaPOJO(vistoria);
+        inspecao.setEquipamentoPOJO(demaisEquipamentoSpinner);
+        inspecao.setDataInspPOJO(obterDataHoje());
+        inspecao.setAptoPOJO(definirDemaisEquipamentoApto());
+        inspecao.setObservacaoPOJO(demaisEquipamentoObsEdt.getText().toString());
         inspecoes.add(inspecao);
         return inspecao;
     }
 
-    private Inspecao realizarInspecaoEquipamentosObrigatorios(){
+    private InspecaoPOJO realizarInspecaoEquipamentosObrigatorios(){
 
-        inspecao = new Inspecao();
-        inspecao.setVistoria(vistoria);
-        inspecao.setEquipamento(equipamentoObrigatorioSpinner);
-        inspecao.setDataInsp(obterDataHoje());
-        inspecao.setApto(definirEquipamentoObrigatorioApto());
-        inspecao.setObservacao(equipamentoObrigatorioObsEdt.getText().toString());
+        inspecao = new InspecaoPOJO();
+        inspecao.setVistoriaPOJO(vistoria);
+        inspecao.setEquipamentoPOJO(equipamentoObrigatorioSpinner);
+        inspecao.setDataInspPOJO(obterDataHoje());
+        inspecao.setAptoPOJO(definirEquipamentoObrigatorioApto());
+        inspecao.setObservacaoPOJO(equipamentoObrigatorioObsEdt.getText().toString());
         inspecoes.add(inspecao);
         return inspecao;
     }
@@ -493,7 +500,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         equipamentosObrigatoriosSpinner = new ArrayList<>();
         demaisEquipamentosSpinner = new ArrayList<>();
 
-        for(Equipamento e : equipamentos){
+        for(EquipamentoPOJO e : equipamentos){
             if (e.getStatus().equals("Obrigatorio")){
                 System.out.println("obrigatorio " + e.getNome());
                 equipamentosObrigatoriosSpinner.add(e);
@@ -504,11 +511,11 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         }
     }
 
-    private boolean definirStatusEstabelecimentoEVistoriaApt(List<Inspecao> inspecoesRealizadas){
+    private boolean definirStatusEstabelecimentoEVistoriaApt(List<InspecaoPOJO> inspecoesRealizadas){
         Inspecao inspecaoRealizada;
-        Iterator<Inspecao> iterator = inspecoesRealizadas.iterator();
+        Iterator<InspecaoPOJO> iterator = inspecoesRealizadas.iterator();
         int contInspecaoApt = 0;
-       while (iterator.hasNext() && iterator.next().isApto() == true){
+       while (iterator.hasNext() && iterator.next().isAptoPOJO() == true){
            System.out.println("aa");
            contInspecaoApt ++;
        }

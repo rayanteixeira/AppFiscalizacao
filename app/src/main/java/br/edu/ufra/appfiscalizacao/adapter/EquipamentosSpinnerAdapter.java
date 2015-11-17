@@ -8,16 +8,17 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import br.edu.ufra.appfiscalizacao.application.pojo.EquipamentoPOJO;
 import br.edu.ufra.appfiscalizacao.entidade.Equipamento;
 
 /**
  * Created by geovane on 10/08/15.
  */
 public class EquipamentosSpinnerAdapter extends BaseAdapter{
-    List<Equipamento> equipamentos;
+    List<EquipamentoPOJO> equipamentos;
     Context context;
 
-    public EquipamentosSpinnerAdapter(Context context, List<Equipamento> equipamentos) {
+    public EquipamentosSpinnerAdapter(Context context, List<EquipamentoPOJO> equipamentos) {
     this.context = context;
     this.equipamentos = equipamentos;
     }
@@ -40,7 +41,7 @@ public class EquipamentosSpinnerAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Equipamento equipamento = (Equipamento) getItem(position);
+        EquipamentoPOJO equipamento = (EquipamentoPOJO) getItem(position);
 
         TextView tv = new TextView(context);
         tv.setText(equipamento.getNome());

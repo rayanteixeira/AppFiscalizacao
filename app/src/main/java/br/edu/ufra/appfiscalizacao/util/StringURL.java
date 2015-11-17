@@ -1,10 +1,10 @@
-package br.edu.ufra.appfiscalizacao.application;
+package br.edu.ufra.appfiscalizacao.util;
 
 public class StringURL {
     private static StringURL uniqueInstance = new StringURL();
     // ip localhost private static String ip="10.0.2.2";
-    private static String ip="10.11.82.164";
-    private static String porta="8080";
+    private static String ip="10.11.80.148";
+    private static String porta="8084";
     private String urlLogarTec;
     private static String urlEstabelecimento = "http://"+ip+":"+porta+"/AcaiInspecao-mvn/resources/estabelecimento/";
     private static String urlInspecao = "http://"+ip+":"+porta+"/AcaiInspecao-mvn/resources/inspecao/";
