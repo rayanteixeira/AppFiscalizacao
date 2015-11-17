@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.R;
+import br.edu.ufra.appfiscalizacao.application.pojo.VistoriaPOJO;
 import br.edu.ufra.appfiscalizacao.entidade.Vistoria;
 
 /**
@@ -20,10 +21,10 @@ import br.edu.ufra.appfiscalizacao.entidade.Vistoria;
 public class VistoriaAdapter extends BaseAdapter {
 
     private LayoutInflater mInflate;
-    private List<Vistoria> vistorias;
+    private List<VistoriaPOJO> vistorias;
     DateFormat sdf;
 
-    public VistoriaAdapter(Context context, List<Vistoria> vistorias) {
+    public VistoriaAdapter(Context context, List<VistoriaPOJO> vistorias) {
         this.mInflate = LayoutInflater.from(context);
         this.vistorias = vistorias;
         sdf= new SimpleDateFormat("dd/MM/yyyy");
@@ -47,7 +48,7 @@ public class VistoriaAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        Vistoria vistoria = vistorias.get(position);
+        VistoriaPOJO vistoria = vistorias.get(position);
 
         view = mInflate.inflate(R.layout.vistoria_model, null);
         TextView data = (TextView) view.findViewById(R.id.dataVistoria);

@@ -11,7 +11,9 @@ public class Mensagem implements Serializable{
     private  String mensagemSalvar;
     private String mensagemServToClient;
     private static String mensagemInternet= "Conecte-se a internet para obter dados do servidor";
-
+    private static String mensagemErroAoObter = "Erro ao obter dados do servidor";
+    private static String mensagemErroAoSolicitar = "Erro ao solicitar dados do servidor";
+    private static String mensagemZeroElementos = "Nem um elemento foi encontrado";
     private Mensagem(){
 
     }
@@ -47,5 +49,17 @@ public class Mensagem implements Serializable{
 
     public  void setMensagemSalvar(String mensagemSalvar) {
         mensagemSalvar = mensagemSalvar;
+    }
+
+    public static String getMensagemErroAoObter() {
+        return mensagemErroAoObter;
+    }
+
+    public static String getMensagemErroAoSolicitar() {
+        return mensagemErroAoSolicitar;
+    }
+
+    public static String getMensagemZeroElementos() {
+        return mensagemZeroElementos;
     }
 }

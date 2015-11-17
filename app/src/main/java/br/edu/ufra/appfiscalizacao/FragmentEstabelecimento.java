@@ -37,6 +37,7 @@ import java.util.Date;
 
 import br.edu.ufra.appfiscalizacao.activity.DetalhesVistoriaActivity;
 import br.edu.ufra.appfiscalizacao.activity.MainActivity;
+import br.edu.ufra.appfiscalizacao.activity.VistoriasActivity;
 import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoAdapter;
 import br.edu.ufra.appfiscalizacao.util.StringURL;
 import br.edu.ufra.appfiscalizacao.application.pojo.EstabelecimentoPOJO;
@@ -159,9 +160,11 @@ public class FragmentEstabelecimento extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 EstabelecimentoPOJO estabelecimento = (EstabelecimentoPOJO) adapter.getItem(position);
 
-                Intent it = new Intent(getActivity().getBaseContext(), DetalhesVistoriaActivity.class);
+                //Intent it = new Intent(getActivity().getBaseContext(), DetalhesVistoriaActivity.class);
+                Intent it = new Intent(getActivity().getBaseContext(), VistoriasActivity.class);
 
-                it.putExtra("estabelecimento", estabelecimento);
+                //it.putExtra("estabelecimento", estabelecimento);
+                it.putExtra("id", estabelecimento.getId());
                 //mainActivity.estabelecimento = estabelecimento;
                 startActivity(it);
 

@@ -56,7 +56,7 @@ public class FragmentVistoriaList extends Fragment {
 
     private void createListView(){
         System.out.println("vistorias: "+estabelecimento.getVistorias().size());
-        vistoriaAdapter = new VistoriaAdapter(getActivity(), (java.util.List<br.edu.ufra.appfiscalizacao.entidade.Vistoria>) estabelecimento.getVistorias());
+        //vistoriaAdapter = new VistoriaAdapter(getActivity(), (java.util.List<br.edu.ufra.appfiscalizacao.entidade.Vistoria>) estabelecimento.getVistorias());
         listView.setAdapter(vistoriaAdapter);
 
     }
