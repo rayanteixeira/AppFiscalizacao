@@ -1,7 +1,9 @@
 package br.edu.ufra.appfiscalizacao.activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -50,18 +53,16 @@ import java.util.List;
 import br.edu.ufra.appfiscalizacao.R;
 import br.edu.ufra.appfiscalizacao.adapter.EquipamentosSpinnerAdapter;
 import br.edu.ufra.appfiscalizacao.adapter.InspecaoAdapter;
+import br.edu.ufra.appfiscalizacao.adapter.VistoriaAdapter;
 import br.edu.ufra.appfiscalizacao.application.pojo.EquipamentoPOJO;
 import br.edu.ufra.appfiscalizacao.application.pojo.EstabelecimentoPOJO;
 import br.edu.ufra.appfiscalizacao.application.pojo.InspecaoPOJO;
-import br.edu.ufra.appfiscalizacao.application.pojo.TecnicoPOJO;
 import br.edu.ufra.appfiscalizacao.application.pojo.VistoriaPOJO;
 import br.edu.ufra.appfiscalizacao.application.pojo.conversor.TecnicoConverter;
 import br.edu.ufra.appfiscalizacao.application.pojo.conversor.VistoriaConverter;
 import br.edu.ufra.appfiscalizacao.util.StringURL;
 import br.edu.ufra.appfiscalizacao.application.pojo.conversor.InspecaoConverter;
 import br.edu.ufra.appfiscalizacao.application.pojo.lista.InspecaoListaPOJO;
-import br.edu.ufra.appfiscalizacao.entidade.Equipamento;
-import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 import br.edu.ufra.appfiscalizacao.entidade.Inspecao;
 import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
 import br.edu.ufra.appfiscalizacao.entidade.Vistoria;
@@ -73,11 +74,11 @@ import br.edu.ufra.appfiscalizacao.util.Mensagem;
 
 public class DetalhesVistoriaActivity  extends ActionBarActivity {
     private Spinner spinnerDemaisEquip, spinnerEquipObrigatorios;
-    private ProgressDialog progressD;
+    private ProgressDialog progressDialog;
     private TabHost abas;
     private Mensagem mensagemServidor;
     private List<EquipamentoPOJO> equipamentos, equipamentosObrigatoriosSpinner, demaisEquipamentosSpinner;
-    private List<InspecaoPOJO> inspecoes, inspecoesDemaisEquip, inspecoesEquipObrigatorios;
+    private List<InspecaoPOJO> inspecoes, demaisEquipInspecionados, equipObrigatoriosInspecionados, inspecoesWS, inspecoesVistoriaWS;
     private Context contexto;
     private Gson gson;
     private GsonBuilder builder;
@@ -89,7 +90,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
     private VistoriaPOJO vistoria;
     private EstabelecimentoPOJO estabelecimento;
     private EquipamentoPOJO equipamento, demaisEquipamentoSpinner, equipamentoObrigatorioSpinner;
-    private InspecaoPOJO inspecao;
+    private InspecaoPOJO inspecao, inspecaoWS;
     private TextView dataSolicitacaoTxt;
     private EditText prazoEdt,  observacaoEdt, demaisEquipamentoObsEdt,equipamentoObrigatorioObsEdt;
     private RadioButton demaisEquipamentoAptRadio, demaisEquipamentoNaoAptRadio, equipamentoObrigatorioAptRadio, equipamentoObrigatorioNaoAptRadio;
@@ -97,21 +98,39 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
     private DateFormat sdf ;
     private EquipamentosSpinnerAdapter equipamentoSpAdapter;
     private InspecaoAdapter inspecoesDemaisEquipAdapter, inspecoesEquipObrigatoriosAdapter;
-    private ListView LVInspecaoDemaisEquip, LVInspecaoEquipObrigatorios;
+    private ListView lvInspecaoDemaisEquip, lvInspecaoEquipObrigatorios, lvVistorias;
     private RequestQueue requestQueue;
     private VistoriaRN rnVistoria;
     private InspecaoRN rnInspecao;
     private TecnicoRN rnTecnico;
     private InspecaoListaPOJO inspecaoListaPOJO;
+
+    private TextView dataVistoriaTxt;
+    private String date;
+    private VistoriaAdapter vistoriaAdapter;
+    private VistoriaPOJO vistoriaWS;
+    private List<VistoriaPOJO> vistoriasWS;
+    private Integer id;
     //private static final String PREFERENCE_NAME="LoginActivityPreferences";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_estabelecimento_detalhes_vistoria);
+        setContentView(R.layout.activity_detalhes_vistoria);
+        lvInspecaoDemaisEquip = (ListView) findViewById(R.id.listVDemaisEquipamentosInspecionados);
+        lvInspecaoEquipObrigatorios = (ListView) findViewById(R.id.listVEquipamentosObrigatoriosInspecionados);
         //SharedPreferences sharedP = getSharedPreferences(PREFERENCE_NAME,MODE_PRIVATE);
-        contexto= getBaseContext();
-        requestQueue = Volley.newRequestQueue(this.getApplicationContext());
+
+        progressDialog = ProgressDialog.show(this, "Aguarde", "...", false, true);
+
         sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        estabelecimento = (EstabelecimentoPOJO) getIntent().getSerializableExtra("estabelecimento");
+        id = estabelecimento.getId();
+
+        requestQueue = Volley.newRequestQueue(this.getApplicationContext());
+        obterVistoriasEstabelecimento(id);
+
+        contexto= getBaseContext();
         rnVistoria = new VistoriaRN(contexto);
         rnInspecao = new InspecaoRN(contexto);
         rnTecnico = new TecnicoRN(contexto);
@@ -120,8 +139,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
 
         vistoria = new VistoriaPOJO();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        estabelecimento = (EstabelecimentoPOJO) getIntent().getSerializableExtra("estabelecimento");
-        System.out.println("nome"+estabelecimento.getNomeFantasia());
+
         //TabVistoria
         dataSolicitacaoTxt = (TextView) findViewById(R.id.dataSolicitacao);
         prazoEdt = (EditText) findViewById(R.id.prazo);
@@ -232,40 +250,183 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        criarLVDemaisEquipamentosInspecionados();
+        criarLVEquipamentosObrigatoriosInspecionados();
 
-        inspecoesDemaisEquip = new ArrayList<>();
-        inspecoesEquipObrigatorios = new ArrayList<>();
+
+
+
+    }
+
+    private void obterVistoriasEstabelecimento(Integer id){
+        try {
+
+
+            if (ConexaoInternet.estaConectado(getBaseContext()) == true) {
+                System.out.println("conectado");
+                gson = new Gson();
+                String urlVistoriasEstabelecimento = StringURL.getUrlVistoria()+id;
+
+                System.out.println(urlVistoriasEstabelecimento);
+                //Recebe a lista de estabelecimentos do servidor
+                JsonArrayRequest request = new JsonArrayRequest(urlVistoriasEstabelecimento, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            System.out.println("resposta" + response.isNull(0));
+                            if (response.length() != 0){
+                                int i;
+                                vistoriasWS = new ArrayList<>();
+                                for (i = 0; i < response.length(); i++) {
+                                    try {
+                                        System.out.println("objects server "+response.length());
+                                        JSONObject vistoriaItem = response.getJSONObject(i);
+                                        vistoriaWS = gson.fromJson(vistoriaItem.toString(), VistoriaPOJO.class);
+                                        System.out.println("vistoria" + vistoriaWS.getDataVistoria());
+                                        vistoriasWS.add(vistoriaWS);
+                                    } catch (JSONException e) {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getBaseContext(), Mensagem.getMensagemErroAoObter(), Toast.LENGTH_LONG).show();
+
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                criarLVVistoria();
+
+                            }else {
+                                progressDialog.dismiss();
+                                Toast.makeText(getBaseContext(), Mensagem.getMensagemZeroElementos(), Toast.LENGTH_LONG).show();
+                                System.out.println("zero elementos retornados");
+                            }
+
+
+
+                        } catch (Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getBaseContext(), Mensagem.getMensagemErroAoObter(), Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+
+                        System.out.println("erro volley: " + error.toString());
+                        Toast.makeText(getBaseContext(), Mensagem.getMensagemErroAoObter(), Toast.LENGTH_LONG).show();
+                    }
+                });
+                request.setRetryPolicy(new DefaultRetryPolicy(2000,3,2));
+                System.out.println("policy 1 "+((DefaultRetryPolicy) request.getRetryPolicy()).getCurrentTimeout());
+                System.out.println("policy 2 "+((DefaultRetryPolicy) request.getRetryPolicy()).getCurrentRetryCount());
+                System.out.println("policy 3 "+((DefaultRetryPolicy) request.getRetryPolicy()).getBackoffMultiplier());
+                requestQueue.add(request);
+                //VolleyApplication.getsInstance().getmRequestQueue().add(request);
+            } else {
+                progressDialog.dismiss();
+                Toast.makeText(getBaseContext(), Mensagem.getMensagemInternet(), Toast.LENGTH_LONG).show();
+                System.out.println("sem internet");
+            }
+        } catch (Exception e) {
+            progressDialog.dismiss();
+            System.out.println("erro " + e.toString());
+            Toast.makeText(getBaseContext(), Mensagem.getMensagemErroAoSolicitar() , Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    private void criarLVVistoria(){
+        lvVistorias = (ListView) findViewById(R.id.listVVistorias);
+        vistoriaAdapter = new VistoriaAdapter(this, vistoriasWS);
+        lvVistorias.setAdapter(vistoriaAdapter);
+        lvVistorias.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("Clicou");
+                VistoriaPOJO vistoria = (VistoriaPOJO) vistoriaAdapter.getItem(position);
+                dialogVistoria(vistoria.getId());
+            }
+        });
+        progressDialog.dismiss();
+    }
+
+    private void dialogVistoria(final Integer id){
+        AlertDialog.Builder alerta = new AlertDialog.Builder(this);
+        alerta.setTitle("Operações");
+        alerta.setMessage("Escolha a operação que deseja realizar para essa vistoria");
+
+        alerta.setPositiveButton("Excluir",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        alerta.setNegativeButton("Editar",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        setarDadosVistoria(id);
+                    }
+                });
+
+        alerta.show();
+    }
+
+
+
+    private void criarLVDemaisEquipamentosInspecionados(){
+        demaisEquipInspecionados = new ArrayList<>();
 
         inspecaoDemaisEquipamentosBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                inspecoesDemaisEquip.add(realizarInspecaoDemaisEquipamentos());
+                demaisEquipInspecionados.add(realizarInspecaoDemaisEquipamentos());
                 inspecoesDemaisEquipAdapter.notifyDataSetChanged();
 
 
-
             }
         });
 
 
+        inspecoesDemaisEquipAdapter = new InspecaoAdapter(contexto, demaisEquipInspecionados);
+        lvInspecaoDemaisEquip.setAdapter(inspecoesDemaisEquipAdapter);
+
+        lvInspecaoDemaisEquip.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                InspecaoPOJO inspecao = (InspecaoPOJO) inspecoesDemaisEquipAdapter.getItem(position);
+                System.out.println("clicou");
+            }
+        });
+
+    }
+
+    private void criarLVEquipamentosObrigatoriosInspecionados(){
+        equipObrigatoriosInspecionados = new ArrayList<>();
         inspecaoEquipamentosObrigatoriosBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                inspecoesEquipObrigatorios.add(realizarInspecaoEquipamentosObrigatorios());
+                equipObrigatoriosInspecionados.add(realizarInspecaoEquipamentosObrigatorios());
                 inspecoesEquipObrigatoriosAdapter.notifyDataSetChanged();
             }
         });
-
-        LVInspecaoDemaisEquip = (ListView) findViewById(R.id.listVDemaisEquipamentosInspecionados);
-        LVInspecaoEquipObrigatorios = (ListView) findViewById(R.id.listVEquipamentosObrigatoriosInspecionados);
-
-        inspecoesDemaisEquipAdapter = new InspecaoAdapter(contexto, inspecoesDemaisEquip);
-        inspecoesEquipObrigatoriosAdapter = new InspecaoAdapter(contexto, inspecoesEquipObrigatorios);
-
-        LVInspecaoDemaisEquip.setAdapter(inspecoesDemaisEquipAdapter);
-        LVInspecaoEquipObrigatorios.setAdapter(inspecoesEquipObrigatoriosAdapter);
+        lvInspecaoEquipObrigatorios = (ListView) findViewById(R.id.listVEquipamentosObrigatoriosInspecionados);
+        inspecoesEquipObrigatoriosAdapter = new InspecaoAdapter(contexto, equipObrigatoriosInspecionados);
+        lvInspecaoEquipObrigatorios.setAdapter(inspecoesEquipObrigatoriosAdapter);
+        lvInspecaoEquipObrigatorios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                InspecaoPOJO inspecao = (InspecaoPOJO) inspecoesDemaisEquipAdapter.getItem(position);
+                System.out.println("clicou");
+            }
+        });
     }
-
 
     private void obterEquipamentosWS(){
         try {
@@ -290,7 +451,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
                                 System.out.println("Erro em response "+e.getCause());
                             }
                         }
-                        definirStatusEquipamento();
+                        definirSpinnerParaEquipamento();
                         spinnerEquipamentosObrigatorios();
                         spinnerDemaisEquipamentos();
                     }
@@ -316,10 +477,89 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         }
     }
 
+    private List<InspecaoPOJO> obterInspecoesPorVistoria(Integer idVistoria){
+        try {
+
+
+            if (ConexaoInternet.estaConectado(getBaseContext()) == true) {
+                gson = new Gson();
+                String urlInspecoesPorVistoria = StringURL.getUrlInspecao()+"inspecoesPorVistoria?idv="+idVistoria;
+
+                System.out.println(urlInspecoesPorVistoria);
+
+                JsonArrayRequest request = new JsonArrayRequest(urlInspecoesPorVistoria, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            System.out.println("resposta" + response.isNull(0));
+                            if (response.length() != 0){
+                                int i;
+                                inspecoesWS = new ArrayList<>();
+                                for (i = 0; i < response.length(); i++) {
+                                    try {
+                                        System.out.println("objects server "+response.length());
+                                        JSONObject inspecaoItem = response.getJSONObject(i);
+                                        inspecaoWS = gson.fromJson(inspecaoItem.toString(), InspecaoPOJO.class);
+                                        System.out.println("inspecao" + inspecaoWS.getEquipamentoPOJO());
+                                        inspecoesWS.add(inspecaoWS);
+                                    } catch (JSONException e) {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getBaseContext(), Mensagem.getMensagemErroAoObter(), Toast.LENGTH_LONG).show();
+
+                                        e.printStackTrace();
+                                    }
+                                }
+                                tipoEquipamentoInspecionadoWS(inspecoesWS);
+                                inspecoesDemaisEquipAdapter.notifyDataSetChanged();
+
+                            }else {
+                                progressDialog.dismiss();
+                                Toast.makeText(getBaseContext(), Mensagem.getMensagemZeroElementos(), Toast.LENGTH_LONG).show();
+                                System.out.println("zero elementos retornados");
+                            }
+
+
+
+                        } catch (Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getBaseContext(), Mensagem.getMensagemErroAoObter(), Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+
+                        System.out.println("erro volley: " + error.toString());
+                        Toast.makeText(getBaseContext(), Mensagem.getMensagemErroAoObter(), Toast.LENGTH_LONG).show();
+                    }
+                });
+                request.setRetryPolicy(new DefaultRetryPolicy(2000,3,2));
+                System.out.println("policy 1 "+((DefaultRetryPolicy) request.getRetryPolicy()).getCurrentTimeout());
+                System.out.println("policy 2 "+((DefaultRetryPolicy) request.getRetryPolicy()).getCurrentRetryCount());
+                System.out.println("policy 3 "+((DefaultRetryPolicy) request.getRetryPolicy()).getBackoffMultiplier());
+                requestQueue.add(request);
+                //VolleyApplication.getsInstance().getmRequestQueue().add(request);
+            } else {
+                progressDialog.dismiss();
+                Toast.makeText(getBaseContext(), Mensagem.getMensagemInternet(), Toast.LENGTH_LONG).show();
+                System.out.println("sem internet");
+            }
+        } catch (Exception e) {
+            progressDialog.dismiss();
+            System.out.println("erro " + e.toString());
+            Toast.makeText(getBaseContext(), Mensagem.getMensagemErroAoSolicitar() , Toast.LENGTH_LONG).show();
+        }
+
+        return inspecoesWS;
+    }
+
     private void salvarInspecaoListaPOJOWS(){
 
         try{
-            progressD=ProgressDialog.show(this,"Salvando os Dados no Servidor","Aguarde...");
+            progressDialog =ProgressDialog.show(this,"Salvando os Dados no Servidor","Aguarde...");
 
             String converteToJson=gson.toJson(inspecaoListaPOJO);
             System.out.println("json "+converteToJson);
@@ -330,7 +570,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
                 @Override
                 public void onResponse(JSONObject response) {
 
-                    progressD.dismiss();
+                    progressDialog.dismiss();
                     System.out.println("mgs json "+response);
                     mensagemServidor =gson.fromJson(response.toString(), Mensagem.class);
                     System.out.println("resposta: "+mensagemServidor.getMensagemServToClient());
@@ -341,13 +581,13 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    progressD.dismiss();
+                    progressDialog.dismiss();
                     Toast.makeText(getBaseContext(),"Erro ao tentar enviar os dados para o servidor: "+error.getCause(),Toast.LENGTH_LONG).show();
                 }
             });
             requestQueue.add(jsonObjectRequest);
         }catch (JSONException e){
-            progressD.dismiss();
+            progressDialog.dismiss();
             Toast.makeText(this,e.toString(),Toast.LENGTH_SHORT).show();
         }
 
@@ -355,25 +595,25 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
 
     private void salvarInspecaoListaPOJOBD(){
         try {
-            progressD = ProgressDialog.show(this,"Salvando dados no celular","aguarde...");
+            progressDialog = ProgressDialog.show(this,"Salvando dados no celular","aguarde...");
             System.out.println("v depois"+vistoria.getId());
             Vistoria vistoriaEntidade = VistoriaConverter.fromVistoriaPOJO(vistoria);
-                if (rnVistoria.salvar(vistoriaEntidade) && rnInspecao.salvarInspecaoApartirInspecoes(vistoriaEntidade, InspecaoConverter.fromInspecoesPOJO(inspecaoListaPOJO.getInspecoesPOJO()))){
-                progressD.dismiss();
+            if (rnVistoria.salvar(vistoriaEntidade) && rnInspecao.salvarInspecaoApartirInspecoes(vistoriaEntidade, InspecaoConverter.fromInspecoesPOJO(inspecaoListaPOJO.getInspecoesPOJO()))){
+                progressDialog.dismiss();
                 Toast.makeText(getBaseContext(), "Sucesso, inspeções  salvas no banco de dados do celular. "+
                                 "Conecte-se a internet para sincronizar os dados.",
                         Toast.LENGTH_LONG).show();
-                    finish();
-                }else {
+                finish();
+            }else {
                 Toast.makeText(getBaseContext(), "Erro ao salvar inspeções no banco de dados do celular!", Toast.LENGTH_SHORT).show();
-                    finish();
+                finish();
 
-                }
+            }
         } catch (Exception e){
             System.out.println("exception "+e.toString());
             Toast.makeText(getBaseContext(), "Exception: "+e.toString(),
                     Toast.LENGTH_LONG).show();
-                    finish();
+            finish();
         }
     }
 
@@ -496,7 +736,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         }
     }
 
-    private void definirStatusEquipamento(){
+    private void definirSpinnerParaEquipamento(){
         equipamentosObrigatoriosSpinner = new ArrayList<>();
         demaisEquipamentosSpinner = new ArrayList<>();
 
@@ -515,10 +755,10 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         Inspecao inspecaoRealizada;
         Iterator<InspecaoPOJO> iterator = inspecoesRealizadas.iterator();
         int contInspecaoApt = 0;
-       while (iterator.hasNext() && iterator.next().isAptoPOJO() == true){
-           System.out.println("aa");
-           contInspecaoApt ++;
-       }
+        while (iterator.hasNext() && iterator.next().isAptoPOJO() == true){
+            System.out.println("aa");
+            contInspecaoApt ++;
+        }
         System.out.println("context inspecao apt: "+contInspecaoApt);
         if (contInspecaoApt == inspecoesRealizadas.size()){
             estabelecimento.setStatus("regular");
@@ -529,6 +769,14 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         }
     }
 
+    private void setarDadosVistoria(Integer id){
+        progressDialog.getProgress();
+        obterInspecoesPorVistoria(id);
+
+
+
+
+    }
 
     private Long obterDataHoje(){
         Date data = Calendar.getInstance().getTime();
@@ -537,6 +785,18 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         return dataLong;
     }
 
+    private void tipoEquipamentoInspecionadoWS(List<InspecaoPOJO> inspecoesWS){
+        System.out.println("inspecoes"+inspecoesWS.size());
+
+        for (InspecaoPOJO i : inspecoesWS){
+            if (i.getEquipamentoPOJO().getStatus().equals("Obrigatorio")){
+                equipObrigatoriosInspecionados.add(i);
+            } else if (i.getEquipamentoPOJO().getStatus().equals("Não obrigatorio")){
+                demaisEquipInspecionados.add(i);
+            }
+        }
+
+    }
 
 
 

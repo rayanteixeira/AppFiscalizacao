@@ -190,6 +190,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Concluir"/>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="05dp"
+                            android:layout_marginTop="05dp"
+                            android:src="@color/nliveo_blue_colorPrimary" />
+
+                        <ListView
+                            android:id="@+id/listVVistorias"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        </ListView>
+
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">

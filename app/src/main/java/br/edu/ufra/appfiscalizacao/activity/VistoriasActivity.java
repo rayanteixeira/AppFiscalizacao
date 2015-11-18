@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,7 +59,8 @@ public class VistoriasActivity extends ListActivity {
         super.onCreate(savedInstanceState);
 
         Intent it = getIntent();
-        id = it.getIntExtra("id", 0);
+        EstabelecimentoPOJO estabelecimento = (EstabelecimentoPOJO) getIntent().getSerializableExtra("estabelecimento");
+        id = estabelecimento.getId();
 
         requestQueue = Volley.newRequestQueue(this.getApplicationContext());
 
@@ -155,6 +157,15 @@ public class VistoriasActivity extends ListActivity {
         setListAdapter(vistoriaAdapter);
         progressDialog.dismiss();
     }
+
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+
+        EstabelecimentoPOJO estabelecimento = (EstabelecimentoPOJO) l.getAdapter().getItem(position);
+
+        startActivity(new Intent(getBaseContext(), DetalhesVistoriaActivity.class)
+                .putExtra("estabelecimento", estabelecimento));
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

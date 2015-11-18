@@ -164,7 +164,7 @@ public class FragmentEstabelecimento extends Fragment {
                 Intent it = new Intent(getActivity().getBaseContext(), VistoriasActivity.class);
 
                 //it.putExtra("estabelecimento", estabelecimento);
-                it.putExtra("id", estabelecimento.getId());
+                it.putExtra("estabelecimento", estabelecimento);
                 //mainActivity.estabelecimento = estabelecimento;
                 startActivity(it);
 
