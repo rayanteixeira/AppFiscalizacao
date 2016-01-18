@@ -179,8 +179,9 @@ public class FragmentVistoria extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 EstabelecimentoPOJO estabelecimento = (EstabelecimentoPOJO) adapterAguardando.getItem(position);
-
+                System.out.println("get position do ponto " + position);
                 int idEstabelecimento = estabelecimento.getId();
+                System.out.println("id do estabelecimento " + idEstabelecimento);
                 Intent it = new Intent(getActivity().getBaseContext(), DetalhesVistoriaActivity.class);
                 it.putExtra("estabelecimento", estabelecimento);
                 startActivity(it);
@@ -197,9 +198,10 @@ public class FragmentVistoria extends Fragment {
         pontoPendente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                EstabelecimentoPOJO item = (EstabelecimentoPOJO) adapterAguardando.getItem(position);
-
-                int idEstabelecimento = item.getId();
+                EstabelecimentoPOJO estabelecimento = (EstabelecimentoPOJO) adapterPendente.getItem(position);
+                System.out.println("get position do ponto " + position);
+                int idEstabelecimento = estabelecimento.getId();
+                System.out.println("id do estabelecimento " + idEstabelecimento);
                 Intent it = new Intent(getActivity().getBaseContext(), DetalhesVistoriaActivity.class);
                 it.putExtra("estabelecimento", estabelecimento);
                 startActivity(it);
@@ -217,7 +219,8 @@ public class FragmentVistoria extends Fragment {
 
             if (e.getStatus().equals("Aguardando vistoria")) {
                 listAguardandoVistoria.add(e);
-            } else if (e.getStatus().equals("pendente")) {
+            } else if (e.getStatus().equals("Pendente")) {
+                System.out.println("Contatos Pendetes - > " + e.getNomeContato() + "" + e.getId());
                 listPendente.add(e);
             }
         }
