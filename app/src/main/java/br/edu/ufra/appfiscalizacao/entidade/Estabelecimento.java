@@ -7,12 +7,11 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.Date;
 
 
 @DatabaseTable(tableName = "estabelecimento")
 public class Estabelecimento implements Serializable {
-    @DatabaseField(generatedId = true)
+    @DatabaseField(id = true)
     private int id;
     @DatabaseField
     private String nomeFantasia;

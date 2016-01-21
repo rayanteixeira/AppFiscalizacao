@@ -16,7 +16,7 @@ public class Tecnico implements Serializable {
     @DatabaseField(id = true)
     private int id;
     @DatabaseField
-    private String matricula;
+    private String nome;
     @ForeignCollectionField
     private Collection<Vistoria> vistoriaList1;
     @ForeignCollectionField
@@ -34,12 +34,12 @@ public class Tecnico implements Serializable {
         this.id = id;
     }
 
-    public String getMatricula() {
-        return matricula;
+    public String getNome() {
+        return nome;
     }
 
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public Collection<Vistoria> getVistoriaList1() {

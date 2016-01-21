@@ -46,6 +46,25 @@
             android:name=".activity.VistoriasActivity"
             android:label="@string/title_activity_vistorias" >
         </activity>
+
+        <receiver android:name=".broadcastreceiver.NetworkChangeReceiver"
+            android:exported="true"
+            android:enabled="true"
+            >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".service.ServiceSincronizarVistoria"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="SERVICEVISTORIA" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </service>
     </application>
 
 </manifest>

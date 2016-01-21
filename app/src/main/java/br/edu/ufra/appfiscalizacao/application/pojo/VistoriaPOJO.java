@@ -4,7 +4,7 @@ package br.edu.ufra.appfiscalizacao.application.pojo;
 import java.io.Serializable;
 
 public class VistoriaPOJO implements Serializable {
-    private Integer id; 
+    private Integer id;
     private TecnicoPOJO tecnicoPOJO1;
     private TecnicoPOJO tecnicoPOJO2;
     private EstabelecimentoPOJO estabelecimentoPOJO;

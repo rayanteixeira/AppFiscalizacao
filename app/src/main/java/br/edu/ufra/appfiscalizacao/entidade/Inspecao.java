@@ -1,12 +1,9 @@
 package br.edu.ufra.appfiscalizacao.entidade;
 
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Rayan on 16/06/2015.

@@ -6,8 +6,6 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Rayan on 16/06/2015.

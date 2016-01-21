@@ -4,9 +4,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +33,6 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.melnykov.fab.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,11 +55,11 @@ import br.edu.ufra.appfiscalizacao.adapter.VistoriaAdapter;
 import br.edu.ufra.appfiscalizacao.application.pojo.EquipamentoPOJO;
 import br.edu.ufra.appfiscalizacao.application.pojo.EstabelecimentoPOJO;
 import br.edu.ufra.appfiscalizacao.application.pojo.InspecaoPOJO;
+import br.edu.ufra.appfiscalizacao.application.pojo.TecnicoPOJO;
 import br.edu.ufra.appfiscalizacao.application.pojo.VistoriaPOJO;
+import br.edu.ufra.appfiscalizacao.application.pojo.conversor.InspecaoConverter;
 import br.edu.ufra.appfiscalizacao.application.pojo.conversor.TecnicoConverter;
 import br.edu.ufra.appfiscalizacao.application.pojo.conversor.VistoriaConverter;
-import br.edu.ufra.appfiscalizacao.util.StringURL;
-import br.edu.ufra.appfiscalizacao.application.pojo.conversor.InspecaoConverter;
 import br.edu.ufra.appfiscalizacao.application.pojo.lista.InspecaoListaPOJO;
 import br.edu.ufra.appfiscalizacao.entidade.Inspecao;
 import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
@@ -71,6 +69,7 @@ import br.edu.ufra.appfiscalizacao.rn.TecnicoRN;
 import br.edu.ufra.appfiscalizacao.rn.VistoriaRN;
 import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;
 import br.edu.ufra.appfiscalizacao.util.Mensagem;
+import br.edu.ufra.appfiscalizacao.util.StringURL;
 
 public class DetalhesVistoriaActivity  extends ActionBarActivity {
     private Spinner spinnerDemaisEquip, spinnerEquipObrigatorios;
@@ -79,13 +78,16 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
     private Mensagem mensagemServidor;
     private List<EquipamentoPOJO> equipamentos, equipamentosObrigatoriosSpinner, demaisEquipamentosSpinner;
     private List<InspecaoPOJO> inspecoes, demaisEquipInspecionados, equipObrigatoriosInspecionados, inspecoesWS, inspecoesVistoriaWS;
+    private List<TecnicoPOJO> tecnicosPOJO;
     private Context contexto;
     private Gson gson;
     private GsonBuilder builder;
     private String urlEquipamentos = StringURL.getUrlEquipamento()+"all";
+    private String urlTecnicos = StringURL.getUrlTecnico()+"all";
     private String urlSalvarVistoria= StringURL.getUrlVistoria()+"salvar";
     private String urlSalvarInspecaoListaPOJO = StringURL.getUrlInspecao()+"salvar";
     private String mensagemInternet = Mensagem.getMensagemInternet();
+    private TecnicoPOJO tecnico2POJO;
     private Tecnico tecnico1, tecnico2;
     private VistoriaPOJO vistoria;
     private EstabelecimentoPOJO estabelecimento;
@@ -116,8 +118,8 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhes_vistoria);
-        lvInspecaoDemaisEquip = (ListView) findViewById(R.id.listVDemaisEquipamentosInspecionados);
-        lvInspecaoEquipObrigatorios = (ListView) findViewById(R.id.listVEquipamentosObrigatoriosInspecionados);
+        //lvInspecaoDemaisEquip = (ListView) findViewById(R.id.listVDemaisEquipamentosInspecionados);
+        //lvInspecaoEquipObrigatorios = (ListView) findViewById(R.id.listVEquipamentosObrigatoriosInspecionados);
         //SharedPreferences sharedP = getSharedPreferences(PREFERENCE_NAME,MODE_PRIVATE);
 
         progressDialog = ProgressDialog.show(this, "Aguarde", "...", false, true);
@@ -128,12 +130,13 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         id = estabelecimento.getId();
 
         requestQueue = Volley.newRequestQueue(this.getApplicationContext());
+
         obterVistoriasEstabelecimento(id);
 
         contexto= getBaseContext();
-        rnVistoria = new VistoriaRN(contexto);
-        rnInspecao = new InspecaoRN(contexto);
-        rnTecnico = new TecnicoRN(contexto);
+        rnVistoria = new VistoriaRN(getApplicationContext());
+        rnInspecao = new InspecaoRN(getApplicationContext());
+        rnTecnico = new TecnicoRN(getApplicationContext());
         inspecoes = new ArrayList<>();
         inspecaoListaPOJO = new InspecaoListaPOJO();
 
@@ -141,24 +144,24 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //TabVistoria
-        dataSolicitacaoTxt = (TextView) findViewById(R.id.dataSolicitacao);
-        prazoEdt = (EditText) findViewById(R.id.prazo);
-        observacaoEdt = (EditText) findViewById(R.id.observacao);
-        concluirBtn = (Button) findViewById(R.id.btnConcluirVistoria);
+       // dataSolicitacaoTxt = (TextView) findViewById(R.id.dataSolicitacao);
+        //prazoEdt = (EditText) findViewById(R.id.prazo);
+        //observacaoEdt = (EditText) findViewById(R.id.observacao);
+        //concluirBtn = (Button) findViewById(R.id.btnConcluirVistoria);
 
         //Tab2 EquipamentosObrigatorios
 
-        equipamentoObrigatorioObsEdt = (EditText) findViewById(R.id.txtObsEquipamentoObrigatorio);
-        equipamentoObrigatorioAptRadio = (RadioButton) findViewById(R.id.radioBtnEquipamentoObrigatorioApt);
-        equipamentoObrigatorioNaoAptRadio = (RadioButton) findViewById(R.id.radioBtnEquipamentoObrigatorioNaoApt);
-        inspecaoEquipamentosObrigatoriosBtn = (Button) findViewById(R.id.btnInspecaoEquipamentoObrigatorio);
+        //equipamentoObrigatorioObsEdt = (EditText) findViewById(R.id.txtObsEquipamentoObrigatorio);
+        //equipamentoObrigatorioAptRadio = (RadioButton) findViewById(R.id.radioBtnEquipamentoObrigatorioApt);
+        //equipamentoObrigatorioNaoAptRadio = (RadioButton) findViewById(R.id.radioBtnEquipamentoObrigatorioNaoApt);
+        //inspecaoEquipamentosObrigatoriosBtn = (Button) findViewById(R.id.btnInspecaoEquipamentoObrigatorio);
 
         //Tab3 Demais Equipamento
 
-        demaisEquipamentoObsEdt = (EditText) findViewById(R.id.txtObsDemaisEquipamento);
-        demaisEquipamentoAptRadio = (RadioButton) findViewById(R.id.radioBtnDemaisEquipamentoApt);
-        demaisEquipamentoNaoAptRadio = (RadioButton) findViewById(R.id.radioBtnDemaisEquipamentoNaoApt);
-        inspecaoDemaisEquipamentosBtn = (Button) findViewById(R.id.btnInspecaoDemaisEquipamento);
+        //demaisEquipamentoObsEdt = (EditText) findViewById(R.id.txtObsDemaisEquipamento);
+        //demaisEquipamentoAptRadio = (RadioButton) findViewById(R.id.radioBtnDemaisEquipamentoApt);
+        //demaisEquipamentoNaoAptRadio = (RadioButton) findViewById(R.id.radioBtnDemaisEquipamentoNaoApt);
+        //inspecaoDemaisEquipamentosBtn = (Button) findViewById(R.id.btnInspecaoDemaisEquipamento);
 
         /*
         System.out.println("Data: "+sdf.format(estabelecimento.getDataCadastro()));
@@ -172,26 +175,11 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         */
 
         tecnico1 = rnTecnico.obterTodos().get(0);
-        tecnico2 = rnTecnico.obterTodos().get(1);
+        //tecnico2 = rnTecnico.obterTodos().get(1);
 
-        System.out.println("tec id 1  "+tecnico1.getId() + "tec id 2"+tecnico2.getId());
+        //spinnerDemaisEquip = (Spinner) findViewById(R.id.spinnerDemaisEquip);
+        //spinnerEquipObrigatorios = (Spinner) findViewById(R.id.spinnerEquipObrigatorios);
 
-
-        spinnerDemaisEquip = (Spinner) findViewById(R.id.spinnerDemaisEquip);
-        spinnerEquipObrigatorios = (Spinner) findViewById(R.id.spinnerEquipObrigatorios);
-
-
-        //FloatingButton
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent it = new Intent(getBaseContext(), InspecaoActivity.class);
-                startActivity(it);
-
-            }
-        });
 
 
         //TabHost3Colunas
@@ -200,8 +188,8 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         abas.setup();
 
         descritor = abas.newTabSpec("aba1");
-        descritor.setContent(R.id.dadosvistoria);
-        descritor.setIndicator("Dados Vistoria");
+        descritor.setContent(R.id.vistorias);
+        descritor.setIndicator("Vistorias");
         abas.setCurrentTab(0);
         abas.addTab(descritor);
 
@@ -236,22 +224,25 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         });
         gson = builder.create();
 
-        obterEquipamentosWS();
+        //obterEquipamentosWS();
+        //obterTecnicosWS();
 
-
+        /*
+        CONCLUIR VISTORIA
         concluirBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 realizarVistoria();
             }
         });
+*/
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        criarLVDemaisEquipamentosInspecionados();
-        criarLVEquipamentosObrigatoriosInspecionados();
+       // criarLVDemaisEquipamentosInspecionados();
+        //criarLVEquipamentosObrigatoriosInspecionados();
 
 
 
@@ -268,7 +259,6 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
                 String urlVistoriasEstabelecimento = StringURL.getUrlVistoria()+id;
 
                 System.out.println(urlVistoriasEstabelecimento);
-                //Recebe a lista de estabelecimentos do servidor
                 JsonArrayRequest request = new JsonArrayRequest(urlVistoriasEstabelecimento, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -406,7 +396,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         });
 
     }
-
+/*
     private void criarLVEquipamentosObrigatoriosInspecionados(){
         equipObrigatoriosInspecionados = new ArrayList<>();
         inspecaoEquipamentosObrigatoriosBtn.setOnClickListener(new View.OnClickListener() {
@@ -427,56 +417,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
             }
         });
     }
-
-    private void obterEquipamentosWS(){
-        try {
-            //verifica conexao com internet
-            if (ConexaoInternet.estaConectado(contexto)) {
-                System.out.println("conectado");
-
-                //Recebe a lista de equipamentos do servidor
-                JsonArrayRequest request = new JsonArrayRequest(urlEquipamentos, new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        int i;
-                        equipamentos = new ArrayList<>();
-                        for (i = 0; i < response.length(); i++) {
-                            try {
-                                System.out.println("quantidade equip: "+response.length());
-                                JSONObject equipamentoItem = response.getJSONObject(i);
-                                equipamento = gson.fromJson(equipamentoItem.toString(), EquipamentoPOJO.class);
-                                System.out.println("Equipamento: "+equipamento.getNome());
-                                equipamentos.add(equipamento);
-                            } catch (JSONException e) {
-                                System.out.println("Erro em response "+e.getCause());
-                            }
-                        }
-                        definirSpinnerParaEquipamento();
-                        spinnerEquipamentosObrigatorios();
-                        spinnerDemaisEquipamentos();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(contexto, "Erro ao tentar obter dados do servidor:", Toast.LENGTH_LONG).show();
-                        System.out.println("Erro ao tentar obter equipamentos do servidor: "+error.getMessage());
-                    }
-                });
-
-                requestQueue.add(request);
-                // VolleyApplication.getsInstance().getmRequestQueue().add(request);
-            } else {
-
-                Toast.makeText(contexto, mensagemInternet, Toast.LENGTH_LONG).show();
-                System.out.println("sem internet" + mensagemInternet);
-            }
-        } catch (Exception e) {
-
-            System.out.println("erro " + e.getCause());
-            Toast.makeText(contexto, "Erro ao solicitar dados: " + e.getCause(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
+*/
     private List<InspecaoPOJO> obterInspecoesPorVistoria(Integer idVistoria){
         try {
 
@@ -556,6 +497,105 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         return inspecoesWS;
     }
 
+    private void obterTecnicosWS(){
+        try {
+            //verifica conexao com internet
+            if (ConexaoInternet.estaConectado(contexto)) {
+
+                //Recebe a lista de equipamentos do servidor
+                JsonArrayRequest request = new JsonArrayRequest(urlTecnicos, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        int i;
+                        tecnicosPOJO = new ArrayList<>();
+                        for (i = 0; i < response.length(); i++) {
+                            try {
+
+                                JSONObject tecnicoItem = response.getJSONObject(i);
+                                tecnico2POJO = gson.fromJson(tecnicoItem.toString(), TecnicoPOJO.class);
+                                System.out.println("tec "+tecnico2POJO.getNome());
+                                tecnicosPOJO.add(tecnico2POJO);
+                            } catch (JSONException e) {
+                                Toast.makeText(contexto, "Erro ao obter dados do servidor !", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        definirSpinnerParaEquipamento();
+                        spinnerEquipamentosObrigatorios();
+                        spinnerDemaisEquipamentos();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(contexto, "Erro ao tentar obter dados do servidor !", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                });
+
+                requestQueue.add(request);
+                // VolleyApplication.getsInstance().getmRequestQueue().add(request);
+            } else {
+
+                Toast.makeText(contexto, mensagemInternet, Toast.LENGTH_LONG).show();
+                System.out.println("sem internet" + mensagemInternet);
+            }
+        } catch (Exception e) {
+
+            System.out.println("erro " + e.getCause());
+            Toast.makeText(contexto, "Erro ao solicitar dados do servidor " + e.getCause(), Toast.LENGTH_LONG).show();
+            finish();
+        }
+    }
+
+    private void obterEquipamentosWS(){
+        try {
+            //verifica conexao com internet
+            if (ConexaoInternet.estaConectado(contexto)) {
+                System.out.println("conectado");
+
+                //Recebe a lista de equipamentos do servidor
+                JsonArrayRequest request = new JsonArrayRequest(urlEquipamentos, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        int i;
+                        equipamentos = new ArrayList<>();
+                        for (i = 0; i < response.length(); i++) {
+                            try {
+                                System.out.println("quantidade equip: "+response.length());
+                                JSONObject equipamentoItem = response.getJSONObject(i);
+                                equipamento = gson.fromJson(equipamentoItem.toString(), EquipamentoPOJO.class);
+                                System.out.println("Equipamento: "+equipamento.getNome());
+                                equipamentos.add(equipamento);
+                            } catch (JSONException e) {
+                                System.out.println("Erro em response "+e.getCause());
+                            }
+                        }
+                        definirSpinnerParaEquipamento();
+                        spinnerEquipamentosObrigatorios();
+                        spinnerDemaisEquipamentos();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(contexto, "Erro ao tentar obter dados do servidor:", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                });
+
+                requestQueue.add(request);
+                // VolleyApplication.getsInstance().getmRequestQueue().add(request);
+            } else {
+
+                Toast.makeText(contexto, mensagemInternet, Toast.LENGTH_LONG).show();
+                System.out.println("sem internet" + mensagemInternet);
+            }
+        } catch (Exception e) {
+
+            System.out.println("erro " + e.getCause());
+            Toast.makeText(contexto, "Erro ao solicitar dados: " + e.getCause(), Toast.LENGTH_LONG).show();
+            finish();
+        }
+    }
+
     private void salvarInspecaoListaPOJOWS(){
 
         try{
@@ -595,17 +635,19 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
 
     private void salvarInspecaoListaPOJOBD(){
         try {
-            progressDialog = ProgressDialog.show(this,"Salvando dados no celular","aguarde...");
-            System.out.println("v depois"+vistoria.getId());
+            Toast.makeText(getBaseContext(), "Tentando salvar os dados no banco de dados no celular.",
+                    Toast.LENGTH_LONG).show();
+           // progressDialog = ProgressDialog.show(getApplicationContext(),"Salvando dados no celular","aguarde...");
             Vistoria vistoriaEntidade = VistoriaConverter.fromVistoriaPOJO(vistoria);
-            if (rnVistoria.salvar(vistoriaEntidade) && rnInspecao.salvarInspecaoApartirInspecoes(vistoriaEntidade, InspecaoConverter.fromInspecoesPOJO(inspecaoListaPOJO.getInspecoesPOJO()))){
-                progressDialog.dismiss();
-                Toast.makeText(getBaseContext(), "Sucesso, inspeções  salvas no banco de dados do celular. "+
+            List<Inspecao> inspecoes = InspecaoConverter.fromInspecoesPOJO(inspecaoListaPOJO.getInspecoesPOJO());
+            if (rnVistoria.salvarVistoriaEInspecoes(vistoriaEntidade, inspecoes)){
+             //   progressDialog.dismiss();
+                Toast.makeText(getBaseContext(), "Sucesso, vistoria  salva no banco de dados do celular. "+
                                 "Conecte-se a internet para sincronizar os dados.",
                         Toast.LENGTH_LONG).show();
                 finish();
             }else {
-                Toast.makeText(getBaseContext(), "Erro ao salvar inspeções no banco de dados do celular!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Erro ao salvar a vistoria no banco de dados do celular!", Toast.LENGTH_SHORT).show();
                 finish();
 
             }
@@ -761,10 +803,10 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         }
         System.out.println("context inspecao apt: "+contInspecaoApt);
         if (contInspecaoApt == inspecoesRealizadas.size()){
-            estabelecimento.setStatus("regular");
+            estabelecimento.setStatus("Regular");
             return true;
         }else{
-            estabelecimento.setStatus("pendente");
+            estabelecimento.setStatus("Pendente");
             return false;
         }
     }

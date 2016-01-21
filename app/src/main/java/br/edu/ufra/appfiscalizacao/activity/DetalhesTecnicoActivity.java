@@ -1,23 +1,14 @@
 package br.edu.ufra.appfiscalizacao.activity;
 
 
-import android.support.v7.app.ActionBar;
-
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import br.edu.ufra.appfiscalizacao.R;
-import br.edu.ufra.appfiscalizacao.dao.TecnicoDAO;
 import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
-import br.edu.ufra.appfiscalizacao.rn.TecnicoRN;
 
 
 public class DetalhesTecnicoActivity extends ActionBarActivity {
@@ -55,8 +46,8 @@ public class DetalhesTecnicoActivity extends ActionBarActivity {
         txvMatricula = (TextView) findViewById(R.id.txvMatriculaTec);
         txvEmail = (TextView) findViewById(R.id.txvEmailTec);
 
-        //txvNome.setText(tecnico.getNome());
-        txvMatricula.setText(tecnico.getMatricula());
+        txvNome.setText(tecnico.getNome());
+
         //txvEmail.setText(tecnico.getEmail());
 
 

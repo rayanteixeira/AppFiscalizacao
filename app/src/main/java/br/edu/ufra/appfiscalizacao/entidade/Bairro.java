@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @DatabaseTable(tableName = "bairro")
 public class Bairro implements Serializable {
-    @DatabaseField(generatedId = false)
+    @DatabaseField(id = true)
     private Integer id;
     @DatabaseField
     private String nome;

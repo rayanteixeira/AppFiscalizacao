@@ -14,21 +14,21 @@
         android:textColor="@color/nliveo_black"
         android:hint="Matrícula técnico 1"
         android:textColorHint="@color/nliveo_black"
-        android:layout_above="@+id/matriculaTec2"
-        android:layout_alignRight="@+id/matriculaTec2"
-        android:layout_alignEnd="@+id/matriculaTec2"
-        android:layout_alignLeft="@+id/matriculaTec2"
-        android:layout_alignStart="@+id/matriculaTec2" />
+        android:layout_above="@+id/senha"
+        android:layout_alignRight="@+id/senha"
+        android:layout_alignEnd="@+id/senha"
+        android:layout_alignLeft="@+id/senha"
+        android:layout_alignStart="@+id/senha" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
+        android:inputType="textPassword"
         android:textColor="@color/nliveo_black"
-        android:hint="Matrícula técnico 2"
+        android:hint="Senha"
         android:textColorHint="@color/nliveo_black"
         android:ems="10"
-        android:id="@+id/matriculaTec2"
+        android:id="@+id/senha"
         android:layout_marginBottom="68dp"
         android:layout_above="@+id/btnLogin"
         android:layout_centerHorizontal="true" />

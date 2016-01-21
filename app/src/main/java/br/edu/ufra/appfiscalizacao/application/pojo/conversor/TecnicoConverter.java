@@ -26,7 +26,7 @@ public class TecnicoConverter {
             TecnicoPOJO resposta = new TecnicoPOJO();
 
             resposta.setId(tecnico.getId());
-            resposta.setMatricula(tecnico.getMatricula());
+            resposta.setNome(tecnico.getNome());
             
             return resposta;
 
@@ -40,7 +40,7 @@ public class TecnicoConverter {
             Tecnico resposta = new Tecnico();
 
             resposta.setId(tecnicoPOJO.getId());
-            resposta.setMatricula(tecnicoPOJO.getMatricula());
+            resposta.setNome(tecnicoPOJO.getNome());
             
             return resposta;
 

@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -35,17 +36,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import br.edu.ufra.appfiscalizacao.activity.DetalhesVistoriaActivity;
 import br.edu.ufra.appfiscalizacao.activity.MainActivity;
 import br.edu.ufra.appfiscalizacao.activity.VistoriasActivity;
 import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoAdapter;
-import br.edu.ufra.appfiscalizacao.util.StringURL;
 import br.edu.ufra.appfiscalizacao.application.pojo.EstabelecimentoPOJO;
-import br.edu.ufra.appfiscalizacao.application.pojo.conversor.EstabelecimentoConverter;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
 import br.edu.ufra.appfiscalizacao.rn.EstabelecimentoRN;
 import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;
 import br.edu.ufra.appfiscalizacao.util.Mensagem;
+import br.edu.ufra.appfiscalizacao.util.StringURL;
 
 
 public class FragmentEstabelecimento extends Fragment {
@@ -132,10 +131,14 @@ public class FragmentEstabelecimento extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         mProgressDialog.dismiss();
+                        System.out.println("Erro ao obter dados do servidor:" + error.toString());
                         Toast.makeText(contexto, "Erro ao obter dados do servidor:" + error.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
-
+                request.setRetryPolicy(new DefaultRetryPolicy(2000,3,2));
+                System.out.println("policy 1 "+((DefaultRetryPolicy) request.getRetryPolicy()).getCurrentTimeout());
+                System.out.println("policy 2 "+((DefaultRetryPolicy) request.getRetryPolicy()).getCurrentRetryCount());
+                System.out.println("policy 3 "+((DefaultRetryPolicy) request.getRetryPolicy()).getBackoffMultiplier());
                 requestQueue.add(request);
                 //VolleyApplication.getsInstance().getmRequestQueue().add(request);
             } else {

@@ -2,7 +2,10 @@ package br.edu.ufra.appfiscalizacao.rn;
 
 import android.content.Context;
 
+import java.util.List;
+
 import br.edu.ufra.appfiscalizacao.dao.VistoriaDAO;
+import br.edu.ufra.appfiscalizacao.entidade.Inspecao;
 import br.edu.ufra.appfiscalizacao.entidade.Vistoria;
 
 /**
@@ -18,5 +21,9 @@ public class VistoriaRN extends GenericRN<Vistoria>{
         super(Vistoria.class, context);
         dao = new VistoriaDAO(context);
 
+    }
+
+    public boolean salvarVistoriaEInspecoes(final Vistoria vistoria, final List<Inspecao> inspecoes){
+        return dao.salvarVistoriaEInspecoes(vistoria, inspecoes);
     }
 }

@@ -1,9 +1,9 @@
 package br.edu.ufra.appfiscalizacao.activity.publico;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,35 +16,33 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import br.edu.ufra.appfiscalizacao.R;
 import br.edu.ufra.appfiscalizacao.activity.MainActivity;
-import br.edu.ufra.appfiscalizacao.util.StringURL;
 import br.edu.ufra.appfiscalizacao.application.pojo.TecnicoPOJO;
 import br.edu.ufra.appfiscalizacao.application.pojo.conversor.TecnicoConverter;
-import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
 import br.edu.ufra.appfiscalizacao.rn.TecnicoRN;
 import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;
 import br.edu.ufra.appfiscalizacao.util.Mensagem;
+import br.edu.ufra.appfiscalizacao.util.StringURL;
 
 
 public class LoginActivity extends ActionBarActivity {
 
-    private String matriculaTec1,matriculaTec2;
+    private String matriculaTec1,senha;
     //private Integer preferencesIdTec1, preferencesIdTec2;
     private Button btnentrar;
-    private EditText txtMatriculaTec1, txtMatriculaTec2;
+    private EditText txtMatriculaTec1, txtSenha;
     //private static final String PREFERENCE_NAME="LoginActivityPreferences";
     //private SharedPreferences sharedP;
-    private TecnicoPOJO tecnicoPOJO,tecnicoPOJO1, tecnicoPOJO2;
+    private TecnicoPOJO tecnicoPOJO;
     private RequestQueue requestQueue;
-    private Gson gson = new Gson();
+    private Gson gson;
     private ProgressDialog progressD;
     private Mensagem mensagem= Mensagem.getInstace();
     private StringURL stringsURL = StringURL.getInstance();
@@ -66,11 +64,8 @@ public class LoginActivity extends ActionBarActivity {
             finish();
         }
 
-        tecnicoPOJO1 = new TecnicoPOJO();
-        tecnicoPOJO2 = new TecnicoPOJO();
-
         txtMatriculaTec1 = (EditText) findViewById(R.id.matriculaTec1);
-        txtMatriculaTec2 = (EditText) findViewById(R.id.matriculaTec2);
+        txtSenha = (EditText) findViewById(R.id.senha);
         btnentrar = (Button) findViewById(R.id.btnLogin);
 
         requestQueue= Volley.newRequestQueue(this.getApplicationContext());
@@ -84,7 +79,14 @@ public class LoginActivity extends ActionBarActivity {
         btnentrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                matriculaTec1 = txtMatriculaTec1.getText().toString();
+                senha = txtSenha.getText().toString();
+                if (!matriculaTec1.equals("") && !senha.equals("")){
                 verificarEntradaUsuario();
+                } else {
+                    Toast.makeText(getBaseContext(), "Insira matrícula e senha!", Toast.LENGTH_LONG).show();
+
+                }
 
             }
         });
@@ -95,54 +97,39 @@ public class LoginActivity extends ActionBarActivity {
 
         try{
 
-                matriculaTec1 = txtMatriculaTec1.getText().toString();
-                matriculaTec2 = txtMatriculaTec2.getText().toString();
-            System.out.println("mat1 "+matriculaTec1+"mat2 "+matriculaTec2);
+            System.out.println("mat1 "+matriculaTec1+"senha "+senha);
             if (ConexaoInternet.estaConectado(getBaseContext())==true ){
-
-            if (!matriculaTec1.equals(matriculaTec2)){
-
 
                 progressD=ProgressDialog.show(this, "Aguarde", "...");
 
 
-                stringsURL.setUrlLogarTec(matriculaTec1,matriculaTec2);
+                stringsURL.setUrlLogarTec(matriculaTec1,senha);
                 String url=stringsURL.getUrlLogarTec();
                 System.out.println("url: "+url);
 
-                final JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET,url,
-                        new Response.Listener<JSONArray>() {
+                final JsonObjectRequest request=new JsonObjectRequest(Request.Method.GET,url,
+                        new Response.Listener<JSONObject>() {
                             @Override
-                            public void onResponse(JSONArray response) {
+                            public void onResponse(JSONObject response) {
 
                                 try{
-                                    if (!response.isNull(0) & !response.isNull(1)){
 
-                                    int i;
-                                    for (i = 0; i < response.length(); i++) {
-                                        JSONObject tecnicoItem = response.getJSONObject(i);
-                                        tecnicoPOJO = gson.fromJson(tecnicoItem.toString(), TecnicoPOJO.class);
-
-                                        if (tecnicoPOJO.getMatricula().equals(matriculaTec1)) {
-                                            tecnicoPOJO1 = tecnicoPOJO;
-                                        } else if (tecnicoPOJO.getMatricula().equals(matriculaTec2)) {
-                                            tecnicoPOJO2 = tecnicoPOJO;
-                                        }
-
-                                    }
-
-                                    if  (tecnicoPOJO1.getMatricula().equals(matriculaTec1) & tecnicoPOJO2.getMatricula().equals(matriculaTec2) ) {
-                                if (rnTecnico.salvar(TecnicoConverter.fromTecnicoPOJO(tecnicoPOJO1)) &&  rnTecnico.salvar(TecnicoConverter.fromTecnicoPOJO(tecnicoPOJO2))){
+                                    if (response.isNull("id")==false){
+                                        gson = new Gson();
+                                        tecnicoPOJO = new TecnicoPOJO();
+                                        tecnicoPOJO = gson.fromJson(response.toString(), TecnicoPOJO.class);
+                                        System.out.println("pos reponse");
 
 
-                                    for (Tecnico t : rnTecnico.obterTodos()){
-                                        System.out.println("id "+t.getId());
-                                    }
+                                if (rnTecnico.salvar(TecnicoConverter.fromTecnicoPOJO(tecnicoPOJO))){
 
                                     progressD.dismiss();
-                                    Toast.makeText(getBaseContext(), "Sucesso, sejam bem vindos !", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getBaseContext(), "Sucesso, seja bem vindo "+tecnicoPOJO.getNome(), Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(getBaseContext(), MainActivity.class));
                                     finish();
+
+                                } else {
+                                    Toast.makeText(getBaseContext(), "Erro ao logar, tente novamente!", Toast.LENGTH_LONG).show();
 
                                 }
 
@@ -156,14 +143,14 @@ public class LoginActivity extends ActionBarActivity {
 */
 
 
-                                        }
+
                                     } else {
                                         progressD.dismiss();
-                                        Toast.makeText(getBaseContext(),"As matrículas não foram encontradas no servidor ! ",Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getBaseContext(),"Matrícula ou senha incorretos ! ",Toast.LENGTH_LONG).show();
                                     }
                                 }catch(Exception e){
                                     progressD.dismiss();
-                                    Toast.makeText(getBaseContext(),"Erro na Resposta: "+e.getMessage(),Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getBaseContext(),"Erro ao fazer login: "+e,Toast.LENGTH_LONG).show();
                                 }
                             }
                         },
@@ -172,7 +159,7 @@ public class LoginActivity extends ActionBarActivity {
                             public void onErrorResponse(VolleyError error) {
                                 try{
                                     progressD.dismiss();
-                                    Toast.makeText(getBaseContext(),"Erro ao obter resposta: "+ error.getCause(),Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getBaseContext(),"Erro ao obter resposta do servidor: "+ error.getCause(),Toast.LENGTH_LONG).show();
 
                                 }catch (Exception e){
                                     progressD.dismiss();
@@ -183,9 +170,6 @@ public class LoginActivity extends ActionBarActivity {
                         }
                 );
                 requestQueue.add(request);
-            }else {
-                Toast.makeText(this,"As matrículas precisam ser diferentes, digite novamente !",Toast.LENGTH_LONG).show();
-            }
             } else {
                 Toast.makeText(this,"Conecte-se a internet para tentar entrar no sistema",Toast.LENGTH_LONG).show();
             }

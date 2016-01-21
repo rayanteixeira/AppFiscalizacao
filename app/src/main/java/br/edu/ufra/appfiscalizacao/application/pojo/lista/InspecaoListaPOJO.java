@@ -12,6 +12,13 @@ public class InspecaoListaPOJO {
         return inspecoesPOJO;
     }
 
+    public InspecaoListaPOJO(List<InspecaoPOJO> inspecoesPOJO) {
+        this.inspecoesPOJO = inspecoesPOJO;
+    }
+
+    public InspecaoListaPOJO() {
+    }
+
     public void setInspecoesPOJO(List<InspecaoPOJO> inspecoesPOJO) {
         this.inspecoesPOJO = inspecoesPOJO;
     }

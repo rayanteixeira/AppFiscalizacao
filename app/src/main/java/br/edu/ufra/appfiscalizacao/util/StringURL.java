@@ -5,12 +5,23 @@ public class StringURL {
     // ip localhost private static String ip="10.0.2.2";
     private static String ip="10.11.85.107";
     private static String porta="8084";
+    private static String host="http://www.appacaipaidegua.com.br/AcaiInspecao";
     private String urlLogarTec;
+
+    private static String urlEstabelecimento = host+"/resources/estabelecimento/";
+    private static String urlInspecao = host+"/resources/inspecao/";
+    private static String urlTecnico = host+"/resources/tecnico/";
+    private static String urlEquipamento = host+"/resources/equipamento/";
+    private static String urlVistoria = host+"/resources/vistoria/";
+
+
+     /*
     private static String urlEstabelecimento = "http://"+ip+":"+porta+"/AcaiInspecao-mvn/resources/estabelecimento/";
     private static String urlInspecao = "http://"+ip+":"+porta+"/AcaiInspecao-mvn/resources/inspecao/";
     private static String urlTecnico = "http://"+ip+":"+porta+"/AcaiInspecao-mvn/resources/tecnico/";
     private static String urlEquipamento = "http://"+ip+":"+porta+"/AcaiInspecao-mvn/resources/equipamento/";
     private static String urlVistoria = "http://"+ip+":"+porta+"/AcaiInspecao-mvn/resources/vistoria/";
+    */
 
     private StringURL (){
 
@@ -25,8 +36,8 @@ public class StringURL {
         return urlLogarTec;
     }
 
-    public void setUrlLogarTec(String mat1, String mat2) {
-        this.urlLogarTec = urlTecnico+"logar?m1="+mat1+"&"+"m2="+mat2;
+    public void setUrlLogarTec(String mat, String senha) {
+        this.urlLogarTec = urlTecnico+"logar?m="+mat+"&"+"s="+senha;
     }
 
     public static String getUrlTecnico() {

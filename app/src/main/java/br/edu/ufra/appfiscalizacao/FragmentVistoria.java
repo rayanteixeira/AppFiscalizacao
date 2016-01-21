@@ -15,6 +15,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -40,13 +41,11 @@ import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.activity.DetalhesVistoriaActivity;
 import br.edu.ufra.appfiscalizacao.adapter.EstabelecimentoAdapter;
-import br.edu.ufra.appfiscalizacao.application.pojo.EstabelecimentoPOJO;
-import br.edu.ufra.appfiscalizacao.application.pojo.conversor.EstabelecimentoConverter;
-import br.edu.ufra.appfiscalizacao.util.StringURL;
 import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
-import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
+import br.edu.ufra.appfiscalizacao.application.pojo.EstabelecimentoPOJO;
 import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;
 import br.edu.ufra.appfiscalizacao.util.Mensagem;
+import br.edu.ufra.appfiscalizacao.util.StringURL;
 
 
 public class FragmentVistoria extends Fragment {
@@ -158,7 +157,10 @@ public class FragmentVistoria extends Fragment {
                     }
                 });
 
-
+                request.setRetryPolicy(new DefaultRetryPolicy(2000,3,2));
+                System.out.println("policy 1 "+((DefaultRetryPolicy) request.getRetryPolicy()).getCurrentTimeout());
+                System.out.println("policy 2 "+((DefaultRetryPolicy) request.getRetryPolicy()).getCurrentRetryCount());
+                System.out.println("policy 3 "+((DefaultRetryPolicy) request.getRetryPolicy()).getBackoffMultiplier());
                 VolleyApplication.getsInstance().getmRequestQueue().add(request);
             } else {
                 mProgressDialog.dismiss();
@@ -179,9 +181,8 @@ public class FragmentVistoria extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 EstabelecimentoPOJO estabelecimento = (EstabelecimentoPOJO) adapterAguardando.getItem(position);
-                System.out.println("get position do ponto " + position);
+
                 int idEstabelecimento = estabelecimento.getId();
-                System.out.println("id do estabelecimento " + idEstabelecimento);
                 Intent it = new Intent(getActivity().getBaseContext(), DetalhesVistoriaActivity.class);
                 it.putExtra("estabelecimento", estabelecimento);
                 startActivity(it);
@@ -199,9 +200,8 @@ public class FragmentVistoria extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 EstabelecimentoPOJO estabelecimento = (EstabelecimentoPOJO) adapterPendente.getItem(position);
-                System.out.println("get position do ponto " + position);
+
                 int idEstabelecimento = estabelecimento.getId();
-                System.out.println("id do estabelecimento " + idEstabelecimento);
                 Intent it = new Intent(getActivity().getBaseContext(), DetalhesVistoriaActivity.class);
                 it.putExtra("estabelecimento", estabelecimento);
                 startActivity(it);
@@ -220,7 +220,6 @@ public class FragmentVistoria extends Fragment {
             if (e.getStatus().equals("Aguardando vistoria")) {
                 listAguardandoVistoria.add(e);
             } else if (e.getStatus().equals("Pendente")) {
-                System.out.println("Contatos Pendetes - > " + e.getNomeContato() + "" + e.getId());
                 listPendente.add(e);
             }
         }

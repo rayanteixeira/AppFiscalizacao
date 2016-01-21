@@ -2,7 +2,7 @@
 package br.edu.ufra.appfiscalizacao.application.pojo.conversor;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collection;
 import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.application.pojo.InspecaoPOJO;
@@ -25,7 +25,7 @@ public class InspecaoConverter {
 
             InspecaoPOJO resposta = new InspecaoPOJO();
 
-            resposta.setId(inspecao.getId());
+            resposta.setId(null);
             resposta.setVistoriaPOJO(VistoriaConverter.toVistoriaPOJO(inspecao.getVistoria()));
             resposta.setAptoPOJO(inspecao.isApto());
             resposta.setDataInspPOJO(inspecao.getDataInsp());
@@ -57,7 +57,7 @@ public class InspecaoConverter {
         }
     }
 
-    public static List<InspecaoPOJO> toInspecoesPOJO(List<Inspecao> inspecoes) {
+    public static Collection<InspecaoPOJO> toInspecoesPOJO(Collection<Inspecao> inspecoes) {
         if (inspecoes != null) {
 
             ArrayList<InspecaoPOJO> resposta = new ArrayList<>();

@@ -1,6 +1,5 @@
 package br.edu.ufra.appfiscalizacao.application.pojo.conversor;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.application.pojo.VistoriaPOJO;
@@ -26,7 +25,7 @@ public class VistoriaConverter {
 
             VistoriaPOJO resposta = new VistoriaPOJO();
 
-            resposta.setId(vistoria.getId());
+            resposta.setId(null);
             resposta.setApto(vistoria.isApto());
             resposta.setDataSolicitacao(vistoria.getDataSolicitacao());
             resposta.setDataVistoria(vistoria.getDataVistoria());
@@ -46,7 +45,6 @@ public class VistoriaConverter {
         if (vistoriaPOJO != null) {
             Vistoria resposta = new Vistoria();
 
-            resposta.setId(vistoriaPOJO.getId());
             resposta.setApto(vistoriaPOJO.getApto());
             resposta.setDataSolicitacao(vistoriaPOJO.getDataSolicitacao());
             resposta.setDataVistoria(vistoriaPOJO.getDataVistoria());
@@ -54,8 +52,7 @@ public class VistoriaConverter {
             resposta.setObservacao(vistoriaPOJO.getObservacao());
             resposta.setPrazo(vistoriaPOJO.getPrazo());
             resposta.setTecnico1(TecnicoConverter.fromTecnicoPOJO(vistoriaPOJO.getTecnicoPOJO1()));
-            resposta.setTecnico2(TecnicoConverter.fromTecnicoPOJO(vistoriaPOJO.getTecnicoPOJO2()));          
-            
+            resposta.setTecnico2(TecnicoConverter.fromTecnicoPOJO(vistoriaPOJO.getTecnicoPOJO2()));
             return resposta;
 
         } else {

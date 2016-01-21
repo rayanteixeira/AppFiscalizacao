@@ -1,17 +1,12 @@
 package br.edu.ufra.appfiscalizacao.conexao;
 
-import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
-import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableUtils;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+
+import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 
 import br.edu.ufra.appfiscalizacao.entidade.Equipamento;
 import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
@@ -41,8 +36,8 @@ public class DataBaseHelper<E> extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(src, Estabelecimento.class);
             TableUtils.createTable(src, Tecnico.class);
             TableUtils.createTable(src, Vistoria.class);
-            TableUtils.createTable(src, Inspecao.class);
             TableUtils.createTable(src, Equipamento.class);
+            TableUtils.createTable(src, Inspecao.class);
 
             Log.i("Tabelas", "Tabelas criadas com sucesso");
         } catch (Exception e) {
@@ -58,8 +53,8 @@ public class DataBaseHelper<E> extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(src, Estabelecimento.class, true);
             TableUtils.dropTable(src, Tecnico.class,true);
             TableUtils.dropTable(src, Vistoria.class,true);
-            TableUtils.dropTable(src, Inspecao.class,true);
             TableUtils.dropTable(src, Equipamento.class,true);
+            TableUtils.dropTable(src, Inspecao.class,true);
 
             Log.e("Update", "Banco atualizado com sucesso");
         }catch (Exception e){
