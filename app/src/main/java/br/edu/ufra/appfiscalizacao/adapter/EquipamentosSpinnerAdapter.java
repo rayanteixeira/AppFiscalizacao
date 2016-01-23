@@ -11,6 +11,7 @@ import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.R;
 import br.edu.ufra.appfiscalizacao.application.pojo.EquipamentoPOJO;
+import br.edu.ufra.appfiscalizacao.application.pojo.InspecaoPOJO;
 import br.edu.ufra.appfiscalizacao.entidade.Equipamento;
 
 /**
@@ -20,7 +21,9 @@ public class EquipamentosSpinnerAdapter extends BaseAdapter{
     List<EquipamentoPOJO> equipamentos;
     Context context;
     private LayoutInflater mInflate;
-
+    private View convertView;
+    private int selecionado = -1;
+    private boolean apto;
     public EquipamentosSpinnerAdapter(Context context, List<EquipamentoPOJO> equipamentos) {
         this.context = context;
         this.equipamentos = equipamentos;
@@ -45,13 +48,26 @@ public class EquipamentosSpinnerAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+            this.convertView = convertView;
             EquipamentoPOJO equipamento = (EquipamentoPOJO) getItem(position);
 
             convertView = mInflate.inflate(R.layout.equipamento_model, null);
             TextView item_equipamento = (TextView) convertView.findViewById(R.id.item_equipamento);
             item_equipamento.setText(equipamento.getNome());
 
+            System.out.println("getview");
+
+            if (selecionado != -1 && position == selecionado){
+
+            if(apto == true){
+                convertView.setBackgroundResource(R.color.nliveo_green_colorAccent);
+            }else {
+                convertView.setBackgroundResource(R.color.nliveo_red_colorPrimary);
+            }
+
+            }
+
+            convertView.setTag(equipamento);
 
         //TextView tv = new TextView(context);
         //tv.setText(equipamento.getNome());
@@ -60,6 +76,21 @@ public class EquipamentosSpinnerAdapter extends BaseAdapter{
         return convertView;
     }
 
+
+    public void alterarBackground(boolean apto, int position) {
+            this.selecionado = position;
+            this.apto = apto;
+            notifyDataSetChanged();
+        /*
+        if (inspecao.isAptoPOJO()==true){
+
+            System.out.println("verde");
+
+            view.setBackgroundResource(R.color.nliveo_green_colorAccent);
+            notifyDataSetChanged();
+        }
+        */
+    }
 
     /* ItemModel itemHolder;
         EquipamentoPOJO equipamento = (EquipamentoPOJO) getItem(position);

@@ -5,12 +5,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/nome_equipamento_model"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="Equipamento"
+        android:textSize="20dp"
+        android:textColor="@color/nliveo_orange_alpha_colorPrimaryDark"/>
+
     <EditText
         android:id="@+id/edit_model_oberservacao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="OK"
-        />
+        android:textSize="18dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="OK"/>
 
     <RadioGroup
         android:layout_width="match_parent"
@@ -22,6 +35,7 @@
         <RadioButton
             android:id="@+id/rb_model_apto"
             android:text="APTO"
+            android:textSize="18dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
@@ -30,15 +44,18 @@
         <RadioButton
             android:id="@+id/rb_model_inapto"
             android:text="INAPTO"
+            android:textSize="18dp"
+            android:checked="true"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
     </RadioGroup>
 
-    <Button
+    <!--<Button
         android:id="@+id/btn_model_salvar"
         android:text="Salvar"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"/>
+        -->
 </LinearLayout>

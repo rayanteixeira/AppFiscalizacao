@@ -53,6 +53,7 @@ public class VistoriaAdapter extends BaseAdapter {
         view = mInflate.inflate(R.layout.vistoria_model, null);
         TextView data = (TextView) view.findViewById(R.id.dataVistoria);
 
+
         data.setText(sdf.format(vistoria.getDataVistoria()));
 
         return view;
