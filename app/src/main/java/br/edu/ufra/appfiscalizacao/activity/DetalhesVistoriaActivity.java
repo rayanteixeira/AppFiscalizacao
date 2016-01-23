@@ -1,11 +1,13 @@
 package br.edu.ufra.appfiscalizacao.activity;
 
-import android.app.AlertDialog;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,7 +73,7 @@ import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;
 import br.edu.ufra.appfiscalizacao.util.Mensagem;
 import br.edu.ufra.appfiscalizacao.util.StringURL;
 
-public class DetalhesVistoriaActivity  extends ActionBarActivity {
+public class DetalhesVistoriaActivity  extends Activity {
     private Spinner spinnerDemaisEquip, spinnerEquipObrigatorios;
     private ProgressDialog progressDialog;
     private TabHost abas;
@@ -113,6 +115,11 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
     private VistoriaPOJO vistoriaWS;
     private List<VistoriaPOJO> vistoriasWS;
     private Integer id;
+    AlertDialog alertDialog;
+    Context appContext;
+
+    private RadioButton rb_apto, rb_Inapto;
+    private EditText edt_observacao;
     //private static final String PREFERENCE_NAME="LoginActivityPreferences";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +128,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         //lvInspecaoDemaisEquip = (ListView) findViewById(R.id.listVDemaisEquipamentosInspecionados);
         //lvInspecaoEquipObrigatorios = (ListView) findViewById(R.id.listVEquipamentosObrigatoriosInspecionados);
         //SharedPreferences sharedP = getSharedPreferences(PREFERENCE_NAME,MODE_PRIVATE);
+
 
         progressDialog = ProgressDialog.show(this, "Aguarde", "...", false, true);
 
@@ -133,7 +141,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
 
         obterVistoriasEstabelecimento(id);
 
-        contexto= getBaseContext();
+        contexto= this;
         rnVistoria = new VistoriaRN(getApplicationContext());
         rnInspecao = new InspecaoRN(getApplicationContext());
         rnTecnico = new TecnicoRN(getApplicationContext());
@@ -141,7 +149,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         inspecaoListaPOJO = new InspecaoListaPOJO();
 
         vistoria = new VistoriaPOJO();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //TabVistoria
        // dataSolicitacaoTxt = (TextView) findViewById(R.id.dataSolicitacao);
@@ -162,6 +170,8 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         //demaisEquipamentoAptRadio = (RadioButton) findViewById(R.id.radioBtnDemaisEquipamentoApt);
         //demaisEquipamentoNaoAptRadio = (RadioButton) findViewById(R.id.radioBtnDemaisEquipamentoNaoApt);
         //inspecaoDemaisEquipamentosBtn = (Button) findViewById(R.id.btnInspecaoDemaisEquipamento);
+
+
 
         /*
         System.out.println("Data: "+sdf.format(estabelecimento.getDataCadastro()));
@@ -224,7 +234,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         });
         gson = builder.create();
 
-        //obterEquipamentosWS();
+        obterEquipamentosWS();
         //obterTecnicosWS();
 
         /*
@@ -396,7 +406,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         });
 
     }
-/*
+
     private void criarLVEquipamentosObrigatoriosInspecionados(){
         equipObrigatoriosInspecionados = new ArrayList<>();
         inspecaoEquipamentosObrigatoriosBtn.setOnClickListener(new View.OnClickListener() {
@@ -406,7 +416,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
                 inspecoesEquipObrigatoriosAdapter.notifyDataSetChanged();
             }
         });
-        lvInspecaoEquipObrigatorios = (ListView) findViewById(R.id.listVEquipamentosObrigatoriosInspecionados);
+       // lvInspecaoEquipObrigatorios = (ListView) findViewById(R.id.listVEquipamentosObrigatoriosInspecionados);
         inspecoesEquipObrigatoriosAdapter = new InspecaoAdapter(contexto, equipObrigatoriosInspecionados);
         lvInspecaoEquipObrigatorios.setAdapter(inspecoesEquipObrigatoriosAdapter);
         lvInspecaoEquipObrigatorios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -417,7 +427,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
             }
         });
     }
-*/
+
     private List<InspecaoPOJO> obterInspecoesPorVistoria(Integer idVistoria){
         try {
 
@@ -566,7 +576,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
                                 System.out.println("Equipamento: "+equipamento.getNome());
                                 equipamentos.add(equipamento);
                             } catch (JSONException e) {
-                                System.out.println("Erro em response "+e.getCause());
+                                System.out.println("Erro em response " + e.getCause());
                             }
                         }
                         definirSpinnerParaEquipamento();
@@ -661,10 +671,49 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
 
     private void spinnerDemaisEquipamentos(){
 
+        ListView list_equip_NAOobrigatorios = (ListView) findViewById(R.id.listV_equipamentos_NAOobrigatorios);
+
+        list_equip_NAOobrigatorios.setAdapter(new EquipamentosSpinnerAdapter(contexto, demaisEquipamentosSpinner));
+        list_equip_NAOobrigatorios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(contexto, "Click em nao obrigatorio ", Toast.LENGTH_SHORT).show();
+
+
+
+                AlertDialog.Builder alerta = new AlertDialog.Builder(contexto);
+                alerta.setTitle("Operações");
+                alerta.setMessage("Escolha a operação que deseja realizar para essa vistoria");
+
+                alerta.setPositiveButton("Excluir",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+
+                alerta.setNegativeButton("Editar",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                            }
+                        });
+
+                alerta.show();
+
+            }
+        });
+
+
+
         //  final ArrayAdapter<String> spinneradapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, equipamentosNome);
         // spinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        spinnerDemaisEquip.setAdapter(new EquipamentosSpinnerAdapter(contexto, demaisEquipamentosSpinner));
+
+       /* spinnerDemaisEquip.setAdapter(new EquipamentosSpinnerAdapter(contexto, demaisEquipamentosSpinner));
 
         spinnerDemaisEquip.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -680,14 +729,27 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
             }
         });
 
-
+*/
 
     }
 
     private void spinnerEquipamentosObrigatorios(){
 
 
-        spinnerEquipObrigatorios.setAdapter(new EquipamentosSpinnerAdapter(contexto, equipamentosObrigatoriosSpinner));
+        ListView list_equip_obrigatorios = (ListView) findViewById(R.id.listV_equipamentos_obrigatorios);
+
+        list_equip_obrigatorios.setAdapter(new EquipamentosSpinnerAdapter(contexto, equipamentosObrigatoriosSpinner));
+
+        list_equip_obrigatorios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(contexto, "Click em obrigatorio ", Toast.LENGTH_SHORT).show();
+                equipamentoObrigatorioSpinner = (EquipamentoPOJO) adapterView.getAdapter().getItem(i);
+                System.out.println("equip obrigatorio selected" + equipamentoObrigatorioSpinner.getNome());
+                mostrarDialogEquipamentosObrigatorios();
+            }
+        });
+          /*spinnerEquipObrigatorios.setAdapter(new EquipamentosSpinnerAdapter(contexto, equipamentosObrigatoriosSpinner));
 
         spinnerEquipObrigatorios.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -702,10 +764,49 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
 
             }
         });
+        */
 
+
+        }
+
+
+
+    private void mostrarDialogEquipamentosObrigatorios(){
+
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(contexto);
+        alert.setTitle("Inspeção de equipamento"); //Set Alert dialog title here
+
+        LayoutInflater li = getLayoutInflater();
+
+        View view = li.inflate(R.layout.alertdialog_equip_model, null);
+
+        equipObrigatoriosInspecionados = new ArrayList<>();
+        rb_apto = (RadioButton) view.findViewById(R.id.rb_model_apto);
+        rb_Inapto = (RadioButton) view.findViewById(R.id.rb_model_inapto);
+        edt_observacao = (EditText) view.findViewById(R.id.edit_model_oberservacao);
+        edt_observacao.requestFocus();
+
+        view.findViewById(R.id.btn_model_salvar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                realizarInspecaoEquipamentosObrigatorios();
+                definirEquipamentoObrigatorioApto();
+
+
+                alertDialog.dismiss();
+            }
+        });
+
+
+        alert.setView(view);
+
+        alertDialog = alert.create();
+        alert.show();
 
 
     }
+
 
     private void realizarVistoria(){
 
@@ -722,7 +823,7 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
 
         System.out.println("inspecoes " + inspecoes.size());
         //vistoria.setInspecao(inspecoes);
-        System.out.println("status depois "+inspecoes.get(0).getVistoriaPOJO().getEstabelecimentoPOJO().getStatus());
+        System.out.println("status depois " + inspecoes.get(0).getVistoriaPOJO().getEstabelecimentoPOJO().getStatus());
         inspecaoListaPOJO.setInspecoesPOJO(inspecoes);
 
         if (ConexaoInternet.estaConectado(this) ){
@@ -753,8 +854,9 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
         inspecao.setEquipamentoPOJO(equipamentoObrigatorioSpinner);
         inspecao.setDataInspPOJO(obterDataHoje());
         inspecao.setAptoPOJO(definirEquipamentoObrigatorioApto());
-        inspecao.setObservacaoPOJO(equipamentoObrigatorioObsEdt.getText().toString());
+        inspecao.setObservacaoPOJO(edt_observacao.getText().toString());
         inspecoes.add(inspecao);
+        System.out.println("Inspeção Salva!!! ");
         return inspecao;
     }
 
@@ -769,13 +871,24 @@ public class DetalhesVistoriaActivity  extends ActionBarActivity {
     }
 
     private boolean definirEquipamentoObrigatorioApto(){
-        if (equipamentoObrigatorioAptRadio.isChecked()){
+
+
+        if (rb_apto.isChecked()) {
+            System.out.println("Equipamento Apto");
+            return true;
+        } else {
+            System.out.println("Equipamento inapto");
+            return false;
+        }
+
+
+        /*if (equipamentoObrigatorioAptRadio.isChecked()){
             System.out.println("Equipamento obrigatorio apt");
             return true;
         }else {
             System.out.println("Equipamento obrigatorio nao apt");
             return false;
-        }
+        }*/
     }
 
     private void definirSpinnerParaEquipamento(){
