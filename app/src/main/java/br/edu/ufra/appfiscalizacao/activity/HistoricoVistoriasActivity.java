@@ -45,8 +45,19 @@ public class HistoricoVistoriasActivity extends AppCompatActivity {
 
         historico_nomeEstabelecimento.setText(vistoria.getEstabelecimentoPOJO().getNomeFantasia());
         historico_dataVistoria.setText(sdf.format(vistoria.getDataVistoria()));
-        historico_vistoria_tecnico1.setText(vistoria.getTecnicoPOJO1().getNome());
-        historico_vistoria_tecnico2.setText(vistoria.getTecnicoPOJO2().getNome());
+        if(vistoria.getTecnicoPOJO1() == null) {
+            historico_vistoria_tecnico1.setText("TECNICO 1 ausente");
+        }else {
+
+            historico_vistoria_tecnico1.setText(vistoria.getTecnicoPOJO1().getNome());
+        }
+        if(vistoria.getTecnicoPOJO2() == null) {
+            historico_vistoria_tecnico2.setText("TECNICO 2 ausente");
+        }else {
+
+            historico_vistoria_tecnico2.setText(vistoria.getTecnicoPOJO2().getNome());
+        }
+
         historico_vistoria_prazo.setText(String.valueOf(vistoria.getPrazo()));
         historico_vistoria_prazo.setText(vistoria.getObservacao());
 

@@ -160,10 +160,10 @@ public class VistoriasActivity extends ListActivity {
 
     protected void onListItemClick(ListView l, View v, int position, long id) {
 
-        EstabelecimentoPOJO estabelecimento = (EstabelecimentoPOJO) l.getAdapter().getItem(position);
+        VistoriaPOJO vistoriaPOJO = (VistoriaPOJO) l.getAdapter().getItem(position);
 
-        startActivity(new Intent(getBaseContext(), DetalhesVistoriaActivity.class)
-                .putExtra("estabelecimento", estabelecimento));
+        startActivity(new Intent(getBaseContext(), HistoricoVistoriasActivity.class)
+                .putExtra("historico_vistoria", vistoriaPOJO));
     }
 
 
