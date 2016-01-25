@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -75,7 +76,7 @@ import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;
 import br.edu.ufra.appfiscalizacao.util.Mensagem;
 import br.edu.ufra.appfiscalizacao.util.StringURL;
 
-public class DetalhesVistoriaActivity  extends Activity {
+public class DetalhesVistoriaActivity  extends AppCompatActivity {
     private Spinner spinnerDemaisEquip, spinnerEquipObrigatorios;
     private ProgressDialog progressDialog;
     private TabHost abas;
@@ -160,7 +161,7 @@ public class DetalhesVistoriaActivity  extends Activity {
         inspecaoListaPOJO = new InspecaoListaPOJO();
 
         vistoria = new VistoriaPOJO();
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //TabVistoria
         // dataSolicitacaoTxt = (TextView) findViewById(R.id.dataSolicitacao);
@@ -621,7 +622,10 @@ public class DetalhesVistoriaActivity  extends Activity {
             JSONObject convertingToJsonObject= new JSONObject(converteToJson);
 
             System.out.println("object:"+convertingToJsonObject);
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, urlSalvarInspecaoListaPOJO,convertingToJsonObject , new Response.Listener<JSONObject>() {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
+                    urlSalvarInspecaoListaPOJO,
+                    convertingToJsonObject ,
+                    new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
 
@@ -871,9 +875,9 @@ public class DetalhesVistoriaActivity  extends Activity {
         LayoutInflater li = getLayoutInflater();
         View view = li.inflate(R.layout.alertdialog_vistoria, null);
 
-        edt_observacao_vistoria = (EditText) findViewById(R.id.edit_dialogVistoria_obs);
-        edt_prazo_vistoria = (EditText) findViewById(R.id.edit_dialogVistoria_prazo);
-        edt_matricula_tec2 =(EditText) findViewById(R.id.edit_dialogVistoria_matTec2);
+        edt_observacao_vistoria = (EditText) view.findViewById(R.id.edit_dialogVistoria_obs);
+        edt_prazo_vistoria = (EditText) view.findViewById(R.id.edit_dialogVistoria_prazo);
+        //edt_matricula_tec2 =(EditText) findViewById(R.id.edit_dialogVistoria_matTec2);
 
         alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
@@ -884,8 +888,19 @@ public class DetalhesVistoriaActivity  extends Activity {
         alert.setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                vistoria.setPrazo(Integer.parseInt(edt_prazo_vistoria.getText().toString()));
+                vistoria.setObservacao(edt_observacao_vistoria.getText().toString());
+                System.out.println("inspecoes " + inspecoes.size());
+                //vistoria.setInspecao(inspecoes);
+                System.out.println("status depois " + inspecoes.get(0).getVistoriaPOJO().getEstabelecimentoPOJO().getStatus());
+                inspecaoListaPOJO.setInspecoesPOJO(inspecoes);
 
-                System.out.println(vistoria);
+                if (ConexaoInternet.estaConectado(contexto) ){
+                    salvarInspecaoListaPOJOWS();
+                }else {
+                    salvarInspecaoListaPOJOBD();
+                }
+
             }
         });
 
@@ -902,20 +917,12 @@ public class DetalhesVistoriaActivity  extends Activity {
         vistoria.setTecnicoPOJO1(TecnicoConverter.toTecnicoPOJO(tecnico1));
         vistoria.setTecnicoPOJO2(TecnicoConverter.toTecnicoPOJO(tecnico2));
         vistoria.setDataVistoria(obterDataHoje());
-        vistoria.setPrazo(Integer.parseInt(prazoEdt.getText().toString()));
         vistoria.setApto(definirStatusEstabelecimentoEVistoriaApt(inspecoes));
         vistoria.setEstabelecimentoPOJO(estabelecimento);
-        vistoria.setObservacao(observacaoEdt.getText().toString());
 
-        System.out.println("inspecoes " + inspecoes.size());
-        //vistoria.setInspecao(inspecoes);
-        System.out.println("status depois " + inspecoes.get(0).getVistoriaPOJO().getEstabelecimentoPOJO().getStatus());
-        inspecaoListaPOJO.setInspecoesPOJO(inspecoes);
+        if(vistoria.getEstabelecimentoPOJO().getStatus() == "Pendente") {
+            mostrarDialogRealizarVistoria();
 
-        if (ConexaoInternet.estaConectado(this) ){
-            salvarInspecaoListaPOJOWS();
-        }else {
-            salvarInspecaoListaPOJOBD();
         }
 
 

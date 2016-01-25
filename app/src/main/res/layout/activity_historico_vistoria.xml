@@ -20,15 +20,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Estabelecimento"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/colorPrimary"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:src="@color/nliveo_blue_colorAccent"
+            android:layout_marginBottom="10dp"/>
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="EQUIPAMENTOS OBRIGATÓRIOS"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/nliveo_orange_colorPrimary" />
 
         <ListView
@@ -43,7 +50,6 @@
             android:layout_height="wrap_content"
             android:text="EQUIPAMENTOS NÃO OBRIGATÓRIOS"
             android:layout_marginTop="10dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/nliveo_orange_colorPrimary" />
 
         <ListView
@@ -59,7 +65,6 @@
             android:layout_height="wrap_content"
             android:text="DATA DA VISTORIA"
             android:layout_marginTop="10dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/nliveo_orange_colorPrimary" />
 
         <TextView
@@ -76,18 +81,17 @@
             android:layout_height="wrap_content"
             android:text="TÉCNICOS"
             android:layout_marginTop="10dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/nliveo_orange_colorPrimary" />
 
         <TextView
-            android:id="@+id/historico_vistoria_tecnico1"
+            android:id="@+id/txt_historico_vistoria_tecnico1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="TECNICO 1"/>
 
         <TextView
-            android:id="@+id/historico_vistoria_tecnico2"
+            android:id="@+id/txt_historico_vistoria_tecnico2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -96,22 +100,36 @@
 
 
         <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OBSERVAÇÃO"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/nliveo_orange_colorPrimary" />
+
+        <TextView
+            android:id="@+id/txt_historico_vistoria_observacao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="observação"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="PRAZOS"
             android:layout_marginTop="10dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/nliveo_orange_colorPrimary" />
 
         <TextView
-            android:id="@+id/historico_vistoria_prazo"
+            android:id="@+id/txt_historico_vistoria_prazo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="PRAZO DE RETORNO"
             android:layout_marginTop="10dp"/>
 
-        <Button
+        <!--<Button
             android:id="@+id/btnconfirmarinspecao"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dp"
@@ -120,5 +138,6 @@
             android:layout_gravity="center_horizontal"
             android:text="voltar"
             android:background="@android:drawable/screen_background_light_transparent"/>
+            -->
     </LinearLayout>
 </ScrollView>

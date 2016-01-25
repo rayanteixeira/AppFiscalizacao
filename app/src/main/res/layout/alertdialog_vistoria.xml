@@ -8,23 +8,19 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Prazo para próxima vistoria"
-        />
+        android:text="Prazo para próxima vistoria"/>
 
     <EditText
         android:id="@+id/edit_dialogVistoria_prazo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="15"
-        />
+        android:hint="dias"/>
 
     <EditText
         android:id="@+id/edit_dialogVistoria_obs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Observação"
-        android:text="Observação padrão"
-        />
+        android:hint="Observação sobre esta  vistoria"/>
 
     <EditText
         android:id="@+id/edit_dialogVistoria_matTec2"
