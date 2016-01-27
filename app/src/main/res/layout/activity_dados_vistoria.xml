@@ -22,21 +22,24 @@
             android:text="Estabelecimento"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:textColor="@color/colorPrimary"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/nliveo_orange_colorPrimary"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:src="@color/nliveo_blue_colorAccent"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginRight="35dp"
+            android:layout_marginLeft="35dp"
+            android:src="@color/nliveo_orange_colorPrimary"
+            android:layout_marginBottom="20dp"/>
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="EQUIPAMENTOS OBRIGATÓRIOS"
-            android:textColor="@color/nliveo_orange_colorPrimary" />
+            android:textColor="@color/nliveo_blue_colorAccent"/>
 
         <ListView
             android:id="@+id/list_historico_vistoria_equipObrigatorio"
@@ -50,7 +53,7 @@
             android:layout_height="wrap_content"
             android:text="EQUIPAMENTOS NÃO OBRIGATÓRIOS"
             android:layout_marginTop="10dp"
-            android:textColor="@color/nliveo_orange_colorPrimary" />
+            android:textColor="@color/nliveo_blue_colorAccent" />
 
         <ListView
             android:id="@+id/list_historico_vistoria_equipNAOObrigatorio"
@@ -65,7 +68,7 @@
             android:layout_height="wrap_content"
             android:text="DATA DA VISTORIA"
             android:layout_marginTop="10dp"
-            android:textColor="@color/nliveo_orange_colorPrimary" />
+            android:textColor="@color/nliveo_blue_colorAccent" />
 
         <TextView
             android:id="@+id/txt_historico_dataVistoria"
@@ -81,14 +84,14 @@
             android:layout_height="wrap_content"
             android:text="TÉCNICOS"
             android:layout_marginTop="10dp"
-            android:textColor="@color/nliveo_orange_colorPrimary" />
+            android:textColor="@color/nliveo_blue_colorAccent" />
 
         <TextView
             android:id="@+id/txt_historico_vistoria_tecnico1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="TECNICO 1"/>
+            android:text="tecnico 1"/>
 
         <TextView
             android:id="@+id/txt_historico_vistoria_tecnico2"
@@ -96,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
-            android:text="TECNICO 2"/>
+            android:text="tecnico 2"/>
 
 
         <TextView
@@ -105,7 +108,7 @@
             android:layout_height="wrap_content"
             android:text="OBSERVAÇÃO"
             android:layout_marginTop="10dp"
-            android:textColor="@color/nliveo_orange_colorPrimary" />
+            android:textColor="@color/nliveo_blue_colorAccent" />
 
         <TextView
             android:id="@+id/txt_historico_vistoria_observacao"
@@ -120,13 +123,13 @@
             android:layout_height="wrap_content"
             android:text="PRAZOS"
             android:layout_marginTop="10dp"
-            android:textColor="@color/nliveo_orange_colorPrimary" />
+            android:textColor="@color/nliveo_blue_colorAccent" />
 
         <TextView
             android:id="@+id/txt_historico_vistoria_prazo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PRAZO DE RETORNO"
+            android:text="prazo de retorno"
             android:layout_marginTop="10dp"/>
 
         <Button

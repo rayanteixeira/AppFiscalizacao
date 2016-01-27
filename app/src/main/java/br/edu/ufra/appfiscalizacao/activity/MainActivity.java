@@ -44,7 +44,7 @@ public class MainActivity extends NavigationActionBarLiveo implements OnItemClic
         mHelpLiveo.addSubHeader(getString(R.string.menu)); //Item subHeader
         mHelpLiveo.add(getString(R.string.estabelecimento), R.drawable.ic_estabelecimento);
         mHelpLiveo.add(getString(R.string.vistoria), R.drawable.ic_vistoria);
-        mHelpLiveo.add(getString(R.string.tecnico), R.drawable.ic_tecnico);
+       // mHelpLiveo.add(getString(R.string.tecnico), R.drawable.ic_tecnico);
         //mHelpLiveo.add(getString(R.string.equipamento), R.drawable.ic_equipamento);
         //mHelpLiveo.add(getString(R.string.spam), R.drawable.ic_report_black_24dp, 120);
 

@@ -149,9 +149,9 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(this.getApplicationContext());
 
-        obterVistoriasEstabelecimento(id);
+        //obterVistoriasEstabelecimento(id);
 
-        contexto= this;
+        contexto = this;
         rnVistoria = new VistoriaRN(getApplicationContext());
         rnInspecao = new InspecaoRN(getApplicationContext());
         rnTecnico = new TecnicoRN(getApplicationContext());
@@ -208,12 +208,12 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
         abas = (TabHost) findViewById(R.id.tabhostestab);
         abas.setup();
 
-        descritor = abas.newTabSpec("aba1");
+        /*descritor = abas.newTabSpec("aba1");
         descritor.setContent(R.id.vistorias);
         descritor.setIndicator("Vistorias");
         abas.setCurrentTab(0);
         abas.addTab(descritor);
-
+*/
 
 
         descritor = abas.newTabSpec("aba2");
@@ -323,7 +323,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
                                     }
                                 }
 
-                                criarLVVistoria();
+                                //criarLVVistoria();
 
                             }else {
                                 progressDialog.dismiss();
@@ -369,7 +369,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
     }
 
 
-    private void criarLVVistoria(){
+    /*private void criarLVVistoria(){
         lvVistorias = (ListView) findViewById(R.id.listVVistorias);
         vistoriaAdapter = new VistoriaAdapter(this, vistoriasWS);
         lvVistorias.setAdapter(vistoriaAdapter);
@@ -386,7 +386,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
         });
         progressDialog.dismiss();
     }
-
+*/
     private void dialogVistoria(final Integer id){
         AlertDialog.Builder alerta = new AlertDialog.Builder(this);
         alerta.setTitle("Operações");
@@ -642,6 +642,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
         demais_equipamento_spinner_adapter = new EquipamentoAdapter(contexto, demaisEquipamentosSpinner);
 
         list_equip_NAOobrigatorios.setAdapter(demais_equipamento_spinner_adapter);
+        progressDialog.dismiss();
         list_equip_NAOobrigatorios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -688,7 +689,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
         equipamento_obg_spinner_adapter = new EquipamentoAdapter(contexto, equipamentosObrigatoriosSpinner);
 
         list_equip_obrigatorios.setAdapter(equipamento_obg_spinner_adapter);
-
+        progressDialog.dismiss();
         list_equip_obrigatorios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -1073,6 +1074,10 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
         if (id == android.R.id.home) {
             finish();
             return true;
+        }else if (id == R.id.action_barInspecao){
+            Intent it = new Intent(contexto, VistoriasActivity.class);
+            it.putExtra("estabelecimento", estabelecimento);
+            startActivity(it);
         }
 
 

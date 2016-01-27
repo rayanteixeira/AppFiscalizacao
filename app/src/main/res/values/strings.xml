@@ -3,7 +3,8 @@
 
     <string name="app_name">Fiscal Devisa</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">settings</string>
+    <string name="action_barInspecao">vistorias realizadas</string>
 
     <!-- Spinner Situacao do Ponto -->
     <string name="situacao">Defina a situação do ponto</string>
@@ -40,8 +41,8 @@
     <string name="title_activity_cadastro_estabelecimento">CadastroEstabelecimento</string>
     <string name="title_activity_detalhes">DetalhesActivity</string>
     <string name="title_activity_detalhe">DetalheActivity</string>
-    <string name="title_activity_estabelecimento_detalhes">EstabelecimentoDetalhesActivity</string>
+    <string name="title_activity_estabelecimento_detalhes">Inspeção</string>
     <string name="title_activity_vistoria">VistoriaActivity</string>
-    <string name="title_activity_vistorias">VistoriasActivity</string>
-
+    <string name="title_activity_vistorias">Vistorias Realizadas</string>
+    <string name="title_activity_dados_vistoria">Dados Vistoria</string>
 </resources>

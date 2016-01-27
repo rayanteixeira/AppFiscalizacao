@@ -15,7 +15,7 @@ public class InspecaoActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vistoria);
+        setContentView(R.layout.activity_vistoria_old);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -34,7 +34,7 @@ public class InspecaoActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_vistoria, menu);
+        getMenuInflater().inflate(R.menu.menu_dados_vistoria, menu);
         return true;
     }
 

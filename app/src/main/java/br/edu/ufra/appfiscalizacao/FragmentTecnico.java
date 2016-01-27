@@ -63,7 +63,7 @@ public class FragmentTecnico extends Fragment {
 
         gson = new Gson();
         mProgressDialog = ProgressDialog.show(getActivity(), "Download", "Atualizando lista, por favor espere.", false, true);
-       // getjsonArray();
+        //getjsonArray();
         return rootview;
     }
 

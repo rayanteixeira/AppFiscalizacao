@@ -53,7 +53,7 @@ public class FragmentVistoria extends Fragment {
     View rootView;
     private TextView textoselo;
     //EstabelecimentoRN rn;
-    EstabelecimentoPOJO estabelecimento;
+
     List<EstabelecimentoPOJO> estabelecimentos;
     List<EstabelecimentoPOJO> listAguardandoVistoria;
     List<EstabelecimentoPOJO> listPendente;
@@ -67,7 +67,7 @@ public class FragmentVistoria extends Fragment {
     private EstabelecimentoAdapter adapterAguardando;
     private EstabelecimentoAdapter adapterPendente;
     private ProgressDialog mProgressDialog;
-
+    EstabelecimentoPOJO estabelecimento;
     public FragmentVistoria() {
 
     }
@@ -199,7 +199,7 @@ public class FragmentVistoria extends Fragment {
         pontoPendente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                EstabelecimentoPOJO estabelecimento = (EstabelecimentoPOJO) adapterPendente.getItem(position);
+                 estabelecimento = (EstabelecimentoPOJO) adapterPendente.getItem(position);
 
                 int idEstabelecimento = estabelecimento.getId();
                 Intent it = new Intent(getActivity().getBaseContext(), DetalhesVistoriaActivity.class);

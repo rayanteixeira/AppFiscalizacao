@@ -75,19 +75,7 @@ public class DadosVistoriaActivity extends AppCompatActivity {
 
         inspecaoListaPOJO = (InspecaoListaPOJO) getIntent().getSerializableExtra("confirmar_detalhes_vistoria");
 
-        if (inspecaoListaPOJO != null){
-            progressDialog = ProgressDialog.show(this, "Criando tela de confirmação", "Aguarde...");
-            definirTipoEquipamento();
-            vistoria = inspecaoListaPOJO.getInspecoesPOJO().get(0).getVistoriaPOJO();
-        }else {
-        vistoria = (VistoriaPOJO) getIntent().getSerializableExtra("dados_vistoria");
-            obterInspecoesPorVistoria(vistoria.getId());
-        }
 
-        if ( vistoria.getId() != null){
-        btn_confirmar = (Button) findViewById(R.id.btn_confirmar_vistoria);
-            btn_confirmar.setVisibility(View.INVISIBLE);
-        }
 
 
         lv_historico_equipamentos_obrigatorios = (ListView) findViewById(R.id.list_historico_vistoria_equipObrigatorio);
@@ -99,6 +87,22 @@ public class DadosVistoriaActivity extends AppCompatActivity {
         historico_vistoria_prazo = (TextView) findViewById(R.id.txt_historico_vistoria_prazo);
         historico_vistoria_observacao = (TextView) findViewById(R.id.txt_historico_vistoria_observacao);
         btn_confirmar = (Button) findViewById(R.id.btn_confirmar_vistoria);
+
+
+        if (inspecaoListaPOJO != null){
+            progressDialog = ProgressDialog.show(this, "Criando tela de confirmação", "Aguarde...");
+            definirTipoEquipamento();
+            vistoria = inspecaoListaPOJO.getInspecoesPOJO().get(0).getVistoriaPOJO();
+        }else {
+            vistoria = (VistoriaPOJO) getIntent().getSerializableExtra("dados_vistoria");
+            obterInspecoesPorVistoria(vistoria.getId());
+        }
+
+        if ( vistoria.getId() != null){
+            btn_confirmar = (Button) findViewById(R.id.btn_confirmar_vistoria);
+            btn_confirmar.setVisibility(View.INVISIBLE);
+        }
+
 
         if(vistoria.getTecnicoPOJO1() == null) {
             historico_vistoria_tecnico1.setText("TECNICO 1 ausente");
@@ -309,15 +313,15 @@ public class DadosVistoriaActivity extends AppCompatActivity {
     }
 
 
-    /*
 
-    @Override
+
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_vistoria, menu);
+        getMenuInflater().inflate(R.menu.menu_dados_vistoria, menu);
         return true;
     }
-    */
+*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

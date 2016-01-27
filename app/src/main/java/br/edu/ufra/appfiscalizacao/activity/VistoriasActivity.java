@@ -7,10 +7,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.support.v7.app.AppCompatActivity;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -36,10 +37,10 @@ import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;
 import br.edu.ufra.appfiscalizacao.util.Mensagem;
 import br.edu.ufra.appfiscalizacao.util.StringURL;
 
-public class VistoriasActivity extends ListActivity {
+public class VistoriasActivity extends AppCompatActivity {
 
     private TextView dataVistoriaTxt;
-    private ListView listView;
+    private ListView historico_vistorias_realizadas;
     private ProgressDialog progressDialog;
     private DateFormat sdf;
     private String date;
@@ -56,11 +57,11 @@ public class VistoriasActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_vistoria);
         Intent it = getIntent();
         EstabelecimentoPOJO estabelecimento = (EstabelecimentoPOJO) getIntent().getSerializableExtra("estabelecimento");
         id = estabelecimento.getId();
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         requestQueue = Volley.newRequestQueue(this.getApplicationContext());
 
         sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -152,9 +153,24 @@ public class VistoriasActivity extends ListActivity {
 
     private void criarListView(){
         vistoriaAdapter = new VistoriaAdapter(this, vistorias);
+        historico_vistorias_realizadas = (ListView) findViewById(R.id.LV_historico_vistorias_realizadas);
         //listView.setAdapter();
-        setListAdapter(vistoriaAdapter);
+        historico_vistorias_realizadas.setAdapter(vistoriaAdapter);
         progressDialog.dismiss();
+        historico_vistorias_realizadas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                VistoriaPOJO vistoria = (VistoriaPOJO) adapterView.getAdapter().getItem(i);
+
+                startActivity(new Intent(getBaseContext(), DadosVistoriaActivity.class)
+                        .putExtra("dados_vistoria", vistoria));
+
+            }
+        });
+
+
     }
 
     protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -166,10 +182,12 @@ public class VistoriasActivity extends ListActivity {
     }
 
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_vistorias, menu);
+        //getMenuInflater().inflate(R.menu.menu_vistorias, menu);
         return true;
     }
 
@@ -178,13 +196,15 @@ public class VistoriasActivity extends ListActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+       /* int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
+*/
+        finish();
         return super.onOptionsItemSelected(item);
     }
+
 }
