@@ -24,12 +24,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -381,7 +379,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
                 VistoriaPOJO vistoria = (VistoriaPOJO) vistoriaAdapter.getItem(position);
                 //dialogVistoria(vistoria.getId());
                 Intent it = new Intent(contexto, DadosVistoriaActivity.class);
-                it.putExtra("detalhes_vistoria", vistoria);
+                it.putExtra("dados_vistoria", vistoria);
                 startActivity(it);
 
             }
@@ -610,46 +608,6 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
             Toast.makeText(contexto, "Erro ao solicitar dados: " + e.getCause(), Toast.LENGTH_LONG).show();
             finish();
         }
-    }
-
-    private void salvarInspecaoListaPOJOWS(){
-
-        try{
-            progressDialog =ProgressDialog.show(this,"Salvando os Dados no Servidor","Aguarde...");
-
-            String converteToJson=gson.toJson(inspecaoListaPOJO);
-            System.out.println("json "+converteToJson);
-            JSONObject convertingToJsonObject= new JSONObject(converteToJson);
-
-            System.out.println("object:"+convertingToJsonObject);
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
-                    urlSalvarInspecaoListaPOJO,
-                    convertingToJsonObject ,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-
-                            progressDialog.dismiss();
-                            System.out.println("mgs json "+response);
-                            mensagemServidor =gson.fromJson(response.toString(), Mensagem.class);
-                            System.out.println("resposta: "+mensagemServidor.getMensagemServToClient());
-                            Toast.makeText(contexto,mensagemServidor.getMensagemServToClient(),Toast.LENGTH_SHORT).show();
-                            finish();
-
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    progressDialog.dismiss();
-                    Toast.makeText(getBaseContext(),"Erro ao enviar os dados para o servidor: "+error,Toast.LENGTH_LONG).show();
-                }
-            });
-            requestQueue.add(jsonObjectRequest);
-        }catch (JSONException e){
-            progressDialog.dismiss();
-            Toast.makeText(this,e.toString(),Toast.LENGTH_SHORT).show();
-        }
-
     }
 
     private void salvarInspecaoListaPOJOBD(){
@@ -883,6 +841,9 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
         //lv_tecnicos = (ListView) view.findViewById(R.id.lv_tecnico_dialog_vistoria);
         sp_dilog_tecnicos = (Spinner) view.findViewById(R.id.spinner_dialog_tec_vistoria);
 
+        if (estabelecimento.getStatus() == "Regular") {
+            edt_prazo_vistoria.setVisibility(View.INVISIBLE);
+        }
 
 
         //lv_tecnicos.setAdapter(tecnicoAdapter);

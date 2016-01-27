@@ -16,10 +16,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,6 +36,7 @@ import br.edu.ufra.appfiscalizacao.application.pojo.EquipamentoPOJO;
 import br.edu.ufra.appfiscalizacao.application.pojo.InspecaoPOJO;
 import br.edu.ufra.appfiscalizacao.application.pojo.VistoriaPOJO;
 import br.edu.ufra.appfiscalizacao.application.pojo.lista.InspecaoListaPOJO;
+import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;
 import br.edu.ufra.appfiscalizacao.util.Mensagem;
 import br.edu.ufra.appfiscalizacao.util.StringURL;
 
@@ -41,6 +44,8 @@ public class DadosVistoriaActivity extends AppCompatActivity {
 
     private VistoriaPOJO vistoria;
     private InspecaoListaPOJO inspecaoListaPOJO;
+    private List<InspecaoPOJO> inspecoesWS;
+    private InspecaoPOJO inspecaoWS;
     private ListView lv_historico_equipamentos_obrigatorios, lv_historico_equipamentos_nao_obrigatorios;
     private TextView historico_nomeEstabelecimento, historico_dataVistoria, historico_vistoria_tecnico1, historico_vistoria_tecnico2, historico_vistoria_prazo, historico_vistoria_observacao;
     private DateFormat sdf;
@@ -60,7 +65,6 @@ public class DadosVistoriaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dados_vistoria);
 
         contexto =this;
-        gson = new Gson();
 
         requestQueue = Volley.newRequestQueue(this.getApplicationContext());
 
@@ -72,9 +76,12 @@ public class DadosVistoriaActivity extends AppCompatActivity {
         inspecaoListaPOJO = (InspecaoListaPOJO) getIntent().getSerializableExtra("confirmar_detalhes_vistoria");
 
         if (inspecaoListaPOJO != null){
+            progressDialog = ProgressDialog.show(this, "Criando tela de confirmação", "Aguarde...");
+            definirTipoEquipamento();
             vistoria = inspecaoListaPOJO.getInspecoesPOJO().get(0).getVistoriaPOJO();
         }else {
         vistoria = (VistoriaPOJO) getIntent().getSerializableExtra("dados_vistoria");
+            obterInspecoesPorVistoria(vistoria.getId());
         }
 
         if ( vistoria.getId() != null){
@@ -109,13 +116,10 @@ public class DadosVistoriaActivity extends AppCompatActivity {
 
         historico_nomeEstabelecimento.setText(vistoria.getEstabelecimentoPOJO().getNomeFantasia());
         historico_dataVistoria.setText(sdf.format(vistoria.getDataVistoria()));
-        historico_vistoria_tecnico1.setText(vistoria.getTecnicoPOJO1().getNome());
-        historico_vistoria_tecnico2.setText(vistoria.getTecnicoPOJO2().getNome());
         historico_vistoria_prazo.setText(String.valueOf(vistoria.getPrazo()));
         historico_vistoria_observacao.setText(vistoria.getObservacao());
 
 
-        definirTipoEquipamento();
 
         btn_confirmar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +152,7 @@ public class DadosVistoriaActivity extends AppCompatActivity {
 
         }
 
+        progressDialog.dismiss();
         criarLVEquipamentosObgInspecionados();
         criarLVEquipamentosNaoObgInspecionados();
 
@@ -169,6 +174,7 @@ public class DadosVistoriaActivity extends AppCompatActivity {
     private void salvarInspecaoListaPOJOWS(){
 
         try{
+            gson = new Gson();
             progressDialog = ProgressDialog.show(this, "Salvando os Dados no Servidor", "Aguarde...");
 
             String converteToJson=gson.toJson(inspecaoListaPOJO);
@@ -205,6 +211,99 @@ public class DadosVistoriaActivity extends AppCompatActivity {
         }catch (JSONException e){
             progressDialog.dismiss();
             Toast.makeText(this,e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private List<InspecaoPOJO> obterInspecoesPorVistoria(Integer idVistoria){
+        try {
+
+            progressDialog = ProgressDialog.show(this, "Obtendo dados do servidor", "Aguarde...");
+            if (ConexaoInternet.estaConectado(getBaseContext()) == true) {
+                gson = new Gson();
+                String urlInspecoesPorVistoria = StringURL.getUrlInspecao()+"inspecoesPorVistoria?idv="+idVistoria;
+
+                System.out.println(urlInspecoesPorVistoria);
+
+                JsonArrayRequest request = new JsonArrayRequest(urlInspecoesPorVistoria, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            System.out.println("resposta" + response.isNull(0));
+                            if (response.length() != 0){
+                                int i;
+                                inspecoesWS = new ArrayList<>();
+                                for (i = 0; i < response.length(); i++) {
+                                    try {
+                                        System.out.println("objects server "+response.length());
+                                        JSONObject inspecaoItem = response.getJSONObject(i);
+                                        inspecaoWS = gson.fromJson(inspecaoItem.toString(), InspecaoPOJO.class);
+                                        System.out.println("inspecao" + inspecaoWS.getEquipamentoPOJO());
+                                        inspecoesWS.add(inspecaoWS);
+                                    } catch (JSONException e) {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getBaseContext(), Mensagem.getMensagemErroAoObter(), Toast.LENGTH_LONG).show();
+
+                                        e.printStackTrace();
+                                    }
+                                }
+                                inspecaoListaPOJO = new InspecaoListaPOJO();
+
+                                inspecaoListaPOJO.setInspecoesPOJO(inspecoesWS);
+                                definirTipoEquipamento();
+                            }else {
+                                progressDialog.dismiss();
+                                Toast.makeText(getBaseContext(), Mensagem.getMensagemZeroElementos(), Toast.LENGTH_LONG).show();
+                                System.out.println("zero elementos retornados");
+                            }
+
+
+
+                        } catch (Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getBaseContext(), Mensagem.getMensagemErroAoObter(), Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+
+                        System.out.println("erro volley: " + error.toString());
+                        Toast.makeText(getBaseContext(), Mensagem.getMensagemErroAoObter(), Toast.LENGTH_LONG).show();
+                    }
+                });
+                request.setRetryPolicy(new DefaultRetryPolicy(2000,3,2));
+                System.out.println("policy 1 "+((DefaultRetryPolicy) request.getRetryPolicy()).getCurrentTimeout());
+                System.out.println("policy 2 "+((DefaultRetryPolicy) request.getRetryPolicy()).getCurrentRetryCount());
+                System.out.println("policy 3 "+((DefaultRetryPolicy) request.getRetryPolicy()).getBackoffMultiplier());
+                requestQueue.add(request);
+                //VolleyApplication.getsInstance().getmRequestQueue().add(request);
+            } else {
+                progressDialog.dismiss();
+                Toast.makeText(getBaseContext(), Mensagem.getMensagemInternet(), Toast.LENGTH_LONG).show();
+                System.out.println("sem internet");
+            }
+        } catch (Exception e) {
+            progressDialog.dismiss();
+            System.out.println("erro " + e.toString());
+            Toast.makeText(getBaseContext(), Mensagem.getMensagemErroAoSolicitar() , Toast.LENGTH_LONG).show();
+        }
+
+        return inspecoesWS;
+    }
+
+
+    private void tipoEquipamentoInspecionadoWS(List<InspecaoPOJO> inspecoesWS){
+
+        for (InspecaoPOJO i : inspecoesWS){
+            if (i.getEquipamentoPOJO().getStatus().equals("Obrigatorio")){
+                equipamentos_obg.add(i.getEquipamentoPOJO());
+            } else if (i.getEquipamentoPOJO().getStatus().equals("Não obrigatorio")){
+                equipamentos_nao_obg.add(i.getEquipamentoPOJO());
+            }
         }
 
     }
