@@ -10,8 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.R;
-import br.edu.ufra.appfiscalizacao.entidade.Estabelecimento;
-import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
+import br.edu.ufra.appfiscalizacao.application.pojo.TecnicoPOJO;
 
 /**
  * Created by Rayan on 28/06/2015.
@@ -19,9 +18,10 @@ import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
 public class TecnicoAdapter extends BaseAdapter{
 
     private LayoutInflater mInflate;
-    private List<Tecnico> tecnicos;
-
-    public TecnicoAdapter(Context context, List<Tecnico> tecnicos) {
+    private List<TecnicoPOJO> tecnicos;
+    private int elementoClicado = -1;
+    private View view;
+    public TecnicoAdapter(Context context, List<TecnicoPOJO> tecnicos) {
         this.mInflate = LayoutInflater.from(context);
         this.tecnicos = tecnicos;
     }
@@ -43,21 +43,27 @@ public class TecnicoAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
+        this.view = view;
+        TecnicoPOJO tecnico = (TecnicoPOJO) getItem(position);
 
-        Tecnico tecnico = (Tecnico) getItem(position);
+        if (elementoClicado != -1 & elementoClicado == position){
+            System.out.println("clicado");
+            this.view.setBackgroundResource(R.color.nliveo_green_colorAccent);
+        }
 
-        view = mInflate.inflate(R.layout.item_model, null);
-        TextView nome = (TextView) view.findViewById(R.id.namepoint);
-        TextView email = (TextView) view.findViewById(R.id.situacaopoint);
-        //ImageView img = (ImageView) view.findViewById(R.id.photopoint);
 
-        //matricula.setText(String.valueOf(tecnico.getId()));
-        //img.setImageResource(estabelecimento.getDataVenc());
+        view = mInflate.inflate(R.layout.tecnico_model, null);
+        TextView nome = (TextView) view.findViewById(R.id.tecnico_model_nome);
+        nome.setText(tecnico.getNome());
 
 
         return view;
     }
 
+    public void alterarCorElemento(int elementoClicado){
+        this.elementoClicado = elementoClicado;
+        notifyDataSetChanged();
+    }
 
 
 }

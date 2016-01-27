@@ -129,15 +129,16 @@
             android:text="PRAZO DE RETORNO"
             android:layout_marginTop="10dp"/>
 
-        <!--<Button
-            android:id="@+id/btnconfirmarinspecao"
+        <Button
+            android:id="@+id/btn_confirmar_vistoria"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_gravity="center_horizontal"
-            android:text="voltar"
+            android:text="Confirmar"
             android:background="@android:drawable/screen_background_light_transparent"/>
-            -->
+
+
     </LinearLayout>
 </ScrollView>

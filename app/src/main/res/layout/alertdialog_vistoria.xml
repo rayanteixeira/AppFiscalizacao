@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <TextView
         android:layout_width="wrap_content"
@@ -11,27 +12,34 @@
         android:text="Prazo para próxima vistoria"/>
 
     <EditText
-        android:id="@+id/edit_dialogVistoria_prazo"
+        android:id="@+id/edit_dialog_vistoria_prazo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="dias"/>
+        android:hint="dias"
+        android:numeric="integer"
+        android:text="15"
+        />
 
     <EditText
-        android:id="@+id/edit_dialogVistoria_obs"
+        android:id="@+id/edit_dialog_vistoria_obs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="ok"
         android:hint="Observação sobre esta  vistoria"/>
 
-    <EditText
-        android:id="@+id/edit_dialogVistoria_matTec2"
+    <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Matrícula do 2º técnico" />
+        android:id="@+id/spinner_dialog_tec_vistoria"
+        android:layout_weight="0.18" />
 
-
-
-
-
-
-
+    <!--
+    <ListView
+        android:id="@+id/lv_tecnico_dialog_vistoria"
+        android:layout_width="wrap_content"
+        android:layout_height="382dp"
+        android:text="nome"
+        android:layout_marginTop="20dp">
+    </ListView>
+-->
 </LinearLayout>

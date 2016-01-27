@@ -16,7 +16,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
@@ -160,10 +159,10 @@ public class VistoriasActivity extends ListActivity {
 
     protected void onListItemClick(ListView l, View v, int position, long id) {
 
-        VistoriaPOJO vistoriaPOJO = (VistoriaPOJO) l.getAdapter().getItem(position);
+        VistoriaPOJO vistoria = (VistoriaPOJO) l.getAdapter().getItem(position);
 
-        startActivity(new Intent(getBaseContext(), HistoricoVistoriasActivity.class)
-                .putExtra("historico_vistoria", vistoriaPOJO));
+        startActivity(new Intent(getBaseContext(), DadosVistoriaActivity.class)
+                .putExtra("dados_vistoria", vistoria));
     }
 
 

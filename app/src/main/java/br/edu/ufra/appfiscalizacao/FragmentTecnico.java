@@ -3,20 +3,17 @@ package br.edu.ufra.appfiscalizacao;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -26,13 +23,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.edu.ufra.appfiscalizacao.activity.DetalhesTecnicoActivity;
 import br.edu.ufra.appfiscalizacao.adapter.TecnicoAdapter;
-import br.edu.ufra.appfiscalizacao.util.StringURL;
 import br.edu.ufra.appfiscalizacao.application.VolleyApplication;
 import br.edu.ufra.appfiscalizacao.entidade.Tecnico;
 import br.edu.ufra.appfiscalizacao.util.ConexaoInternet;
 import br.edu.ufra.appfiscalizacao.util.Mensagem;
+import br.edu.ufra.appfiscalizacao.util.StringURL;
 
 
 public class FragmentTecnico extends Fragment {
@@ -67,7 +63,7 @@ public class FragmentTecnico extends Fragment {
 
         gson = new Gson();
         mProgressDialog = ProgressDialog.show(getActivity(), "Download", "Atualizando lista, por favor espere.", false, true);
-        getjsonArray();
+       // getjsonArray();
         return rootview;
     }
 
@@ -108,7 +104,7 @@ public class FragmentTecnico extends Fragment {
                                 Toast.makeText(getActivity().getBaseContext(), "Lista atualizada com sucesso", Toast.LENGTH_SHORT).show();
 
 
-                                listadeTecnicos();
+                               // listadeTecnicos();
 
                             }
 
@@ -145,19 +141,19 @@ public class FragmentTecnico extends Fragment {
     }
 
 
-    public void listadeTecnicos() {
-        adapter = new TecnicoAdapter(getActivity().getBaseContext(), tecnicos);
-        listtecnicos.setAdapter(adapter);
-        listtecnicos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Tecnico tecnico = (Tecnico) adapter.getItem(position);
-                int idtecnico = tecnico.getId();
-                System.out.println("ITEM--=>" + tecnico.getId());
+//    public void listadeTecnicos() {
+//        adapter = new TecnicoAdapter(getActivity().getBaseContext(), tecnicos);
+  //      listtecnicos.setAdapter(adapter);
+    //    listtecnicos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    //        @Override
+      //      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //        Tecnico tecnico = (Tecnico) adapter.getItem(position);
+          //      int idtecnico = tecnico.getId();
+            //    System.out.println("ITEM--=>" + tecnico.getId());
 
-                Intent it = new Intent(getActivity().getBaseContext(), DetalhesTecnicoActivity.class);
-                it.putExtra("tecnico", tecnico);
-                startActivity(it);
+              //  Intent it = new Intent(getActivity().getBaseContext(), DetalhesTecnicoActivity.class);
+                //it.putExtra("tecnico", tecnico);
+                //startActivity(it);
 
 
 
@@ -169,9 +165,9 @@ public class FragmentTecnico extends Fragment {
                                 ft.commit();
                                 */
 
-            }
-        });
-    }
+            //}
+        //});
+   // }
 
 
 }

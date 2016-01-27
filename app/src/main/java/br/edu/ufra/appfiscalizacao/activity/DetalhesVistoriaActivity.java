@@ -1,7 +1,6 @@
 package br.edu.ufra.appfiscalizacao.activity;
 
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -54,8 +53,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.R;
-import br.edu.ufra.appfiscalizacao.adapter.EquipamentosSpinnerAdapter;
+import br.edu.ufra.appfiscalizacao.adapter.EquipamentoAdapter;
 import br.edu.ufra.appfiscalizacao.adapter.InspecaoAdapter;
+import br.edu.ufra.appfiscalizacao.adapter.TecnicoAdapter;
 import br.edu.ufra.appfiscalizacao.adapter.VistoriaAdapter;
 import br.edu.ufra.appfiscalizacao.application.pojo.EquipamentoPOJO;
 import br.edu.ufra.appfiscalizacao.application.pojo.EstabelecimentoPOJO;
@@ -77,7 +77,7 @@ import br.edu.ufra.appfiscalizacao.util.Mensagem;
 import br.edu.ufra.appfiscalizacao.util.StringURL;
 
 public class DetalhesVistoriaActivity  extends AppCompatActivity {
-    private Spinner spinnerDemaisEquip, spinnerEquipObrigatorios;
+    private Spinner sp_dilog_tecnicos;
     private ProgressDialog progressDialog;
     private TabHost abas;
     private Mensagem mensagemServidor;
@@ -92,7 +92,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
     private String urlSalvarVistoria= StringURL.getUrlVistoria()+"salvar";
     private String urlSalvarInspecaoListaPOJO = StringURL.getUrlInspecao()+"salvar";
     private String mensagemInternet = Mensagem.getMensagemInternet();
-    private TecnicoPOJO tecnico2POJO;
+    private TecnicoPOJO tecnicoWSPOJO, tecnico2POJO;
     private Tecnico tecnico1, tecnico2;
     private VistoriaPOJO vistoria;
     private EstabelecimentoPOJO estabelecimento;
@@ -103,7 +103,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
     private RadioButton demaisEquipamentoAptRadio, demaisEquipamentoNaoAptRadio, equipamentoObrigatorioAptRadio, equipamentoObrigatorioNaoAptRadio;
     private Button concluirBtn, inspecaoDemaisEquipamentosBtn, inspecaoEquipamentosObrigatoriosBtn;
     private DateFormat sdf ;
-    private EquipamentosSpinnerAdapter equipamento_obg_spinner_adapter, demais_equipamento_spinner_adapter;
+    private EquipamentoAdapter equipamento_obg_spinner_adapter, demais_equipamento_spinner_adapter;
     private InspecaoAdapter inspecoesDemaisEquipAdapter, inspecoesEquipObrigatoriosAdapter;
     private ListView lvInspecaoDemaisEquip, lvInspecaoEquipObrigatorios, lvVistorias;
     private RequestQueue requestQueue;
@@ -111,7 +111,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
     private InspecaoRN rnInspecao;
     private TecnicoRN rnTecnico;
     private InspecaoListaPOJO inspecaoListaPOJO;
-
+    private  TecnicoAdapter tecnicoAdapter;
     private EditText edt_observacao;
     //private static final String PREFERENCE_NAME="LoginActivityPreferences";
     private int selecionado;
@@ -127,7 +127,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
     FloatingActionButton fbVistoriar;
     private RadioButton rb_apto, rb_Inapto;
     private EditText edt_observacao_inspecao, edt_observacao_vistoria, edt_prazo_vistoria, edt_matricula_tec2;
-
+    private ListView lv_tecnicos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +161,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
         inspecaoListaPOJO = new InspecaoListaPOJO();
 
         vistoria = new VistoriaPOJO();
+        tecnico2POJO = new TecnicoPOJO();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //TabVistoria
@@ -230,12 +231,6 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
         abas.addTab(descritor);
 
 
-        fbVistoriar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                realizarVistoria();
-            }
-        });
 
 
 
@@ -256,7 +251,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
         gson = builder.create();
 
         obterEquipamentosWS();
-        //obterTecnicosWS();
+        obterTecnicosWS();
 
                                     /*
                                     CONCLUIR VISTORIA
@@ -272,8 +267,17 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
             selecionado = savedInstanceState.getInt("selecionado");
             apto = savedInstanceState.getBoolean("apto");
 
-            equipamento_obg_spinner_adapter.alterarBackground(apto,selecionado);
+            equipamento_obg_spinner_adapter.alterarBackground(apto, selecionado);
         }
+
+        fbVistoriar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarDialogRealizarVistoria();
+            }
+        });
+
+
     }
 
     @Override
@@ -374,11 +378,10 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
         lvVistorias.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("Clicou");
                 VistoriaPOJO vistoria = (VistoriaPOJO) vistoriaAdapter.getItem(position);
                 //dialogVistoria(vistoria.getId());
-                Intent it = new Intent(contexto, HistoricoVistoriasActivity.class);
-                it.putExtra("historico_vistoria", vistoria);
+                Intent it = new Intent(contexto, DadosVistoriaActivity.class);
+                it.putExtra("detalhes_vistoria", vistoria);
                 startActivity(it);
 
             }
@@ -528,16 +531,13 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
                             try {
 
                                 JSONObject tecnicoItem = response.getJSONObject(i);
-                                tecnico2POJO = gson.fromJson(tecnicoItem.toString(), TecnicoPOJO.class);
-                                System.out.println("tec "+tecnico2POJO.getNome());
-                                tecnicosPOJO.add(tecnico2POJO);
+                                tecnicoWSPOJO = gson.fromJson(tecnicoItem.toString(), TecnicoPOJO.class);
+                                System.out.println("tec " + tecnicoWSPOJO.getNome());
+                                tecnicosPOJO.add(tecnicoWSPOJO);
                             } catch (JSONException e) {
                                 Toast.makeText(contexto, "Erro ao obter dados do servidor !", Toast.LENGTH_LONG).show();
                             }
                         }
-                        definirSpinnerParaEquipamento();
-                        spinnerEquipamentosObrigatorios();
-                        spinnerDemaisEquipamentos();
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -626,22 +626,22 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
                     urlSalvarInspecaoListaPOJO,
                     convertingToJsonObject ,
                     new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
+                        @Override
+                        public void onResponse(JSONObject response) {
 
-                    progressDialog.dismiss();
-                    System.out.println("mgs json "+response);
-                    mensagemServidor =gson.fromJson(response.toString(), Mensagem.class);
-                    System.out.println("resposta: "+mensagemServidor.getMensagemServToClient());
-                    Toast.makeText(contexto,mensagemServidor.getMensagemServToClient(),Toast.LENGTH_SHORT).show();
-                    finish();
+                            progressDialog.dismiss();
+                            System.out.println("mgs json "+response);
+                            mensagemServidor =gson.fromJson(response.toString(), Mensagem.class);
+                            System.out.println("resposta: "+mensagemServidor.getMensagemServToClient());
+                            Toast.makeText(contexto,mensagemServidor.getMensagemServToClient(),Toast.LENGTH_SHORT).show();
+                            finish();
 
-                }
-            }, new Response.ErrorListener() {
+                        }
+                    }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     progressDialog.dismiss();
-                    Toast.makeText(getBaseContext(),"Erro ao tentar enviar os dados para o servidor: "+error.getCause(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(),"Erro ao enviar os dados para o servidor: "+error,Toast.LENGTH_LONG).show();
                 }
             });
             requestQueue.add(jsonObjectRequest);
@@ -681,7 +681,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
     private void spinnerDemaisEquipamentos(){
 
         ListView list_equip_NAOobrigatorios = (ListView) findViewById(R.id.listV_equipamentos_NAOobrigatorios);
-        demais_equipamento_spinner_adapter = new EquipamentosSpinnerAdapter(contexto, demaisEquipamentosSpinner);
+        demais_equipamento_spinner_adapter = new EquipamentoAdapter(contexto, demaisEquipamentosSpinner);
 
         list_equip_NAOobrigatorios.setAdapter(demais_equipamento_spinner_adapter);
         list_equip_NAOobrigatorios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -703,7 +703,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
         // spinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
-                                   /* spinnerDemaisEquip.setAdapter(new EquipamentosSpinnerAdapter(contexto, demaisEquipamentosSpinner));
+                                   /* spinnerDemaisEquip.setAdapter(new EquipamentoAdapter(contexto, demaisEquipamentosSpinner));
 
                                     spinnerDemaisEquip.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                         @Override
@@ -727,7 +727,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
 
 
         ListView list_equip_obrigatorios = (ListView) findViewById(R.id.listV_equipamentos_obrigatorios);
-        equipamento_obg_spinner_adapter = new EquipamentosSpinnerAdapter(contexto, equipamentosObrigatoriosSpinner);
+        equipamento_obg_spinner_adapter = new EquipamentoAdapter(contexto, equipamentosObrigatoriosSpinner);
 
         list_equip_obrigatorios.setAdapter(equipamento_obg_spinner_adapter);
 
@@ -741,7 +741,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
                 mostrarDialogEquipamentosObrigatorios(nomeEquipamentoInspecionado, i);
             }
         });
-                                      /*spinnerEquipObrigatorios.setAdapter(new EquipamentosSpinnerAdapter(contexto, equipamentosObrigatoriosSpinner));
+                                      /*spinnerEquipObrigatorios.setAdapter(new EquipamentoAdapter(contexto, equipamentosObrigatoriosSpinner));
 
                                     spinnerEquipObrigatorios.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                         @Override
@@ -835,7 +835,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
 
             }
         });
-        alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener(){
+        alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -875,8 +875,35 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
         LayoutInflater li = getLayoutInflater();
         View view = li.inflate(R.layout.alertdialog_vistoria, null);
 
-        edt_observacao_vistoria = (EditText) view.findViewById(R.id.edit_dialogVistoria_obs);
-        edt_prazo_vistoria = (EditText) view.findViewById(R.id.edit_dialogVistoria_prazo);
+
+        tecnicoAdapter = new TecnicoAdapter(contexto, tecnicosPOJO);
+
+        edt_observacao_vistoria = (EditText) view.findViewById(R.id.edit_dialog_vistoria_obs);
+        edt_prazo_vistoria = (EditText) view.findViewById(R.id.edit_dialog_vistoria_prazo);
+        //lv_tecnicos = (ListView) view.findViewById(R.id.lv_tecnico_dialog_vistoria);
+        sp_dilog_tecnicos = (Spinner) view.findViewById(R.id.spinner_dialog_tec_vistoria);
+
+
+
+        //lv_tecnicos.setAdapter(tecnicoAdapter);
+
+
+        sp_dilog_tecnicos.setAdapter(tecnicoAdapter);
+        sp_dilog_tecnicos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                tecnico2POJO = (TecnicoPOJO) tecnicoAdapter.getItem(position);
+
+                //tecnicoAdapter.alterarCorElemento(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         //edt_matricula_tec2 =(EditText) findViewById(R.id.edit_dialogVistoria_matTec2);
 
         alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -888,18 +915,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
         alert.setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                vistoria.setPrazo(Integer.parseInt(edt_prazo_vistoria.getText().toString()));
-                vistoria.setObservacao(edt_observacao_vistoria.getText().toString());
-                System.out.println("inspecoes " + inspecoes.size());
-                //vistoria.setInspecao(inspecoes);
-                System.out.println("status depois " + inspecoes.get(0).getVistoriaPOJO().getEstabelecimentoPOJO().getStatus());
-                inspecaoListaPOJO.setInspecoesPOJO(inspecoes);
-
-                if (ConexaoInternet.estaConectado(contexto) ){
-                    salvarInspecaoListaPOJOWS();
-                }else {
-                    salvarInspecaoListaPOJOBD();
-                }
+            realizarVistoria();
 
             }
         });
@@ -915,16 +931,30 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
 
     private void realizarVistoria(){
         vistoria.setTecnicoPOJO1(TecnicoConverter.toTecnicoPOJO(tecnico1));
-        vistoria.setTecnicoPOJO2(TecnicoConverter.toTecnicoPOJO(tecnico2));
+        System.out.println("tec 2" + tecnico2POJO.getNome());
+        vistoria.setTecnicoPOJO2(tecnico2POJO);
         vistoria.setDataVistoria(obterDataHoje());
         vistoria.setApto(definirStatusEstabelecimentoEVistoriaApt(inspecoes));
         vistoria.setEstabelecimentoPOJO(estabelecimento);
+        vistoria.setPrazo(Integer.parseInt(edt_prazo_vistoria.getText().toString()));
+        vistoria.setObservacao(edt_observacao_vistoria.getText().toString());
+        inspecaoListaPOJO.setInspecoesPOJO(inspecoes);
+
+        startActivity( new Intent(this, DadosVistoriaActivity.class).putExtra("confirmar_detalhes_vistoria", inspecaoListaPOJO));
+
+    /*
+                if (ConexaoInternet.estaConectado(contexto) ){
+                    salvarInspecaoListaPOJOWS();
+                }else {
+                    salvarInspecaoListaPOJOBD();
+                }
+
 
         if(vistoria.getEstabelecimentoPOJO().getStatus() == "Pendente") {
             mostrarDialogRealizarVistoria();
 
         }
-
+    */
 
 
     }
