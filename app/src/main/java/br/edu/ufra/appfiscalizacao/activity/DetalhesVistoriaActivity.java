@@ -265,7 +265,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
             selecionado = savedInstanceState.getInt("selecionado");
             apto = savedInstanceState.getBoolean("apto");
 
-            equipamento_obg_spinner_adapter.alterarBackground(apto, selecionado);
+           // equipamento_obg_spinner_adapter.alterarBackground(apto, selecionado);
         }
 
         fbVistoriar.setOnClickListener(new View.OnClickListener() {
@@ -368,8 +368,8 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
         }
     }
 
-
-    /*private void criarLVVistoria(){
+/*
+    private void criarLVVistoria(){
         lvVistorias = (ListView) findViewById(R.id.listVVistorias);
         vistoriaAdapter = new VistoriaAdapter(this, vistoriasWS);
         lvVistorias.setAdapter(vistoriaAdapter);
@@ -387,132 +387,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
         progressDialog.dismiss();
     }
 */
-    private void dialogVistoria(final Integer id){
-        AlertDialog.Builder alerta = new AlertDialog.Builder(this);
-        alerta.setTitle("Operações");
-        alerta.setMessage("Escolha a operação que deseja realizar para essa vistoria");
 
-        alerta.setPositiveButton("Excluir",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-
-        alerta.setNegativeButton("Editar",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        setarDadosVistoria(id);
-                    }
-                });
-
-        alerta.show();
-    }
-
-
-    /*
-        private void criarLVEquipamentosObrigatoriosInspecionados(){
-            equipObrigatoriosInspecionados = new ArrayList<>();
-            inspecaoEquipamentosObrigatoriosBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    equipObrigatoriosInspecionados.add(realizarInspecaoEquipamentosObrigatorios());
-                    inspecoesEquipObrigatoriosAdapter.notifyDataSetChanged();
-                }
-            });
-           // lvInspecaoEquipObrigatorios = (ListView) findViewById(R.id.listVEquipamentosObrigatoriosInspecionados);
-            inspecoesEquipObrigatoriosAdapter = new InspecaoAdapter(contexto, equipObrigatoriosInspecionados);
-            lvInspecaoEquipObrigatorios.setAdapter(inspecoesEquipObrigatoriosAdapter);
-            lvInspecaoEquipObrigatorios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    InspecaoPOJO inspecao = (InspecaoPOJO) inspecoesDemaisEquipAdapter.getItem(position);
-                    System.out.println("clicou");
-                }
-            });
-        }
-    */
-    private List<InspecaoPOJO> obterInspecoesPorVistoria(Integer idVistoria){
-        try {
-
-
-            if (ConexaoInternet.estaConectado(getBaseContext()) == true) {
-                gson = new Gson();
-                String urlInspecoesPorVistoria = StringURL.getUrlInspecao()+"inspecoesPorVistoria?idv="+idVistoria;
-
-                System.out.println(urlInspecoesPorVistoria);
-
-                JsonArrayRequest request = new JsonArrayRequest(urlInspecoesPorVistoria, new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-                            System.out.println("resposta" + response.isNull(0));
-                            if (response.length() != 0){
-                                int i;
-                                inspecoesWS = new ArrayList<>();
-                                for (i = 0; i < response.length(); i++) {
-                                    try {
-                                        System.out.println("objects server "+response.length());
-                                        JSONObject inspecaoItem = response.getJSONObject(i);
-                                        inspecaoWS = gson.fromJson(inspecaoItem.toString(), InspecaoPOJO.class);
-                                        System.out.println("inspecao" + inspecaoWS.getEquipamentoPOJO());
-                                        inspecoesWS.add(inspecaoWS);
-                                    } catch (JSONException e) {
-                                        progressDialog.dismiss();
-                                        Toast.makeText(getBaseContext(), Mensagem.getMensagemErroAoObter(), Toast.LENGTH_LONG).show();
-
-                                        e.printStackTrace();
-                                    }
-                                }
-                                tipoEquipamentoInspecionadoWS(inspecoesWS);
-                                inspecoesDemaisEquipAdapter.notifyDataSetChanged();
-
-                            }else {
-                                progressDialog.dismiss();
-                                Toast.makeText(getBaseContext(), Mensagem.getMensagemZeroElementos(), Toast.LENGTH_LONG).show();
-                                System.out.println("zero elementos retornados");
-                            }
-
-
-
-                        } catch (Exception e) {
-                            progressDialog.dismiss();
-                            Toast.makeText(getBaseContext(), Mensagem.getMensagemErroAoObter(), Toast.LENGTH_LONG).show();
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();
-
-                        System.out.println("erro volley: " + error.toString());
-                        Toast.makeText(getBaseContext(), Mensagem.getMensagemErroAoObter(), Toast.LENGTH_LONG).show();
-                    }
-                });
-                request.setRetryPolicy(new DefaultRetryPolicy(2000,3,2));
-                System.out.println("policy 1 "+((DefaultRetryPolicy) request.getRetryPolicy()).getCurrentTimeout());
-                System.out.println("policy 2 "+((DefaultRetryPolicy) request.getRetryPolicy()).getCurrentRetryCount());
-                System.out.println("policy 3 "+((DefaultRetryPolicy) request.getRetryPolicy()).getBackoffMultiplier());
-                requestQueue.add(request);
-                //VolleyApplication.getsInstance().getmRequestQueue().add(request);
-            } else {
-                progressDialog.dismiss();
-                Toast.makeText(getBaseContext(), Mensagem.getMensagemInternet(), Toast.LENGTH_LONG).show();
-                System.out.println("sem internet");
-            }
-        } catch (Exception e) {
-            progressDialog.dismiss();
-            System.out.println("erro " + e.toString());
-            Toast.makeText(getBaseContext(), Mensagem.getMensagemErroAoSolicitar() , Toast.LENGTH_LONG).show();
-        }
-
-        return inspecoesWS;
-    }
 
     private void obterTecnicosWS(){
         try {
@@ -819,12 +694,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
 
     }
 
-
-
-
-
-    //System.out.println("status antes "+estabelecimento.getStatus());
-
+    
     private void mostrarDialogRealizarVistoria(){
 
 
@@ -877,7 +747,7 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
         alert.setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-            realizarVistoria();
+                realizarVistoria();
 
             }
         });
@@ -930,25 +800,35 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
         inspecao.setObservacaoPOJO(edt_observacao.getText().toString());
         inspecoes.add(inspecao);
 
-        this.selecionado = selecionado;
-        this.apto = inspecao.isAptoPOJO();
+//        this.selecionado = selecionado;
+//      this.apto = inspecao.isAptoPOJO();
 
-        equipamento_obg_spinner_adapter.alterarBackground(inspecao.isAptoPOJO(), selecionado);
+        //equipamento_obg_spinner_adapter.alterarBackground(inspecao.isAptoPOJO(), selecionado);
+        demaisEquipamentoSpinner.setEquipApto(inspecao.isAptoPOJO());
+        demaisEquipamentoSpinner.setEquipInspecionado(true);
+        demais_equipamento_spinner_adapter.mudarSituacaoEquipamento();
         return inspecao;
     }
 
     private InspecaoPOJO realizarInspecaoEquipamentosObrigatorios(int position){
+       try {
 
-        inspecao = new InspecaoPOJO();
-        inspecao.setVistoriaPOJO(vistoria);
-        inspecao.setEquipamentoPOJO(equipamentoObrigatorioSpinner);
-        inspecao.setDataInspPOJO(obterDataHoje());
-        inspecao.setAptoPOJO(definirEquipamentoObrigatorioApto());
-        inspecao.setObservacaoPOJO(edt_observacao.getText().toString());
-        inspecoes.add(inspecao);
-        equipamento_obg_spinner_adapter.alterarBackground(inspecao.isAptoPOJO(), position);
+           inspecao = new InspecaoPOJO();
+           inspecao.setVistoriaPOJO(vistoria);
+           inspecao.setEquipamentoPOJO(equipamentoObrigatorioSpinner);
+           inspecao.setDataInspPOJO(obterDataHoje());
+           inspecao.setAptoPOJO(definirEquipamentoObrigatorioApto());
+           inspecao.setObservacaoPOJO(edt_observacao.getText().toString());
+           inspecoes.add(inspecao);
+           equipamentoObrigatorioSpinner.setEquipApto(inspecao.isAptoPOJO());
+           equipamentoObrigatorioSpinner.setEquipInspecionado(true);
+           equipamento_obg_spinner_adapter.mudarSituacaoEquipamento();
 
-        return inspecao;
+           return inspecao;
+       } catch (Exception e){
+           Toast.makeText(this, "Erro ao realizar inspeção no equipamento", Toast.LENGTH_LONG).show();
+           return null;
+       }
     }
 
     private boolean definirDemaisEquipamentoApto(){
@@ -1025,14 +905,6 @@ public class DetalhesVistoriaActivity  extends AppCompatActivity {
         }
     }
 
-    private void setarDadosVistoria(Integer id){
-        progressDialog.getProgress();
-        obterInspecoesPorVistoria(id);
-
-
-
-
-    }
 
     private Long obterDataHoje(){
         Date data = Calendar.getInstance().getTime();

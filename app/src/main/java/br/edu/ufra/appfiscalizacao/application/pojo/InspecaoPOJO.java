@@ -9,7 +9,7 @@ public class InspecaoPOJO implements Serializable{
     private boolean aptoPOJO;
     private String observacaoPOJO;
     private VistoriaPOJO vistoriaPOJO;
-    private EquipamentoPOJO equipamentoPOJO;     
+    private EquipamentoPOJO equipamentoPOJO;
 
     public Integer getId() {
         return id;
@@ -59,6 +59,5 @@ public class InspecaoPOJO implements Serializable{
         this.equipamentoPOJO = equipamentoPOJO;
     }
 
-    
-    
+
 }

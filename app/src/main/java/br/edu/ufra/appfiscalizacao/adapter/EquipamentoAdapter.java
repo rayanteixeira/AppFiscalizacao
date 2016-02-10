@@ -1,10 +1,12 @@
 package br.edu.ufra.appfiscalizacao.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,6 +24,7 @@ public class EquipamentoAdapter extends BaseAdapter{
     private View convertView;
     private int selecionado = -1;
     private boolean apto;
+    private boolean inspecionado;
     public EquipamentoAdapter(Context context, List<EquipamentoPOJO> equipamentos) {
         this.context = context;
         this.equipamentos = equipamentos;
@@ -46,15 +49,32 @@ public class EquipamentoAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-            this.convertView = convertView;
-            EquipamentoPOJO equipamento = (EquipamentoPOJO) getItem(position);
+        this.convertView = convertView;
+        EquipamentoPOJO equipamento = (EquipamentoPOJO) getItem(position);
+        convertView = mInflate.inflate(R.layout.equipamento_model, null);
+        TextView nome_equipamento = (TextView) convertView.findViewById(R.id.nome_equipamento);
+        TextView tv_equip_situacao = (TextView) convertView.findViewById(R.id.txt_equipamento_situacao);
+        ImageView iv__checked = (ImageView) convertView.findViewById(R.id.img_checked);
+        iv__checked.setVisibility(View.GONE);
+        ImageView iv_no_checked = (ImageView) convertView.findViewById(R.id.img_no_checked);
 
-            convertView = mInflate.inflate(R.layout.equipamento_model, null);
-            TextView item_equipamento = (TextView) convertView.findViewById(R.id.item_equipamento);
-            item_equipamento.setText(equipamento.getNome());
+        if (equipamento.isEquipApto() == true){
+            tv_equip_situacao.setTextColor(Color.GREEN);
+            tv_equip_situacao.setText("Apto");
+        }else {
+            tv_equip_situacao.setTextColor(Color.RED);
+            tv_equip_situacao.setText("Não está apto");
+        }
 
-            System.out.println("getview");
+        if (equipamento.isEquipInspecionado() == true){
+            iv__checked.setVisibility(View.VISIBLE);
+            iv_no_checked.setVisibility(View.GONE);
+        }
 
+        nome_equipamento.setText(equipamento.getNome());
+
+        System.out.println("getview");
+/*
             if (selecionado != -1 && position == selecionado){
 
             if(apto == true){
@@ -64,8 +84,8 @@ public class EquipamentoAdapter extends BaseAdapter{
             }
 
             }
-
-            convertView.setTag(equipamento);
+*/
+        convertView.setTag(equipamento);
 
         //TextView tv = new TextView(context);
         //tv.setText(equipamento.getNome());
@@ -74,7 +94,11 @@ public class EquipamentoAdapter extends BaseAdapter{
         return convertView;
     }
 
+    public void mudarSituacaoEquipamento() {
+        notifyDataSetChanged();
+    }
 
+/*
     public void alterarBackground(boolean apto, int position) {
             this.selecionado = position;
             this.apto = apto;
@@ -87,8 +111,9 @@ public class EquipamentoAdapter extends BaseAdapter{
             view.setBackgroundResource(R.color.nliveo_green_colorAccent);
             notifyDataSetChanged();
         }
-        */
+
     }
+        */
 
     /* ItemModel itemHolder;
         EquipamentoPOJO equipamento = (EquipamentoPOJO) getItem(position);

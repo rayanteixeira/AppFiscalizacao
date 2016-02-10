@@ -10,13 +10,43 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/item_equipamento"
+            android:id="@+id/nome_equipamento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="EQUIPAMENTO"
             android:textSize="30dp"/>
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/img_checked"
+            android:src="@drawable/ic_check_circle_black_24dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="49dp"
+            android:layout_marginEnd="49dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/img_no_checked"
+            android:src="@drawable/ic_highlight_off_black_24dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="49dp"
+            android:layout_marginEnd="49dp" />
+
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txt_equipamento_situacao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Situação"
+        android:textSize="30dp"/>
+
 
 </LinearLayout>

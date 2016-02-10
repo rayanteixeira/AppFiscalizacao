@@ -9,6 +9,10 @@ public class EquipamentoPOJO implements Serializable {
     private String status;
     private String material;
 
+    private boolean equipInspecionado;
+
+    private boolean equipApto;
+
     public Integer getId() {
         return id;
     }
@@ -48,8 +52,20 @@ public class EquipamentoPOJO implements Serializable {
     public void setMaterial(String material) {
         this.material = material;
     }
-   
 
-    
-    
+    public boolean isEquipInspecionado() {
+        return equipInspecionado;
+    }
+
+    public void setEquipInspecionado(boolean equipInspecionado) {
+        this.equipInspecionado = equipInspecionado;
+    }
+
+    public boolean isEquipApto() {
+        return equipApto;
+    }
+
+    public void setEquipApto(boolean equipApto) {
+        this.equipApto = equipApto;
+    }
 }

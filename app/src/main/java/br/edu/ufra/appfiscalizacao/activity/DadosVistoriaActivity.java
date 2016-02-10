@@ -19,7 +19,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -178,7 +181,22 @@ public class DadosVistoriaActivity extends AppCompatActivity {
     private void salvarInspecaoListaPOJOWS(){
 
         try{
-            gson = new Gson();
+            gson = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
+                @Override
+                public boolean shouldSkipField(FieldAttributes f) {
+                    if (f.getName().equals("equipInspecionado") || f.getName().equals("equipApto") ){
+                        return true;
+                    } else {
+                    return false;
+
+                    }
+                }
+
+                @Override
+                public boolean shouldSkipClass(Class<?> clazz) {
+                    return false;
+                }
+            }).create();
             progressDialog = ProgressDialog.show(this, "Salvando os Dados no Servidor", "Aguarde...");
 
             String converteToJson=gson.toJson(inspecaoListaPOJO);
