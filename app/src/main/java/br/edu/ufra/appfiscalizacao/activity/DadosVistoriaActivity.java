@@ -35,6 +35,7 @@ import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.R;
 import br.edu.ufra.appfiscalizacao.adapter.EquipamentoAdapter;
+import br.edu.ufra.appfiscalizacao.adapter.InspecaoAdapter;
 import br.edu.ufra.appfiscalizacao.application.pojo.EquipamentoPOJO;
 import br.edu.ufra.appfiscalizacao.application.pojo.InspecaoPOJO;
 import br.edu.ufra.appfiscalizacao.application.pojo.VistoriaPOJO;
@@ -49,7 +50,7 @@ public class DadosVistoriaActivity extends AppCompatActivity {
     private InspecaoListaPOJO inspecaoListaPOJO;
     private List<InspecaoPOJO> inspecoesWS;
     private InspecaoPOJO inspecaoWS;
-    private ListView lv_historico_equipamentos_obrigatorios, lv_historico_equipamentos_nao_obrigatorios;
+    private ListView lv_historico_insp_equipamentos_obrigatorios, lv_historico_insp_equipamentos_nao_obrigatorios;
     private TextView historico_nomeEstabelecimento, historico_dataVistoria, historico_vistoria_tecnico1, historico_vistoria_tecnico2, historico_vistoria_prazo, historico_vistoria_observacao;
     private DateFormat sdf;
     private Button btn_confirmar;
@@ -59,8 +60,9 @@ public class DadosVistoriaActivity extends AppCompatActivity {
     private Mensagem mensagemServidor;
     private  Context contexto;
     private RequestQueue requestQueue;
-    private List<EquipamentoPOJO> equipamentos_nao_obg, equipamentos_obg;
+    private List<InspecaoPOJO> inspecoes_equip_obrigatorio,inspecoes_equip_nao_obrigatorio;
     private EquipamentoAdapter equipamento_obg_adapter, equipamento_nao_obg_adapter;
+    private InspecaoAdapter insp_equipamento_obg_adapter, insp_equipamento_nao_obg_adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +83,9 @@ public class DadosVistoriaActivity extends AppCompatActivity {
 
 
 
-        lv_historico_equipamentos_obrigatorios = (ListView) findViewById(R.id.list_historico_vistoria_equipObrigatorio);
-        lv_historico_equipamentos_nao_obrigatorios = (ListView) findViewById(R.id.list_historico_vistoria_equipNAOObrigatorio);
+        //lv_historico_equipamentos_obrigatorios = (ListView) findViewById(R.id.list_historico_vistoria_equipObrigatorio);
+        lv_historico_insp_equipamentos_obrigatorios = (ListView) findViewById(R.id.list_historico_vistoria_equipObrigatorio);
+        lv_historico_insp_equipamentos_nao_obrigatorios = (ListView) findViewById(R.id.list_historico_vistoria_equipNAOObrigatorio);
         historico_nomeEstabelecimento = (TextView) findViewById(R.id.txt_historico_nomeEstabelecimento);
         historico_dataVistoria = (TextView) findViewById(R.id.txt_historico_dataVistoria);
         historico_vistoria_tecnico1 = (TextView) findViewById(R.id.txt_historico_vistoria_tecnico1);
@@ -139,21 +142,19 @@ public class DadosVistoriaActivity extends AppCompatActivity {
     }
 
     public void definirTipoEquipamento(){
-
-        equipamentos_obg = new ArrayList<>();
-        equipamentos_nao_obg = new ArrayList<>();
+        inspecoes_equip_obrigatorio = new ArrayList<>();
+        inspecoes_equip_nao_obrigatorio = new ArrayList<>();
 
 
 
         for(InspecaoPOJO i : inspecaoListaPOJO.getInspecoesPOJO()){
             if (i.getEquipamentoPOJO().getStatus().equals("Obrigatorio")){
 
-                equipamentos_obg.add(i.getEquipamentoPOJO());
-
+                inspecoes_equip_obrigatorio.add(i);
             }else if (i.getEquipamentoPOJO().getStatus().equals("Não obrigatorio")){
 
-                equipamentos_nao_obg.add(i.getEquipamentoPOJO());
 
+                inspecoes_equip_nao_obrigatorio.add(i);
             }
 
 
@@ -166,15 +167,15 @@ public class DadosVistoriaActivity extends AppCompatActivity {
     }
 
     public void criarLVEquipamentosObgInspecionados(){
-        equipamento_obg_adapter = new EquipamentoAdapter(contexto, equipamentos_obg);
-        lv_historico_equipamentos_obrigatorios.setAdapter(equipamento_obg_adapter);
 
+        insp_equipamento_obg_adapter = new InspecaoAdapter(contexto, inspecoes_equip_obrigatorio );
+        lv_historico_insp_equipamentos_obrigatorios.setAdapter(insp_equipamento_obg_adapter);
 
     }
 
     public void criarLVEquipamentosNaoObgInspecionados(){
-    equipamento_nao_obg_adapter = new EquipamentoAdapter(contexto, equipamentos_nao_obg);
-        lv_historico_equipamentos_nao_obrigatorios.setAdapter(equipamento_nao_obg_adapter);
+    insp_equipamento_nao_obg_adapter = new InspecaoAdapter(contexto, inspecoes_equip_nao_obrigatorio);
+        lv_historico_insp_equipamentos_nao_obrigatorios.setAdapter(insp_equipamento_nao_obg_adapter);
 
     }
 
@@ -317,7 +318,7 @@ public class DadosVistoriaActivity extends AppCompatActivity {
         return inspecoesWS;
     }
 
-
+/*
     private void tipoEquipamentoInspecionadoWS(List<InspecaoPOJO> inspecoesWS){
 
         for (InspecaoPOJO i : inspecoesWS){
@@ -329,7 +330,7 @@ public class DadosVistoriaActivity extends AppCompatActivity {
         }
 
     }
-
+*/
 
 
 

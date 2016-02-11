@@ -27,6 +27,9 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import br.edu.ufra.appfiscalizacao.R;
@@ -152,6 +155,15 @@ public class VistoriasActivity extends AppCompatActivity {
     }
 
     private void criarListView(){
+        Comparator<VistoriaPOJO> comparator = new Comparator<VistoriaPOJO>() {
+            @Override
+            public int compare(VistoriaPOJO lhs, VistoriaPOJO rhs) {
+                return Long.compare(rhs.getDataVistoria(),lhs.getDataVistoria());
+            }
+        };
+
+        Collections.sort(vistorias, comparator);
+
         vistoriaAdapter = new VistoriaAdapter(this, vistorias);
         historico_vistorias_realizadas = (ListView) findViewById(R.id.LV_historico_vistorias_realizadas);
         //listView.setAdapter();

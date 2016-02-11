@@ -1,6 +1,7 @@
 package br.edu.ufra.appfiscalizacao.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,8 +50,16 @@ public class InspecaoAdapter extends BaseAdapter {
 
         view = mInflate.inflate(R.layout.inspecao_model, null);
         TextView nomeEquipamento = (TextView) view.findViewById(R.id.nomeEquip);
-
+        TextView tv_equip_situacao = (TextView) view.findViewById(R.id.txt_insp_equipamento_situacao);
         nomeEquipamento.setText(inspecao.getEquipamentoPOJO().getNome());
+
+        if (inspecao.isAptoPOJO() == true){
+            tv_equip_situacao.setTextColor(Color.GREEN);
+            tv_equip_situacao.setText("Apto");
+        }else {
+            tv_equip_situacao.setTextColor(Color.RED);
+            tv_equip_situacao.setText("Não está apto");
+        }
 
         return view;
     }

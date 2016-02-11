@@ -8,8 +8,8 @@
     <color name="counter_text_color">#c5c4c4</color>
     <color name="branco">#FFFFFF</color>
     <color name="cinza">#e5e5e5</color>
-
-
+    <color name="nliveo_red_colorSoft">#ff9999</color>
+    <color name="nliveo_green_colorSoft">#b3ffcc</color>
     <color name="colorPrimary">#610631</color>
     <!-- <color name="colorPrimary">#9C27B0</color>-->
     <color name="colorPrimaryDark">#452031</color>

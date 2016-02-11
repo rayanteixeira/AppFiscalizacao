@@ -1,6 +1,7 @@
 package br.edu.ufra.appfiscalizacao.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,13 +50,20 @@ public class VistoriaAdapter extends BaseAdapter {
     public View getView(int position, View view, ViewGroup parent) {
 
         VistoriaPOJO vistoria = vistorias.get(position);
-
         view = mInflate.inflate(R.layout.vistoria_model, null);
         TextView data = (TextView) view.findViewById(R.id.dataVistoria);
+        TextView status = (TextView) view.findViewById(R.id.txt_status_estabelecimento);
+
 
 
         data.setText(sdf.format(vistoria.getDataVistoria()));
-
+        if (vistoria.getApto() == true){
+            view.setBackgroundResource(R.color.nliveo_green_colorSoft);
+            status.setText("Apto");
+        }else {
+            view.setBackgroundResource(R.color.nliveo_red_colorSoft);
+            status.setText("Inapto");
+        }
         return view;
     }
 }

@@ -7,6 +7,7 @@
     android:weightSum="1">
 
     <TextView
+        android:id="@+id/txt_prazo_prox_vistoria"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Prazo para próxima vistoria"/>
@@ -28,9 +29,10 @@
         android:hint="Observação sobre esta  vistoria"/>
 
     <Spinner
+        android:id="@+id/spinner_dialog_tec_vistoria"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner_dialog_tec_vistoria"
+        android:prompt="@string/title_spinner_tec"
         android:layout_weight="0.18" />
 
     <!--

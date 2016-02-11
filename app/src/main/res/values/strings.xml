@@ -6,6 +6,9 @@
     <string name="action_settings">settings</string>
     <string name="action_barInspecao">vistorias realizadas</string>
 
+    <!-- Spinner Tecnico -->
+    <string name="title_spinner_tec">Nem um</string>
+
     <!-- Spinner Situacao do Ponto -->
     <string name="situacao">Defina a situação do ponto</string>
 

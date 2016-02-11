@@ -24,6 +24,7 @@ public class TecnicoAdapter extends BaseAdapter{
     public TecnicoAdapter(Context context, List<TecnicoPOJO> tecnicos) {
         this.mInflate = LayoutInflater.from(context);
         this.tecnicos = tecnicos;
+
     }
 
     @Override
