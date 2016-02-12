@@ -2,15 +2,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:orientation="horizontal"
     tools:context="br.edu.ufra.appfiscalizacao.FragmentEstabelecimento">
 
 
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </WebView>
+<!--
     <ListView
         android:id="@+id/listaestabelecimentos"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     </ListView>
+-->
+
 
 </LinearLayout>

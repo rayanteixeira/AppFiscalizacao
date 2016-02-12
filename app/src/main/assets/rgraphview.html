@@ -1,0 +1,78 @@
+<html>
+<head>
+    <title>RGraph: HTML5 canvas graph library - pie chart</title>
+
+    <script src="RGraph/libraries/RGraph.common.core.js" ></script>
+    <script src="RGraph/libraries/RGraph.common.annotate.js" ></script>
+    <script src="RGraph/libraries/RGraph.common.context.js" ></script>
+    <script src="RGraph/libraries/RGraph.common.tooltips.js" ></script>
+    <script src="RGraph/libraries/RGraph.common.zoom.js" ></script>
+    <script src="RGraph/libraries/RGraph.common.resizing.js" ></script>
+    <script src="RGraph/libraries/RGraph.pie.js" ></script>
+
+    <script>
+        window.onload = function ()
+        {
+            /**
+            * These are not angles - these are values. The appropriate angles are calculated
+            */
+            var pie1 = new RGraph.Pie('pie1', [41,37,16,3,3]); // Create the pie object
+            pie1.Set('chart.labels', ['Marco (35%)', 'Cremação (10%)', 'Guamá (7%)', 'Umarizal (3%)', 'Marambaia (3%)','Outros (42%)']);
+            pie1.Set('chart.gutter', 30);
+            pie1.Set('chart.title', "Bairros com maior nº de pontos regulares");
+            pie1.Set('chart.shadow', false);
+            pie1.Set('chart.tooltips.effect', 'contract');
+            pie1.Set('chart.tooltips', [
+                                        'Marco (35%)',
+                                        'Cremação (10%)',
+                                        'Guamá (7%)',
+                                        'Umarizal (3%)',
+                                        'Marambaia (3%)',
+                                        'Outros (42%)'
+                                       ]
+                                      );
+            pie1.Set('chart.highlight.style', '3d'); // Defaults to 3d anyway; can be 2d or 3d
+
+            if (!RGraph.isIE8()) {
+                pie1.Set('chart.zoom.hdir', 'center');
+                pie1.Set('chart.zoom.vdir', 'up');
+                pie1.Set('chart.labels.sticks', true);
+                pie1.Set('chart.labels.sticks.color', '#aaa');
+                pie1.Set('chart.contextmenu', [['Zoom in', RGraph.Zoom]]);
+            }
+
+            pie1.Set('chart.linewidth', 5);
+            pie1.Set('chart.labels.sticks', true);
+            pie1.Set('chart.strokestyle', 'white');
+            pie1.Draw();
+
+            var pie2 = new RGraph.Pie('pie2', [2,29,45,17,7]); // Create the pie object
+            pie2.Set('chart.gutter', 30);
+            pie2.Set('chart.title', "Bairros com maior nº de pontos irregulares");
+            pie2.Set('chart.linewidth', 1);
+            pie2.Set('chart.strokestyle', '#333');
+            pie2.Set('chart.shadow', true);
+            pie2.Set('chart.shadow.blur', 3);
+            pie2.Set('chart.shadow.offsetx', 3);
+            pie2.Set('chart.shadow.offsety', 5);
+            pie2.Set('chart.shadow.color', 'rgba(0,0,0,0.5)');
+            pie2.Set('chart.colors', ['red', 'pink', '#6f6', 'blue', 'yellow']);
+            pie2.Set('chart.contextmenu', [['Clear', function () {RGraph.Clear(pie2.canvas); pie2.Draw();}]]);
+            pie2.Set('chart.key', ['Icoaraci (2%)', 'Terra-firme (9%)', 'Guamá (25%)', 'Tapanã (17%)', 'Outros (47%)']);
+            pie2.Set('chart.key.background', 'white');
+            pie2.Set('chart.key.shadow', true);
+            pie2.Set('chart.annotatable', true);
+            pie2.Set('chart.align', 'center');
+            pie2.Draw();
+        }
+    </script>
+</head>
+<body>
+
+<div style="text-align: center">
+    <canvas id="pie1" width="420" height="300">[No canvas support]</canvas>
+    <canvas id="pie2" width="440" height="300">[No canvas support]</canvas>
+</div>
+
+</body>
+</html>

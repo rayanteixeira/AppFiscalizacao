@@ -8,6 +8,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -17,7 +21,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -74,12 +77,32 @@ public class FragmentEstabelecimento extends Fragment {
                              Bundle savedInstanceState) {
         mainActivity = (MainActivity) getActivity();
         contexto = getActivity().getBaseContext();
-        requestQueue = Volley.newRequestQueue(getActivity().getApplication());
+        //requestQueue = Volley.newRequestQueue(getActivity().getApplication());
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_principal, container, false);
-        listView = (ListView) rootView.findViewById(R.id.listaestabelecimentos);
-        mProgressDialog = ProgressDialog.show(getActivity(), "Download", "Atualizando lista, por favor espere.", false, true);
-        obterEstabelecimentos();
+        //listView = (ListView) rootView.findViewById(R.id.listaestabelecimentos);
+        // Obtain reference to the WebView holder
+        WebView webview = (WebView) rootView.findViewById(R.id.webview);
+
+        // Get the settings
+        WebSettings webSettings = webview.getSettings();
+
+        // Enable Javascript for user interaction clicks
+        webSettings.setJavaScriptEnabled(true);
+
+        // Display Zoom Controles
+        webSettings.setBuiltInZoomControls(true);
+        webview.requestFocusFromTouch();
+
+        // Set the client
+        webview.setWebViewClient(new WebViewClient());
+        webview.setWebChromeClient(new WebChromeClient());
+
+        // Load the URL
+        webview.loadUrl("file:///android_asset/rgraphview.html");
+       // mProgressDialog = ProgressDialog.show(getActivity(), "Download", "Atualizando lista, por favor espere.", false, true);
+
+       // obterEstabelecimentos();
         //listaBancoLocal();
         return rootView;
     }
